@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GS9 — Joyería, Indumentaria y Fragancias</title>
+<meta name="description" content="GS9. Piezas seleccionadas en joyería, indumentaria y fragancias. Cantidades limitadas, estándar alto.">
+<meta name="theme-color" content="#050505">
+<link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
+
+<meta property="og:title" content="GS9 — Joyería, Indumentaria y Fragancias">
+<meta property="og:description" content="Piezas seleccionadas. Cantidades limitadas, estándar alto.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/img/logo.png">
+
+<link rel="preload" href="assets/fonts/anton-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-300-600-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ══ PRELOADER ══ -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader__inner">
+    <div class="preloader__mark">
+      <svg viewBox="0 0 200 200" class="preloader__ring">
+        <circle cx="100" cy="100" r="96" fill="none" stroke="rgba(245,243,239,.14)" stroke-width="1.5"/>
+        <circle cx="100" cy="100" r="96" fill="none" stroke="var(--gold)" stroke-width="1.5"
+                stroke-linecap="round" class="preloader__progress"/>
+      </svg>
+      <span class="preloader__logo">G.S.9</span>
+    </div>
+    <div class="preloader__count"><span id="preloaderCount">0</span><i>%</i></div>
+  </div>
+  <div class="preloader__curtain"></div>
+</div>
+
+<!-- ══ SHARED GRADIENT (every piece of line art strokes with this) ══ -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <linearGradient id="gsGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F0DCA8"/><stop offset="1" stop-color="#8A6A2E"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ══ TEXTURE + CURSOR + PROGRESS ══ -->
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"></span></div>
+<div class="scrollbar" aria-hidden="true"><i id="scrollbarFill"></i></div>
+
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<!-- ══ NAV ══ -->
+<header class="nav" id="nav">
+  <a href="#hero" class="nav__brand" data-magnetic aria-label="GS9 — inicio">
+    <span class="nav__mark">G.S.9</span>
+  </a>
+
+  <nav class="nav__links" aria-label="Principal">
+    <a href="#categorias" data-magnetic>Categorías</a>
+    <a href="#drop" data-magnetic>Drop 001</a>
+    <a href="#lookbook" data-magnetic>Lookbook</a>
+    <a href="#casa" data-magnetic>La Casa</a>
+  </nav>
+
+  <div class="nav__actions">
+    <button class="nav__cart" id="cartOpen" data-magnetic aria-label="Abrir carrito">
+      <span>Bolsa</span><i class="nav__count" id="cartCount">0</i>
+    </button>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ══ MOBILE MENU ══ -->
+<div class="menu" id="menu" aria-hidden="true">
+  <nav class="menu__links" aria-label="Menú móvil">
+    <a href="#categorias"><i>01</i>Categorías</a>
+    <a href="#drop"><i>02</i>Drop 001</a>
+    <a href="#lookbook"><i>03</i>Lookbook</a>
+    <a href="#casa"><i>04</i>La Casa</a>
+    <a href="#contacto"><i>05</i>Contacto</a>
+  </nav>
+  <div class="menu__foot"><span>Buenos Aires</span><span>Envíos a todo el país</span></div>
+</div>
+
+<main id="main">
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="hero">
+  <div class="hero__aura" data-parallax="0.04" aria-hidden="true"></div>
+  <div class="hero__glow" data-parallax="0.08" aria-hidden="true"></div>
+
+  <svg class="hero__rings" viewBox="0 0 900 900" aria-hidden="true" data-parallax="0.02">
+    <circle cx="450" cy="450" r="240" class="ring ring--1"/>
+    <circle cx="450" cy="450" r="330" class="ring ring--2"/>
+    <circle cx="450" cy="450" r="420" class="ring ring--3"/>
+  </svg>
+
+  <div class="hero__inner">
+    <p class="hero__eyebrow reveal"><i></i>Est. 2026 — Buenos Aires</p>
+
+    <h1 class="hero__title" aria-label="GS9">
+      <span class="hero__char" style="--i:0">G</span><span class="hero__char hero__char--dot" style="--i:1">.</span><span class="hero__char" style="--i:2">S</span><span class="hero__char hero__char--dot" style="--i:3">.</span><span class="hero__char" style="--i:4">9</span>
+    </h1>
+
+    <p class="hero__sub reveal" data-delay="120">
+      Joyería, indumentaria y fragancias.<br>
+      <em>Curado, no acumulado.</em>
+    </p>
+
+    <div class="hero__cta reveal" data-delay="240">
+      <a href="#drop" class="btn btn--gold" data-magnetic>
+        <span>Ver Drop 001</span>
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#casa" class="btn btn--ghost" data-magnetic><span>La Casa</span></a>
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">
+    <span>Scroll</span>
+    <i></i>
+  </div>
+</section>
+
+<!-- ══ MARQUEE ══ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Joyería <b>✦</b> Indumentaria <b>✦</b> Fragancias <b>✦</b> Cantidades limitadas <b>✦</b> Envíos 24–72h <b>✦</b> Garantía 12 meses <b>✦</b></span>
+    <span>Joyería <b>✦</b> Indumentaria <b>✦</b> Fragancias <b>✦</b> Cantidades limitadas <b>✦</b> Envíos 24–72h <b>✦</b> Garantía 12 meses <b>✦</b></span>
+  </div>
+</div>
+
+<!-- ══ MANIFIESTO ══ -->
+<section class="manifesto" id="casa">
+  <p class="section__tag reveal">01 — La Casa</p>
+  <p class="manifesto__text" data-split>
+    No vendemos todo. Vendemos poco, y lo vendemos bien. Cada pieza entra al catálogo porque pasó un filtro: materiales que resisten, terminaciones que se notan en la mano, y un precio que podemos defender de frente.
+  </p>
+  <div class="manifesto__sign reveal">
+    <span class="manifesto__line"></span>
+    <em>Curado, no acumulado.</em>
+  </div>
+</section>
+
+<!-- ══ CATEGORÍAS ══ -->
+<section class="cats" id="categorias">
+  <header class="section__head">
+    <p class="section__tag reveal">02 — Categorías</p>
+    <h2 class="section__title reveal" data-delay="80">Tres verticales.<br><em>Un solo estándar.</em></h2>
+  </header>
+
+  <div class="cats__grid">
+
+    <article class="cat reveal" data-delay="0">
+      <div class="cat__art">
+        <svg viewBox="0 0 300 300" aria-hidden="true">
+          <g fill="none" stroke="url(#gsGold)" stroke-width="2">
+            <path d="M58 64Q150 246 242 64"/>
+            <circle cx="58" cy="64" r="5"/><circle cx="242" cy="64" r="5"/>
+            <circle cx="86" cy="110" r="7"/><circle cx="214" cy="110" r="7"/>
+            <circle cx="113" cy="140" r="9"/><circle cx="187" cy="140" r="9"/>
+            <circle cx="150" cy="155" r="11"/>
+            <path d="M150 172l24 28-24 34-24-34z"/>
+          </g>
+        </svg>
+      </div>
+      <div class="cat__body">
+        <span class="cat__idx">01</span>
+        <h3>Joyería</h3>
+        <p>Acero quirúrgico y plata 925. Cadenas, anillos y piezas de uso diario que no se apagan a la semana.</p>
+        <a href="#drop" class="link" data-magnetic>Explorar <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+
+    <article class="cat reveal" data-delay="120">
+      <div class="cat__art">
+        <svg viewBox="0 0 300 300" aria-hidden="true">
+          <g fill="none" stroke="url(#gsGold)" stroke-width="2" stroke-linejoin="round">
+            <path d="M110 72l40 22 40-22 44 26-20 44-18-10v96H104v-96l-18 10-20-44z"/>
+            <path d="M110 72c0 22 18 40 40 40s40-18 40-40"/>
+          </g>
+        </svg>
+      </div>
+      <div class="cat__body">
+        <span class="cat__idx">02</span>
+        <h3>Indumentaria</h3>
+        <p>Algodón pesado, cortes rectos, serigrafía que aguanta el lavado. Tandas cortas, sin reposición eterna.</p>
+        <a href="#drop" class="link" data-magnetic>Explorar <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+
+    <article class="cat reveal" data-delay="240">
+      <div class="cat__art">
+        <svg viewBox="0 0 300 300" aria-hidden="true">
+          <g fill="none" stroke="url(#gsGold)" stroke-width="2" stroke-linejoin="round">
+            <rect x="120" y="58" width="60" height="34" rx="4"/>
+            <path d="M134 92h32v22h-32z"/>
+            <path d="M104 114h92v128H104z"/>
+            <path d="M104 150h92"/>
+          </g>
+        </svg>
+      </div>
+      <div class="cat__body">
+        <span class="cat__idx">03</span>
+        <h3>Fragancias</h3>
+        <p>Extracto de alta concentración. Proyección y fijación medidas, no prometidas. Decants disponibles.</p>
+        <a href="#drop" class="link" data-magnetic>Explorar <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ══ DROP / PRODUCTOS ══ -->
+<section class="drop" id="drop">
+  <header class="section__head section__head--split">
+    <div>
+      <p class="section__tag reveal">03 — Drop 001</p>
+      <h2 class="section__title reveal" data-delay="80">Primera<br><em>entrega.</em></h2>
+    </div>
+    <p class="section__note reveal" data-delay="160">Seis piezas. Stock cerrado — cuando se agota, no vuelve en la misma forma.</p>
+  </header>
+
+  <div class="drop__grid" id="dropGrid"><!-- productos inyectados por JS --></div>
+</section>
+
+<!-- ══ LOOKBOOK HORIZONTAL ══ -->
+<section class="look" id="lookbook">
+  <div class="look__sticky">
+    <div class="look__head">
+      <p class="section__tag">04 — Lookbook</p>
+      <h2 class="section__title">Serie <em>Nocturna</em></h2>
+    </div>
+    <div class="look__track" id="lookTrack"><!-- inyectado por JS --></div>
+    <div class="look__bar" aria-hidden="true"><i id="lookBar"></i></div>
+  </div>
+</section>
+
+<!-- ══ STATS ══ -->
+<section class="stats">
+  <div class="stat reveal"><b class="count" data-to="48">0</b><span>Horas de envío promedio</span></div>
+  <div class="stat reveal" data-delay="100"><b class="count" data-to="12">0</b><span>Meses de garantía</span></div>
+  <div class="stat reveal" data-delay="200"><b class="count" data-to="6">0</b><span>Piezas por drop</span></div>
+  <div class="stat reveal" data-delay="300"><b class="count" data-to="100">0</b><span>% Devolución sin vueltas</span></div>
+</section>
+
+<!-- ══ NEWSLETTER ══ -->
+<section class="news" id="contacto">
+  <div class="news__glow" aria-hidden="true"></div>
+  <p class="section__tag reveal">05 — Acceso</p>
+  <h2 class="news__title reveal" data-delay="80">El Drop 002 se avisa<br><em>una sola vez.</em></h2>
+  <form class="news__form reveal" data-delay="160" id="newsForm" novalidate>
+    <input type="email" id="newsEmail" placeholder="tu@email.com" aria-label="Tu email" required autocomplete="email">
+    <button type="submit" data-magnetic><span>Avisarme</span></button>
+  </form>
+  <p class="news__msg" id="newsMsg" role="status"></p>
+  <p class="news__fine reveal" data-delay="240">Sin spam. Un mail por drop.</p>
+</section>
+
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer class="foot">
+  <div class="foot__top">
+    <div class="foot__brand">
+      <span class="foot__mark">G.S.9</span>
+      <p>Joyería, indumentaria y fragancias.<br>Curado, no acumulado.</p>
+    </div>
+    <div class="foot__cols">
+      <div><h4>Tienda</h4><a href="#drop">Drop 001</a><a href="#categorias">Joyería</a><a href="#categorias">Indumentaria</a><a href="#categorias">Fragancias</a></div>
+      <div><h4>Ayuda</h4><a href="#contacto">Envíos</a><a href="#contacto">Cambios</a><a href="#contacto">Garantía</a><a href="#contacto">Contacto</a></div>
+      <div><h4>Social</h4><a href="#contacto">Instagram</a><a href="#contacto">TikTok</a><a href="#contacto">WhatsApp</a></div>
+    </div>
+  </div>
+  <div class="foot__bot">
+    <span>© <span id="year">2026</span> GS9. Todos los derechos reservados.</span>
+    <span>Buenos Aires, AR</span>
+  </div>
+  <div class="foot__giant" aria-hidden="true">GS9</div>
+</footer>
+
+<!-- ══ CART DRAWER ══ -->
+<div class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-label="Bolsa de compras">
+  <div class="drawer__panel">
+    <header class="drawer__head">
+      <h3>Tu bolsa</h3>
+      <button id="cartClose" aria-label="Cerrar bolsa">&times;</button>
+    </header>
+    <div class="drawer__items" id="drawerItems"></div>
+    <footer class="drawer__foot">
+      <div class="drawer__total"><span>Total</span><b id="cartTotal">$0</b></div>
+      <button class="btn btn--gold btn--full" data-magnetic><span>Finalizar compra</span></button>
+      <p class="drawer__fine">Demo — el checkout todavía no está conectado.</p>
+    </footer>
+  </div>
+  <div class="drawer__scrim" id="drawerScrim"></div>
+</div>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
