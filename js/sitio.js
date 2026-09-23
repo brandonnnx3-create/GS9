@@ -63,7 +63,7 @@
         obs.unobserve(e.target);
       });
     }, { rootMargin: "0px 0px -10% 0px", threshold: 0.06 });
-    $$(".reveal").forEach(function (el) { obs.observe(el); });
+    $$(".reveal, .look__item").forEach(function (el) { obs.observe(el); });
   }
 
   /* ---------- Cinta ----------
@@ -98,10 +98,54 @@
   var total = pista ? pista.children.length : 0;
   var distancia = 0;
 
-  /* El alto de la galería sale del ancho real de la pista: un píxel de
+  /* ---------- Galería: grilla o lateral ----------
+     Lateral sólo con pantalla ancha, mouse y sin movimiento reducido.
+     En el celular secuestraría el gesto de bajar, y el alto de
+     pantalla cambia cuando aparece la barra del navegador. */
+
+  var lateralMQ = window.matchMedia
+    ? window.matchMedia("(min-width: 901px) and (hover: hover) and (prefers-reduced-motion: no-preference)")
+    : null;
+  var lateral = false;
+
+  /* La pista no se pega al scroll: persigue su destino con una
+     interpolación, así la rueda del mouse (que avanza a saltos)
+     se traduce en un movimiento continuo. */
+  var actual = 0, destino = 0, siguiendo = false;
+
+  function aplicarPista(x) {
+    pista.style.transform = "translate3d(" + (-x).toFixed(1) + "px,0,0)";
+    var p = distancia ? x / distancia : 0;
+    if (barraLook) barraLook.style.width = (p * 100).toFixed(2) + "%";
+    if (cuenta) {
+      var n = Math.min(total, Math.round(p * (total - 1)) + 1);
+      cuenta.textContent = (n < 10 ? "0" + n : n) + " / " + (total < 10 ? "0" + total : total);
+    }
+  }
+
+  function seguir() {
+    actual += (destino - actual) * 0.12;
+    if (Math.abs(destino - actual) < 0.4) actual = destino;
+    aplicarPista(actual);
+    if (actual !== destino && lateral) requestAnimationFrame(seguir);
+    else siguiendo = false;
+  }
+
+  /* El alto de la sección sale del ancho real de la pista: un píxel de
      scroll vertical es un píxel de desplazamiento lateral. */
   function medirGaleria() {
-    if (!look || !pista || quieto) return;
+    if (!look || !pista) return;
+    var quiere = !!(lateralMQ && lateralMQ.matches);
+    if (quiere !== lateral) {
+      lateral = quiere;
+      root.classList.toggle("galeria-lateral", lateral);
+      if (!lateral) {
+        look.style.height = "";
+        pista.style.transform = "";
+        actual = destino = distancia = 0;
+      }
+    }
+    if (!lateral) return;
     distancia = Math.max(0, pista.scrollWidth - window.innerWidth);
     look.style.height = (window.innerHeight + distancia) + "px";
   }
@@ -142,15 +186,9 @@
       img.style.transform = "translate3d(0," + (-amp * 100 + p * amp * 100).toFixed(2) + "%,0)";
     });
 
-    if (look && pista && !quieto && distancia) {
-      var rl = look.getBoundingClientRect();
-      var pl = clamp(-rl.top / distancia, 0, 1);
-      pista.style.transform = "translate3d(" + (-pl * distancia).toFixed(1) + "px,0,0)";
-      if (barraLook) barraLook.style.width = (pl * 100).toFixed(2) + "%";
-      if (cuenta) {
-        var n = Math.min(total, Math.round(pl * (total - 1)) + 1);
-        cuenta.textContent = (n < 10 ? "0" + n : n) + " / " + (total < 10 ? "0" + total : total);
-      }
+    if (lateral && distancia) {
+      destino = clamp(-look.getBoundingClientRect().top / distancia, 0, 1) * distancia;
+      if (!siguiendo) { siguiendo = true; requestAnimationFrame(seguir); }
     }
   }
 
@@ -163,6 +201,11 @@
 
   window.addEventListener("scroll", alScrollear, { passive: true });
   window.addEventListener("resize", function () { medirGaleria(); alScrollear(); }, { passive: true });
+  if (lateralMQ) {
+    var alCambiar = function () { medirGaleria(); alScrollear(); };
+    if (lateralMQ.addEventListener) lateralMQ.addEventListener("change", alCambiar);
+    else if (lateralMQ.addListener) lateralMQ.addListener(alCambiar);
+  }
 
   if (arriba) {
     arriba.addEventListener("click", function () {

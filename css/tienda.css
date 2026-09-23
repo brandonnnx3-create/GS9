@@ -74,7 +74,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 /* clip y no hidden: hidden convierte a html/body en contenedores de
-   scroll y rompe el position:sticky de la galería. */
+   scroll y rompe el position:sticky de la galería lateral. */
 html, body { overflow-x: clip; }
 html { scroll-behavior: smooth; }
 
@@ -594,24 +594,27 @@ em { font-style: italic; }
 
 /* ============================================================
    GALERÍA
-   Pista horizontal anclada: el scroll vertical la desplaza de
-   costado. El alto de la sección lo fija galeria.js según el
-   ancho real de la pista, así la distancia es exacta en
-   cualquier pantalla.
+   Por defecto es una grilla que se recorre bajando: así se ve en
+   el celular y sin JavaScript. En pantallas anchas con mouse,
+   js/sitio.js agrega .galeria-lateral al <html> y la pista pasa a
+   desplazarse de costado mientras se baja, con el alto de la
+   sección calculado según el ancho real de la pista.
+
+   En el celular no se usa el modo lateral a propósito: secuestra
+   el gesto de bajar, y cuando la barra del navegador aparece o se
+   esconde cambia el alto de pantalla y la pista pega saltos.
    ============================================================ */
 
-.look { position: relative; background: var(--ink); }
+.look {
+  position: relative;
+  background: var(--ink);
+  padding-block: clamp(80px, 12vw, 140px);
+}
 
 .look__pin {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: clamp(22px, 4vh, 40px);
-  padding-top: var(--hh);
+  gap: clamp(28px, 5vw, 48px);
 }
 
 .look__head {
@@ -630,6 +633,7 @@ em { font-style: italic; }
 .look__title em { color: var(--muted); }
 
 .look__count {
+  display: none;
   font-family: var(--serif);
   font-size: 1.05rem;
   letter-spacing: .12em;
@@ -638,21 +642,27 @@ em { font-style: italic; }
   white-space: nowrap;
 }
 
+/* Grilla: la segunda columna baja un poco con `translate` (no con
+   transform, que lo usa la aparición) para que no se lea como tabla. */
 .look__track {
-  display: flex;
-  gap: clamp(12px, 1.6vw, 22px);
-  width: max-content;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 24px);
   padding-inline: var(--gutter);
-  will-change: transform;
+  padding-bottom: 44px;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  width: 100%;
 }
 
-.look__item {
-  margin: 0;
-  width: clamp(210px, 22vw, 330px);
-  flex-shrink: 0;
-}
+.look__item { margin: 0; min-width: 0; }
+.look__item:nth-child(even) { translate: 0 44px; }
 
-.look__item:nth-child(3n+2) { margin-top: clamp(20px, 5vh, 60px); }
+@media (min-width: 700px) {
+  .look__track { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .look__item:nth-child(even) { translate: none; }
+  .look__item:nth-child(3n+2) { translate: 0 56px; }
+}
 
 .look__frame {
   aspect-ratio: 3 / 4;
@@ -668,23 +678,65 @@ em { font-style: italic; }
   transition: transform 1.2s var(--ease-out);
 }
 
-.look__item:hover .look__frame img { transform: scale(1.08); }
-
-.look__item figcaption {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 12px;
-  font-size: .66rem;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--muted);
+@media (hover: hover) {
+  .look__item:hover .look__frame img { transform: scale(1.08); }
 }
 
-.look__item figcaption b { font-weight: 400; color: var(--bone); letter-spacing: .16em; }
+.look__item figcaption {
+  margin-top: 10px;
+  font-size: .66rem;
+  letter-spacing: .22em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
 
-.look__bar { height: 1px; background: var(--line); }
+.look__bar { display: none; height: 1px; background: var(--line); }
 .look__bar i { display: block; height: 100%; width: 0; background: var(--bone); }
+
+/* Aparición de cada foto al entrar en pantalla, sólo en la grilla. */
+.js:not(.galeria-lateral) .look__item {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.js:not(.galeria-lateral) .look__item.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity .9s var(--ease-out), transform .9s var(--ease-out);
+}
+
+.js:not(.galeria-lateral) .look__item.in:nth-child(3n+2) { transition-delay: .08s; }
+.js:not(.galeria-lateral) .look__item.in:nth-child(3n) { transition-delay: .16s; }
+
+/* --- Modo lateral (pantallas anchas con mouse) --- */
+
+.galeria-lateral .look { padding-block: 0; }
+
+.galeria-lateral .look__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  justify-content: center;
+  gap: clamp(22px, 4vh, 40px);
+  padding-top: var(--hh);
+}
+
+.galeria-lateral .look__count { display: block; }
+.galeria-lateral .look__bar { display: block; }
+
+.galeria-lateral .look__track {
+  display: flex;
+  width: max-content;
+  max-width: none;
+  margin-inline: 0;
+  /* lo mismo que baja la foto desplazada, así su epígrafe no pisa la barra */
+  padding-bottom: clamp(20px, 5vh, 60px);
+  will-change: transform;
+}
+
+.galeria-lateral .look__item { width: clamp(210px, 22vw, 330px); flex-shrink: 0; translate: none; }
+.galeria-lateral .look__item:nth-child(3n+2) { translate: 0 clamp(20px, 5vh, 60px); }
 
 /* ============================================================
    LLAMADO A WHATSAPP
@@ -871,14 +923,12 @@ em { font-style: italic; }
   .brand__mark { width: 38px; height: 38px; }
   .footer__grid { grid-template-columns: 1fr; }
   .strip__rule { display: none; }
-  .look__item { width: 64vw; }
 }
 
 /* ============================================================
    MOVIMIENTO REDUCIDO
-   Todo quieto y legible. La galería no sólo deja de moverse: se
-   desarma a scroll horizontal común, si no la pista quedaría con
-   su ancho fuera de pantalla y sin nada que la desplace.
+   Todo quieto y legible. La galería queda como grilla: el modo
+   lateral no se activa con movimiento reducido.
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
@@ -894,9 +944,4 @@ em { font-style: italic; }
   .hero__col, .hero__line > span, .hero__fade { opacity: 1 !important; transform: none !important; }
   .hero__col img { transform: none; }
   .ticker__track { animation: none; }
-
-  .look { height: auto !important; }
-  .look__pin { position: static; height: auto; padding-block: 80px; }
-  .look__track { transform: none !important; width: auto; overflow-x: auto; scroll-snap-type: x mandatory; }
-  .look__item { scroll-snap-align: start; }
 }
