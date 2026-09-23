@@ -1,307 +1,402 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es" data-tema="oscura">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>GS9 — Joyería, Indumentaria y Fragancias</title>
-<meta name="description" content="GS9. Piezas seleccionadas en joyería, indumentaria y fragancias. Cantidades limitadas, estándar alto.">
-<meta name="theme-color" content="#050505">
-<link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/img/logo.png">
+<title>GS9 — Joyería en plata 925 y oro</title>
+<meta name="description" content="GS9. Anillos, dijes, cadenas, aros y sets en plata 925 y oro. Calidad y elegancia en cada detalle.">
+<meta name="theme-color" content="#070707">
 
-<meta property="og:title" content="GS9 — Joyería, Indumentaria y Fragancias">
-<meta property="og:description" content="Piezas seleccionadas. Cantidades limitadas, estándar alto.">
+<meta property="og:title" content="GS9">
+<meta property="og:description" content="Calidad y elegancia en cada detalle. Plata 925 y oro.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="assets/img/logo.png">
+<meta property="og:image" content="img/fondos/anillos-bandeja.jpg">
 
-<link rel="preload" href="assets/fonts/anton-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/inter-300-600-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/fonts.css">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="img/icono-180.png">
+
+<!-- Tipografías servidas desde el propio sitio: si un CDN externo
+     falla, la página no se cae a Arial. -->
+<link rel="preload" href="fonts/bodoni-moda-400-600-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/jost-300-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/fuentes.css">
+<link rel="stylesheet" href="css/tienda.css">
+
+<!-- Antes de pintar: la versión elegida (sin parpadeo del color
+     equivocado) y el estado de entrada del hero, con un seguro que
+     lo muestra a los 2,5 s aunque falle el script que lo anima. -->
+<script>
+(function () {
+  var root = document.documentElement;
+  try {
+    if (localStorage.getItem("rj_tema") === "clara") {
+      root.setAttribute("data-tema", "clara");
+      document.querySelector('meta[name="theme-color"]').setAttribute("content", "#F6F6F4");
+    }
+  } catch (e) {}
+  var quieto = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!quieto) {
+    root.classList.add("intro");
+    setTimeout(function () { root.classList.add("is-ready"); }, 2500);
+  }
+})();
+</script>
 </head>
 <body>
 
-<!-- ══ PRELOADER ══ -->
-<div class="preloader" id="preloader" aria-hidden="true">
-  <div class="preloader__inner">
-    <div class="preloader__mark">
-      <svg viewBox="0 0 200 200" class="preloader__ring">
-        <circle cx="100" cy="100" r="96" fill="none" stroke="rgba(245,243,239,.14)" stroke-width="1.5"/>
-        <circle cx="100" cy="100" r="96" fill="none" stroke="var(--gold)" stroke-width="1.5"
-                stroke-linecap="round" class="preloader__progress"/>
-      </svg>
-      <span class="preloader__logo">G.S.9</span>
-    </div>
-    <div class="preloader__count"><span id="preloaderCount">0</span><i>%</i></div>
-  </div>
-  <div class="preloader__curtain"></div>
-</div>
-
-<!-- ══ SHARED GRADIENT (every piece of line art strokes with this) ══ -->
-<svg width="0" height="0" aria-hidden="true" style="position:absolute">
-  <defs>
-    <linearGradient id="gsGold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#F0DCA8"/><stop offset="1" stop-color="#8A6A2E"/>
-    </linearGradient>
-  </defs>
-</svg>
-
-<!-- ══ TEXTURE + CURSOR + PROGRESS ══ -->
 <div class="grain" aria-hidden="true"></div>
-<div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"></span></div>
-<div class="scrollbar" aria-hidden="true"><i id="scrollbarFill"></i></div>
 
-<a class="skip" href="#main">Saltar al contenido</a>
+<!-- ============ HEADER ============ -->
+<header class="header" id="header">
+  <div class="wrap header__bar">
+    <a class="brand" href="#inicio" aria-label="GS9, ir al inicio">
+      <img class="brand__mark" src="img/logo.svg" alt="" width="320" height="320">
+      <span>
+        <span class="brand__name">GS9</span>
+        <span class="brand__tag">Joyería · Plata 925 y Oro</span>
+      </span>
+    </a>
 
-<!-- ══ NAV ══ -->
-<header class="nav" id="nav">
-  <a href="#hero" class="nav__brand" data-magnetic aria-label="GS9 — inicio">
-    <span class="nav__mark">G.S.9</span>
-  </a>
+    <nav class="header__nav" aria-label="Secciones">
+      <a href="#coleccion" data-cat="sets">Sets</a>
+      <a href="#coleccion" data-cat="anillos">Anillos</a>
+      <a href="#coleccion" data-cat="cadenas">Cadenas</a>
+      <a href="#galeria">Galería</a>
+      <a href="#catalogo" data-goto="catalogo">Catálogo</a>
+    </nav>
 
-  <nav class="nav__links" aria-label="Principal">
-    <a href="#categorias" data-magnetic>Categorías</a>
-    <a href="#drop" data-magnetic>Drop 001</a>
-    <a href="#lookbook" data-magnetic>Lookbook</a>
-    <a href="#casa" data-magnetic>La Casa</a>
-  </nav>
-
-  <div class="nav__actions">
-    <button class="nav__cart" id="cartOpen" data-magnetic aria-label="Abrir carrito">
-      <span>Bolsa</span><i class="nav__count" id="cartCount">0</i>
-    </button>
-    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false">
-      <span></span><span></span>
-    </button>
+    <div class="header__actions">
+      <button class="icon-btn tema-a-clara" id="temaAClara" type="button" aria-label="Ver la versión en blanco">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2"/>
+          <path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/>
+        </svg>
+      </button>
+      <button class="icon-btn tema-a-oscura" id="temaAOscura" type="button" aria-label="Ver la versión en negro">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/>
+        </svg>
+      </button>
+      <button class="icon-btn cart-btn" id="openCart" type="button" aria-label="Abrir el carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <path d="M3 6h18"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="cart-btn__count" id="cartCount" data-empty="true">0</span>
+      </button>
+      <button class="icon-btn menu-btn" id="openMenu" type="button" aria-label="Abrir el menú de categorías">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M3 8h18M3 16h18"/>
+        </svg>
+      </button>
+    </div>
   </div>
+  <div class="header__progress" id="progress" aria-hidden="true"></div>
 </header>
 
-<!-- ══ MOBILE MENU ══ -->
-<div class="menu" id="menu" aria-hidden="true">
-  <nav class="menu__links" aria-label="Menú móvil">
-    <a href="#categorias"><i>01</i>Categorías</a>
-    <a href="#drop"><i>02</i>Drop 001</a>
-    <a href="#lookbook"><i>03</i>Lookbook</a>
-    <a href="#casa"><i>04</i>La Casa</a>
-    <a href="#contacto"><i>05</i>Contacto</a>
-  </nav>
-  <div class="menu__foot"><span>Buenos Aires</span><span>Envíos a todo el país</span></div>
-</div>
+<!-- ============ HERO ============ -->
+<section class="hero on-photo" id="inicio">
+  <div class="hero__wall" aria-hidden="true">
+    <div class="hero__col" style="--c:0" data-speed="-0.10">
+      <figure><img src="img/fondos/anillos-bandeja.jpg" alt="" width="960" height="1280" fetchpriority="high"></figure>
+      <figure><img src="img/fondos/dije-m.jpg" alt="" width="960" height="1280"></figure>
+      <figure><img src="img/fondos/bandeja-pulseras.jpg" alt="" width="1050" height="1400" loading="lazy"></figure>
+    </div>
+    <div class="hero__col" style="--c:1" data-speed="0.06">
+      <figure><img src="img/fondos/bustos-tres.jpg" alt="" width="1050" height="1400" fetchpriority="high"></figure>
+      <figure><img src="img/fondos/pulseras-guante.jpg" alt="" width="960" height="1280"></figure>
+      <figure><img src="img/fondos/dije-32.jpg" alt="" width="960" height="1280" loading="lazy"></figure>
+    </div>
+    <div class="hero__col" style="--c:2" data-speed="-0.16">
+      <figure><img src="img/fondos/dije-todo-pasa.jpg" alt="" width="960" height="1280"></figure>
+      <figure><img src="img/fondos/anillos-pila.jpg" alt="" width="1050" height="1400"></figure>
+      <figure><img src="img/fondos/dije-corona.jpg" alt="" width="960" height="1280" loading="lazy"></figure>
+    </div>
+    <div class="hero__col" style="--c:3" data-speed="0.10">
+      <figure><img src="img/fondos/soga.jpg" alt="" width="960" height="1280"></figure>
+      <figure><img src="img/fondos/busto-capas.jpg" alt="" width="960" height="1280"></figure>
+      <figure><img src="img/fondos/dije-32-b.jpg" alt="" width="960" height="1280" loading="lazy"></figure>
+    </div>
+  </div>
+  <div class="hero__veil" aria-hidden="true"></div>
 
-<main id="main">
-
-<!-- ══ HERO ══ -->
-<section class="hero" id="hero">
-  <div class="hero__aura" data-parallax="0.04" aria-hidden="true"></div>
-  <div class="hero__glow" data-parallax="0.08" aria-hidden="true"></div>
-
-  <svg class="hero__rings" viewBox="0 0 900 900" aria-hidden="true" data-parallax="0.02">
-    <circle cx="450" cy="450" r="240" class="ring ring--1"/>
-    <circle cx="450" cy="450" r="330" class="ring ring--2"/>
-    <circle cx="450" cy="450" r="420" class="ring ring--3"/>
-  </svg>
-
-  <div class="hero__inner">
-    <p class="hero__eyebrow reveal"><i></i>Est. 2026 — Buenos Aires</p>
-
-    <h1 class="hero__title" aria-label="GS9">
-      <span class="hero__char" style="--i:0">G</span><span class="hero__char hero__char--dot" style="--i:1">.</span><span class="hero__char" style="--i:2">S</span><span class="hero__char hero__char--dot" style="--i:3">.</span><span class="hero__char" style="--i:4">9</span>
+  <div class="wrap hero__inner">
+    <p class="eyebrow hero__fade" style="--f:0">Nueva colección — Plata 925 y Oro</p>
+    <h1 class="hero__title">
+      <span class="hero__line" style="--l:0"><span>Calidad y</span></span>
+      <span class="hero__line" style="--l:1"><span>elegancia</span></span>
+      <span class="hero__line" style="--l:2"><span><em>en cada detalle</em></span></span>
     </h1>
-
-    <p class="hero__sub reveal" data-delay="120">
-      Joyería, indumentaria y fragancias.<br>
-      <em>Curado, no acumulado.</em>
-    </p>
-
-    <div class="hero__cta reveal" data-delay="240">
-      <a href="#drop" class="btn btn--gold" data-magnetic>
-        <span>Ver Drop 001</span>
-        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-      <a href="#casa" class="btn btn--ghost" data-magnetic><span>La Casa</span></a>
+    <div class="hero__foot">
+      <p class="hero__lead hero__fade" style="--f:1">
+        Anillos, dijes, cadenas y sets trabajados en plata 925 con terminación
+        dorada. Cada pieza se revisa una por una antes de salir del taller.
+      </p>
+      <div class="hero__cta hero__fade" style="--f:2">
+        <button class="btn btn--arrow" type="button" data-goto="catalogo">
+          Descubrir la colección
+          <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
+        </button>
+        <button class="btn btn--ghost btn--arrow" type="button" data-cat="sets">
+          Sets en estuche
+          <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 
   <div class="hero__scroll" aria-hidden="true">
-    <span>Scroll</span>
+    <span>Seguí bajando</span>
     <i></i>
   </div>
 </section>
 
-<!-- ══ MARQUEE ══ -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee__track">
-    <span>Joyería <b>✦</b> Indumentaria <b>✦</b> Fragancias <b>✦</b> Cantidades limitadas <b>✦</b> Envíos 24–72h <b>✦</b> Garantía 12 meses <b>✦</b></span>
-    <span>Joyería <b>✦</b> Indumentaria <b>✦</b> Fragancias <b>✦</b> Cantidades limitadas <b>✦</b> Envíos 24–72h <b>✦</b> Garantía 12 meses <b>✦</b></span>
+<!-- ============ CINTA ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track" id="ticker"></div>
+</div>
+
+<!-- ============ SECCIONES EDITORIALES ============
+     La foto de fondo es ambiente (escala de grises); la del arco
+     es la pieza que se vende, a color. -->
+<section class="stories" id="coleccion">
+
+  <article class="story on-photo reveal">
+    <div class="story__bg" data-par="0.10" aria-hidden="true">
+      <img src="img/fondos/bustos-tres.jpg" alt="" width="1050" height="1400" loading="lazy">
+    </div>
+    <div class="wrap story__grid">
+      <div class="story__media">
+        <img src="img/productos/set-01.jpg" alt="Set de cadena, dije, aros y anillo en su estuche" width="760" height="1351" loading="lazy">
+        <span class="story__n">01</span>
+      </div>
+      <div class="story__copy">
+        <p class="eyebrow">Las cuatro piezas a juego</p>
+        <h2 class="story__title">El regalo que <em>no se explica</em></h2>
+        <p class="story__text">
+          Cadena, dije, aros y anillo trabajados con la misma piedra, en su estuche.
+          No hay que combinar nada ni acertarle al gusto: llega listo para entregar.
+        </p>
+        <ul class="story__facts">
+          <li><span>10</span> sets disponibles</li>
+          <li><span>9</span> colores de piedra</li>
+        </ul>
+        <button class="btn btn--ghost btn--arrow" type="button" data-cat="sets">
+          Ver los sets
+          <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
+        </button>
+      </div>
+    </div>
+  </article>
+
+  <article class="story story--flip on-photo reveal">
+    <div class="story__bg" data-par="0.10" aria-hidden="true">
+      <img src="img/fondos/soga.jpg" alt="" width="960" height="1280" loading="lazy">
+    </div>
+    <div class="wrap story__grid">
+      <div class="story__media">
+        <img src="img/productos/cadena-02.jpg" alt="Cadenas de plata trenzadas de distintos largos" width="760" height="1351" loading="lazy">
+        <span class="story__n">02</span>
+      </div>
+      <div class="story__copy">
+        <p class="eyebrow">El clásico que combina con todo</p>
+        <h2 class="story__title">Una cadena para <em>todos los días</em></h2>
+        <p class="story__text">
+          Tejido trenzado en plata 925, en cuatro largos de 40 a 55 cm. Se usan
+          de a una o superpuestas a distinta altura, con el dije que quieras.
+        </p>
+        <ul class="story__facts">
+          <li><span>4</span> largos, de 40 a 55 cm</li>
+          <li><span>925</span> plata de ley</li>
+        </ul>
+        <button class="btn btn--ghost btn--arrow" type="button" data-cat="cadenas">
+          Ver las cadenas
+          <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
+        </button>
+      </div>
+    </div>
+  </article>
+
+  <article class="story on-photo reveal">
+    <div class="story__bg" data-par="0.10" aria-hidden="true">
+      <img src="img/fondos/anillos-pila.jpg" alt="" width="1050" height="1400" loading="lazy">
+    </div>
+    <div class="wrap story__grid">
+      <div class="story__media">
+        <img src="img/productos/anillo-06.jpg" alt="Anillos de marco cuadrado con piedras de distintos colores" width="760" height="1351" loading="lazy">
+        <span class="story__n">03</span>
+      </div>
+      <div class="story__copy">
+        <p class="eyebrow">Elegís vos el color</p>
+        <h2 class="story__title">Un anillo, <em>toda la carta</em></h2>
+        <p class="story__text">
+          El mismo marco, siete piedras. Del cristal transparente al negro
+          profundo, pasando por el turquesa, el granate y el verde esmeralda.
+        </p>
+        <ul class="story__swatch" aria-label="Colores disponibles">
+          <li style="--c:#15161A" title="Negro"></li>
+          <li style="--c:#8E1D2B" title="Granate"></li>
+          <li style="--c:#1F7A4C" title="Verde"></li>
+          <li style="--c:#2BA6B5" title="Turquesa"></li>
+          <li style="--c:#7A4BA8" title="Violeta"></li>
+          <li style="--c:#E6E9EC" title="Cristal"></li>
+          <li style="--c:#C98A2E" title="Ámbar"></li>
+        </ul>
+        <button class="btn btn--ghost btn--arrow" type="button" data-cat="anillos">
+          Ver los anillos
+          <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
+        </button>
+      </div>
+    </div>
+  </article>
+
+</section>
+
+<!-- ============ FRASE ============ -->
+<div class="strip">
+  <div class="wrap reveal">
+    <span class="strip__rule" aria-hidden="true"></span>
+    <p class="strip__quote">“El lujo está en los detalles.”</p>
+    <span class="strip__rule" aria-hidden="true"></span>
   </div>
 </div>
 
-<!-- ══ MANIFIESTO ══ -->
-<section class="manifesto" id="casa">
-  <p class="section__tag reveal">01 — La Casa</p>
-  <p class="manifesto__text" data-split>
-    No vendemos todo. Vendemos poco, y lo vendemos bien. Cada pieza entra al catálogo porque pasó un filtro: materiales que resisten, terminaciones que se notan en la mano, y un precio que podemos defender de frente.
-  </p>
-  <div class="manifesto__sign reveal">
-    <span class="manifesto__line"></span>
-    <em>Curado, no acumulado.</em>
+<!-- ============ GALERÍA ============ -->
+<section class="look" id="galeria" aria-label="Galería de piezas">
+  <div class="look__pin">
+    <div class="wrap look__head">
+      <div>
+        <p class="eyebrow">Galería de la casa</p>
+        <h2 class="look__title">Blanco <em>y negro</em></h2>
+      </div>
+      <span class="look__count" id="lookCount" aria-hidden="true">01 / 12</span>
+    </div>
+    <div class="look__track" id="lookTrack">
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/anillos-bandeja.jpg" alt="Bandeja con sellos de distintos diseños" width="960" height="1280" loading="lazy"></div><figcaption><b>Bandeja de sellos</b><span>01</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-todo-pasa.jpg" alt="Dije placa con la frase Todo pasa" width="960" height="1280" loading="lazy"></div><figcaption><b>Placa Todo pasa</b><span>02</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/soga.jpg" alt="Cadena tejido soga sostenida en la mano" width="960" height="1280" loading="lazy"></div><figcaption><b>Cadena soga</b><span>03</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/bustos-tres.jpg" alt="Tres cadenas de distinto largo con placas y estuche de anillos" width="1050" height="1400" loading="lazy"></div><figcaption><b>Tres largos</b><span>04</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-m.jpg" alt="Dije placa con inicial M" width="960" height="1280" loading="lazy"></div><figcaption><b>Inicial M</b><span>05</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/pulseras-guante.jpg" alt="Dos pulseras en la muñeca" width="960" height="1280" loading="lazy"></div><figcaption><b>Pulseras</b><span>06</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-32.jpg" alt="Dije placa con el número 32" width="960" height="1280" loading="lazy"></div><figcaption><b>Placa 32</b><span>07</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/anillos-pila.jpg" alt="Sellos apilados con y sin piedra" width="1050" height="1400" loading="lazy"></div><figcaption><b>Sellos</b><span>08</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/busto-capas.jpg" alt="Cadenas en capas con anillos y pulsera" width="960" height="1280" loading="lazy"></div><figcaption><b>En capas</b><span>09</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-corona.jpg" alt="Dije placa con corona grabada" width="960" height="1280" loading="lazy"></div><figcaption><b>Placa corona</b><span>10</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/bandeja-pulseras.jpg" alt="Pulseras, aros y anillos en su estuche" width="1050" height="1400" loading="lazy"></div><figcaption><b>Pulseras y sellos</b><span>11</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-32-b.jpg" alt="Dije placa 32 con corona" width="960" height="1280" loading="lazy"></div><figcaption><b>Placa 32 · II</b><span>12</span></figcaption></figure>
+    </div>
+    <div class="wrap"><div class="look__bar" aria-hidden="true"><i id="lookBar"></i></div></div>
   </div>
 </section>
 
-<!-- ══ CATEGORÍAS ══ -->
-<section class="cats" id="categorias">
-  <header class="section__head">
-    <p class="section__tag reveal">02 — Categorías</p>
-    <h2 class="section__title reveal" data-delay="80">Tres verticales.<br><em>Un solo estándar.</em></h2>
-  </header>
+<!-- ============ TIENDA ============
+     La barra de categorías se pega arriba sólo mientras se recorre el
+     catálogo: su contenedor es este bloque, no la página entera. -->
+<div class="shop">
 
-  <div class="cats__grid">
-
-    <article class="cat reveal" data-delay="0">
-      <div class="cat__art">
-        <svg viewBox="0 0 300 300" aria-hidden="true">
-          <g fill="none" stroke="url(#gsGold)" stroke-width="2">
-            <path d="M58 64Q150 246 242 64"/>
-            <circle cx="58" cy="64" r="5"/><circle cx="242" cy="64" r="5"/>
-            <circle cx="86" cy="110" r="7"/><circle cx="214" cy="110" r="7"/>
-            <circle cx="113" cy="140" r="9"/><circle cx="187" cy="140" r="9"/>
-            <circle cx="150" cy="155" r="11"/>
-            <path d="M150 172l24 28-24 34-24-34z"/>
-          </g>
-        </svg>
-      </div>
-      <div class="cat__body">
-        <span class="cat__idx">01</span>
-        <h3>Joyería</h3>
-        <p>Acero quirúrgico y plata 925. Cadenas, anillos y piezas de uso diario que no se apagan a la semana.</p>
-        <a href="#drop" class="link" data-magnetic>Explorar <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </div>
-    </article>
-
-    <article class="cat reveal" data-delay="120">
-      <div class="cat__art">
-        <svg viewBox="0 0 300 300" aria-hidden="true">
-          <g fill="none" stroke="url(#gsGold)" stroke-width="2" stroke-linejoin="round">
-            <path d="M110 72l40 22 40-22 44 26-20 44-18-10v96H104v-96l-18 10-20-44z"/>
-            <path d="M110 72c0 22 18 40 40 40s40-18 40-40"/>
-          </g>
-        </svg>
-      </div>
-      <div class="cat__body">
-        <span class="cat__idx">02</span>
-        <h3>Indumentaria</h3>
-        <p>Algodón pesado, cortes rectos, serigrafía que aguanta el lavado. Tandas cortas, sin reposición eterna.</p>
-        <a href="#drop" class="link" data-magnetic>Explorar <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </div>
-    </article>
-
-    <article class="cat reveal" data-delay="240">
-      <div class="cat__art">
-        <svg viewBox="0 0 300 300" aria-hidden="true">
-          <g fill="none" stroke="url(#gsGold)" stroke-width="2" stroke-linejoin="round">
-            <rect x="120" y="58" width="60" height="34" rx="4"/>
-            <path d="M134 92h32v22h-32z"/>
-            <path d="M104 114h92v128H104z"/>
-            <path d="M104 150h92"/>
-          </g>
-        </svg>
-      </div>
-      <div class="cat__body">
-        <span class="cat__idx">03</span>
-        <h3>Fragancias</h3>
-        <p>Extracto de alta concentración. Proyección y fijación medidas, no prometidas. Decants disponibles.</p>
-        <a href="#drop" class="link" data-magnetic>Explorar <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </div>
-    </article>
-
+<nav class="catbar" id="catbarWrap" aria-label="Categorías">
+  <div class="wrap">
+    <div class="catbar__scroll" id="catbar" role="tablist"></div>
   </div>
-</section>
+</nav>
 
-<!-- ══ DROP / PRODUCTOS ══ -->
-<section class="drop" id="drop">
-  <header class="section__head section__head--split">
+<!-- ============ CATÁLOGO ============ -->
+<main class="wrap section" id="catalogo">
+  <div class="section__head reveal">
     <div>
-      <p class="section__tag reveal">03 — Drop 001</p>
-      <h2 class="section__title reveal" data-delay="80">Primera<br><em>entrega.</em></h2>
+      <p class="eyebrow" id="catEyebrow">La colección</p>
+      <h2 class="section__title" id="catTitle">Todo</h2>
     </div>
-    <p class="section__note reveal" data-delay="160">Seis piezas. Stock cerrado — cuando se agota, no vuelve en la misma forma.</p>
-  </header>
-
-  <div class="drop__grid" id="dropGrid"><!-- productos inyectados por JS --></div>
-</section>
-
-<!-- ══ LOOKBOOK HORIZONTAL ══ -->
-<section class="look" id="lookbook">
-  <div class="look__sticky">
-    <div class="look__head">
-      <p class="section__tag">04 — Lookbook</p>
-      <h2 class="section__title">Serie <em>Nocturna</em></h2>
-    </div>
-    <div class="look__track" id="lookTrack"><!-- inyectado por JS --></div>
-    <div class="look__bar" aria-hidden="true"><i id="lookBar"></i></div>
+    <p class="section__desc" id="catDesc">La colección completa</p>
   </div>
-</section>
-
-<!-- ══ STATS ══ -->
-<section class="stats">
-  <div class="stat reveal"><b class="count" data-to="48">0</b><span>Horas de envío promedio</span></div>
-  <div class="stat reveal" data-delay="100"><b class="count" data-to="12">0</b><span>Meses de garantía</span></div>
-  <div class="stat reveal" data-delay="200"><b class="count" data-to="6">0</b><span>Piezas por drop</span></div>
-  <div class="stat reveal" data-delay="300"><b class="count" data-to="100">0</b><span>% Devolución sin vueltas</span></div>
-</section>
-
-<!-- ══ NEWSLETTER ══ -->
-<section class="news" id="contacto">
-  <div class="news__glow" aria-hidden="true"></div>
-  <p class="section__tag reveal">05 — Acceso</p>
-  <h2 class="news__title reveal" data-delay="80">El Drop 002 se avisa<br><em>una sola vez.</em></h2>
-  <form class="news__form reveal" data-delay="160" id="newsForm" novalidate>
-    <input type="email" id="newsEmail" placeholder="tu@email.com" aria-label="Tu email" required autocomplete="email">
-    <button type="submit" data-magnetic><span>Avisarme</span></button>
-  </form>
-  <p class="news__msg" id="newsMsg" role="status"></p>
-  <p class="news__fine reveal" data-delay="240">Sin spam. Un mail por drop.</p>
-</section>
-
+  <div class="grid" id="grid"></div>
 </main>
 
-<!-- ══ FOOTER ══ -->
-<footer class="foot">
-  <div class="foot__top">
-    <div class="foot__brand">
-      <span class="foot__mark">G.S.9</span>
-      <p>Joyería, indumentaria y fragancias.<br>Curado, no acumulado.</p>
-    </div>
-    <div class="foot__cols">
-      <div><h4>Tienda</h4><a href="#drop">Drop 001</a><a href="#categorias">Joyería</a><a href="#categorias">Indumentaria</a><a href="#categorias">Fragancias</a></div>
-      <div><h4>Ayuda</h4><a href="#contacto">Envíos</a><a href="#contacto">Cambios</a><a href="#contacto">Garantía</a><a href="#contacto">Contacto</a></div>
-      <div><h4>Social</h4><a href="#contacto">Instagram</a><a href="#contacto">TikTok</a><a href="#contacto">WhatsApp</a></div>
-    </div>
-  </div>
-  <div class="foot__bot">
-    <span>© <span id="year">2026</span> GS9. Todos los derechos reservados.</span>
-    <span>Buenos Aires, AR</span>
-  </div>
-  <div class="foot__giant" aria-hidden="true">GS9</div>
-</footer>
-
-<!-- ══ CART DRAWER ══ -->
-<div class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-label="Bolsa de compras">
-  <div class="drawer__panel">
-    <header class="drawer__head">
-      <h3>Tu bolsa</h3>
-      <button id="cartClose" aria-label="Cerrar bolsa">&times;</button>
-    </header>
-    <div class="drawer__items" id="drawerItems"></div>
-    <footer class="drawer__foot">
-      <div class="drawer__total"><span>Total</span><b id="cartTotal">$0</b></div>
-      <button class="btn btn--gold btn--full" data-magnetic><span>Finalizar compra</span></button>
-      <p class="drawer__fine">Demo — el checkout todavía no está conectado.</p>
-    </footer>
-  </div>
-  <div class="drawer__scrim" id="drawerScrim"></div>
 </div>
 
-<script src="assets/js/main.js"></script>
+<!-- ============ GARANTÍAS ============ -->
+<section class="wrap promises reveal" id="taller">
+  <div class="promise">
+    <span class="promise__n">01</span>
+    <h3>Plata 925 de ley</h3>
+    <p>Cada pieza lleva el sello. Nada de aleaciones sin identificar.</p>
+  </div>
+  <div class="promise">
+    <span class="promise__n">02</span>
+    <h3>Revisada una por una</h3>
+    <p>Se controla el engarce y el cierre antes de salir del taller.</p>
+  </div>
+  <div class="promise">
+    <span class="promise__n">03</span>
+    <h3>Envíos a todo el país</h3>
+    <p>Sin cargo a partir de cierto monto. Retiro en persona si preferís.</p>
+  </div>
+</section>
+
+<!-- ============ LLAMADO ============ -->
+<section class="call on-photo" id="contacto">
+  <div class="call__bg" data-par="0.10" aria-hidden="true">
+    <img src="img/fondos/anillos-bandeja.jpg" alt="" width="960" height="1280" loading="lazy">
+  </div>
+  <div class="wrap reveal">
+    <p class="eyebrow">Atención personalizada</p>
+    <h2 class="call__title">¿Buscás una pieza <em>en particular?</em></h2>
+    <p class="call__text">
+      Escribinos y te mandamos fotos, medidas y disponibilidad en el momento.
+      Las piezas de la galería también se consultan por acá.
+    </p>
+    <a class="btn btn--arrow" data-wa href="#catalogo">
+      Escribir por WhatsApp
+      <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <span class="brand">
+          <img class="brand__mark" src="img/logo.svg" alt="GS9" width="320" height="320">
+          <span>
+            <span class="brand__name">GS9</span>
+            <span class="brand__tag">Joyería · Plata 925 y Oro</span>
+          </span>
+        </span>
+        <p class="footer__quote">“El lujo está en los detalles.”</p>
+      </div>
+
+      <div>
+        <h3 class="footer__h">Colección</h3>
+        <ul class="footer__list" id="footerCats"></ul>
+      </div>
+
+      <div>
+        <h3 class="footer__h">Contacto</h3>
+        <ul class="footer__list" id="footerContact"></ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span id="footerCopy">© GS9</span>
+      <span>Calidad y elegancia en cada detalle</span>
+    </div>
+  </div>
+  <div class="footer__giant" aria-hidden="true">GS9</div>
+</footer>
+
+<button class="totop" id="toTop" type="button" aria-label="Volver arriba" hidden>
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<div id="layer"></div>
+
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script src="js/app.js"></script>
+<script src="js/inmersivo.js"></script>
 </body>
 </html>
