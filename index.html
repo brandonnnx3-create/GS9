@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>GS9 — Joyería en plata 925 y oro</title>
-<meta name="description" content="GS9. Anillos, dijes, cadenas, aros y sets en plata 925 y oro. Calidad y elegancia en cada detalle.">
+<title>GS9 — Joyería</title>
+<meta name="description" content="GS9. Calidad y elegancia en cada detalle.">
 <meta name="theme-color" content="#070707">
 
 <meta property="og:title" content="GS9">
-<meta property="og:description" content="Calidad y elegancia en cada detalle. Plata 925 y oro.">
+<meta property="og:description" content="Calidad y elegancia en cada detalle.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="img/fondos/anillos-bandeja.jpg">
 
@@ -52,18 +52,12 @@
   <div class="wrap header__bar">
     <a class="brand" href="#inicio" aria-label="GS9, ir al inicio">
       <img class="brand__mark" src="img/logo.svg" alt="" width="320" height="320">
-      <span>
-        <span class="brand__name">GS9</span>
-        <span class="brand__tag">Joyería · Plata 925 y Oro</span>
-      </span>
+      <span class="brand__name">GS9</span>
     </a>
 
     <nav class="header__nav" aria-label="Secciones">
-      <a href="#coleccion" data-cat="sets">Sets</a>
-      <a href="#coleccion" data-cat="anillos">Anillos</a>
-      <a href="#coleccion" data-cat="cadenas">Cadenas</a>
       <a href="#galeria">Galería</a>
-      <a href="#catalogo" data-goto="catalogo">Catálogo</a>
+      <a href="#contacto">Contacto</a>
     </nav>
 
     <div class="header__actions">
@@ -76,19 +70,6 @@
       <button class="icon-btn tema-a-oscura" id="temaAOscura" type="button" aria-label="Ver la versión en negro">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
           <path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/>
-        </svg>
-      </button>
-      <button class="icon-btn cart-btn" id="openCart" type="button" aria-label="Abrir el carrito">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-          <path d="M3 6h18"/>
-          <path d="M16 10a4 4 0 0 1-8 0"/>
-        </svg>
-        <span class="cart-btn__count" id="cartCount" data-empty="true">0</span>
-      </button>
-      <button class="icon-btn menu-btn" id="openMenu" type="button" aria-label="Abrir el menú de categorías">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-          <path d="M3 8h18M3 16h18"/>
         </svg>
       </button>
     </div>
@@ -123,7 +104,7 @@
   <div class="hero__veil" aria-hidden="true"></div>
 
   <div class="wrap hero__inner">
-    <p class="eyebrow hero__fade" style="--f:0">Nueva colección — Plata 925 y Oro</p>
+    <p class="eyebrow hero__fade" style="--f:0">Nueva colección</p>
     <h1 class="hero__title">
       <span class="hero__line" style="--l:0"><span>Calidad y</span></span>
       <span class="hero__line" style="--l:1"><span>elegancia</span></span>
@@ -131,18 +112,17 @@
     </h1>
     <div class="hero__foot">
       <p class="hero__lead hero__fade" style="--f:1">
-        Anillos, dijes, cadenas y sets trabajados en plata 925 con terminación
-        dorada. Cada pieza se revisa una por una antes de salir del taller.
+        Cada pieza se revisa una por una antes de salir del taller.
       </p>
       <div class="hero__cta hero__fade" style="--f:2">
-        <button class="btn btn--arrow" type="button" data-goto="catalogo">
-          Descubrir la colección
+        <a class="btn btn--arrow" href="#galeria">
+          Ver la galería
           <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
-        </button>
-        <button class="btn btn--ghost btn--arrow" type="button" data-cat="sets">
-          Sets en estuche
+        </a>
+        <a class="btn btn--ghost btn--arrow" data-wa href="#contacto">
+          Escribinos
           <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -158,102 +138,6 @@
   <div class="ticker__track" id="ticker"></div>
 </div>
 
-<!-- ============ SECCIONES EDITORIALES ============
-     La foto de fondo es ambiente (escala de grises); la del arco
-     es la pieza que se vende, a color. -->
-<section class="stories" id="coleccion">
-
-  <article class="story on-photo reveal">
-    <div class="story__bg" data-par="0.10" aria-hidden="true">
-      <img src="img/fondos/bustos-tres.jpg" alt="" width="1050" height="1400" loading="lazy">
-    </div>
-    <div class="wrap story__grid">
-      <div class="story__media">
-        <img src="img/productos/set-01.jpg" alt="Set de cadena, dije, aros y anillo en su estuche" width="760" height="1351" loading="lazy">
-        <span class="story__n">01</span>
-      </div>
-      <div class="story__copy">
-        <p class="eyebrow">Las cuatro piezas a juego</p>
-        <h2 class="story__title">El regalo que <em>no se explica</em></h2>
-        <p class="story__text">
-          Cadena, dije, aros y anillo trabajados con la misma piedra, en su estuche.
-          No hay que combinar nada ni acertarle al gusto: llega listo para entregar.
-        </p>
-        <ul class="story__facts">
-          <li><span>10</span> sets disponibles</li>
-          <li><span>9</span> colores de piedra</li>
-        </ul>
-        <button class="btn btn--ghost btn--arrow" type="button" data-cat="sets">
-          Ver los sets
-          <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
-        </button>
-      </div>
-    </div>
-  </article>
-
-  <article class="story story--flip on-photo reveal">
-    <div class="story__bg" data-par="0.10" aria-hidden="true">
-      <img src="img/fondos/soga.jpg" alt="" width="960" height="1280" loading="lazy">
-    </div>
-    <div class="wrap story__grid">
-      <div class="story__media">
-        <img src="img/productos/cadena-02.jpg" alt="Cadenas de plata trenzadas de distintos largos" width="760" height="1351" loading="lazy">
-        <span class="story__n">02</span>
-      </div>
-      <div class="story__copy">
-        <p class="eyebrow">El clásico que combina con todo</p>
-        <h2 class="story__title">Una cadena para <em>todos los días</em></h2>
-        <p class="story__text">
-          Tejido trenzado en plata 925, en cuatro largos de 40 a 55 cm. Se usan
-          de a una o superpuestas a distinta altura, con el dije que quieras.
-        </p>
-        <ul class="story__facts">
-          <li><span>4</span> largos, de 40 a 55 cm</li>
-          <li><span>925</span> plata de ley</li>
-        </ul>
-        <button class="btn btn--ghost btn--arrow" type="button" data-cat="cadenas">
-          Ver las cadenas
-          <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
-        </button>
-      </div>
-    </div>
-  </article>
-
-  <article class="story on-photo reveal">
-    <div class="story__bg" data-par="0.10" aria-hidden="true">
-      <img src="img/fondos/anillos-pila.jpg" alt="" width="1050" height="1400" loading="lazy">
-    </div>
-    <div class="wrap story__grid">
-      <div class="story__media">
-        <img src="img/productos/anillo-06.jpg" alt="Anillos de marco cuadrado con piedras de distintos colores" width="760" height="1351" loading="lazy">
-        <span class="story__n">03</span>
-      </div>
-      <div class="story__copy">
-        <p class="eyebrow">Elegís vos el color</p>
-        <h2 class="story__title">Un anillo, <em>toda la carta</em></h2>
-        <p class="story__text">
-          El mismo marco, siete piedras. Del cristal transparente al negro
-          profundo, pasando por el turquesa, el granate y el verde esmeralda.
-        </p>
-        <ul class="story__swatch" aria-label="Colores disponibles">
-          <li style="--c:#15161A" title="Negro"></li>
-          <li style="--c:#8E1D2B" title="Granate"></li>
-          <li style="--c:#1F7A4C" title="Verde"></li>
-          <li style="--c:#2BA6B5" title="Turquesa"></li>
-          <li style="--c:#7A4BA8" title="Violeta"></li>
-          <li style="--c:#E6E9EC" title="Cristal"></li>
-          <li style="--c:#C98A2E" title="Ámbar"></li>
-        </ul>
-        <button class="btn btn--ghost btn--arrow" type="button" data-cat="anillos">
-          Ver los anillos
-          <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
-        </button>
-      </div>
-    </div>
-  </article>
-
-</section>
-
 <!-- ============ FRASE ============ -->
 <div class="strip">
   <div class="wrap reveal">
@@ -264,90 +148,45 @@
 </div>
 
 <!-- ============ GALERÍA ============ -->
-<section class="look" id="galeria" aria-label="Galería de piezas">
+<section class="look" id="galeria" aria-label="Galería">
   <div class="look__pin">
     <div class="wrap look__head">
       <div>
-        <p class="eyebrow">Galería de la casa</p>
+        <p class="eyebrow">Galería</p>
         <h2 class="look__title">Blanco <em>y negro</em></h2>
       </div>
       <span class="look__count" id="lookCount" aria-hidden="true">01 / 12</span>
     </div>
     <div class="look__track" id="lookTrack">
-      <figure class="look__item"><div class="look__frame"><img src="img/fondos/anillos-bandeja.jpg" alt="Bandeja con sellos de distintos diseños" width="960" height="1280" loading="lazy"></div><figcaption><b>Bandeja de sellos</b><span>01</span></figcaption></figure>
-      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-todo-pasa.jpg" alt="Dije placa con la frase Todo pasa" width="960" height="1280" loading="lazy"></div><figcaption><b>Placa Todo pasa</b><span>02</span></figcaption></figure>
-      <figure class="look__item"><div class="look__frame"><img src="img/fondos/soga.jpg" alt="Cadena tejido soga sostenida en la mano" width="960" height="1280" loading="lazy"></div><figcaption><b>Cadena soga</b><span>03</span></figcaption></figure>
-      <figure class="look__item"><div class="look__frame"><img src="img/fondos/bustos-tres.jpg" alt="Tres cadenas de distinto largo con placas y estuche de anillos" width="1050" height="1400" loading="lazy"></div><figcaption><b>Tres largos</b><span>04</span></figcaption></figure>
-      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-m.jpg" alt="Dije placa con inicial M" width="960" height="1280" loading="lazy"></div><figcaption><b>Inicial M</b><span>05</span></figcaption></figure>
-      <figure class="look__item"><div class="look__frame"><img src="img/fondos/pulseras-guante.jpg" alt="Dos pulseras en la muñeca" width="960" height="1280" loading="lazy"></div><figcaption><b>Pulseras</b><span>06</span></figcaption></figure>
-      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-32.jpg" alt="Dije placa con el número 32" width="960" height="1280" loading="lazy"></div><figcaption><b>Placa 32</b><span>07</span></figcaption></figure>
-      <figure class="look__item"><div class="look__frame"><img src="img/fondos/anillos-pila.jpg" alt="Sellos apilados con y sin piedra" width="1050" height="1400" loading="lazy"></div><figcaption><b>Sellos</b><span>08</span></figcaption></figure>
-      <figure class="look__item"><div class="look__frame"><img src="img/fondos/busto-capas.jpg" alt="Cadenas en capas con anillos y pulsera" width="960" height="1280" loading="lazy"></div><figcaption><b>En capas</b><span>09</span></figcaption></figure>
-      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-corona.jpg" alt="Dije placa con corona grabada" width="960" height="1280" loading="lazy"></div><figcaption><b>Placa corona</b><span>10</span></figcaption></figure>
-      <figure class="look__item"><div class="look__frame"><img src="img/fondos/bandeja-pulseras.jpg" alt="Pulseras, aros y anillos en su estuche" width="1050" height="1400" loading="lazy"></div><figcaption><b>Pulseras y sellos</b><span>11</span></figcaption></figure>
-      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-32-b.jpg" alt="Dije placa 32 con corona" width="960" height="1280" loading="lazy"></div><figcaption><b>Placa 32 · II</b><span>12</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/anillos-bandeja.jpg" alt="Bandeja con sellos de distintos diseños" width="960" height="1280" loading="lazy"></div><figcaption><span>01</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-todo-pasa.jpg" alt="Dije placa con la frase Todo pasa" width="960" height="1280" loading="lazy"></div><figcaption><span>02</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/soga.jpg" alt="Cadena tejido soga sostenida en la mano" width="960" height="1280" loading="lazy"></div><figcaption><span>03</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/bustos-tres.jpg" alt="Tres cadenas de distinto largo con placas y estuche de anillos" width="1050" height="1400" loading="lazy"></div><figcaption><span>04</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-m.jpg" alt="Dije placa con inicial M" width="960" height="1280" loading="lazy"></div><figcaption><span>05</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/pulseras-guante.jpg" alt="Dos pulseras en la muñeca" width="960" height="1280" loading="lazy"></div><figcaption><span>06</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-32.jpg" alt="Dije placa con el número 32" width="960" height="1280" loading="lazy"></div><figcaption><span>07</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/anillos-pila.jpg" alt="Sellos apilados con y sin piedra" width="1050" height="1400" loading="lazy"></div><figcaption><span>08</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/busto-capas.jpg" alt="Cadenas en capas con anillos y pulsera" width="960" height="1280" loading="lazy"></div><figcaption><span>09</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-corona.jpg" alt="Dije placa con corona grabada" width="960" height="1280" loading="lazy"></div><figcaption><span>10</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/bandeja-pulseras.jpg" alt="Pulseras, aros y anillos en su estuche" width="1050" height="1400" loading="lazy"></div><figcaption><span>11</span></figcaption></figure>
+      <figure class="look__item"><div class="look__frame"><img src="img/fondos/dije-32-b.jpg" alt="Dije placa 32 con corona" width="960" height="1280" loading="lazy"></div><figcaption><span>12</span></figcaption></figure>
     </div>
     <div class="wrap"><div class="look__bar" aria-hidden="true"><i id="lookBar"></i></div></div>
   </div>
 </section>
 
-<!-- ============ TIENDA ============
-     La barra de categorías se pega arriba sólo mientras se recorre el
-     catálogo: su contenedor es este bloque, no la página entera. -->
-<div class="shop">
-
-<nav class="catbar" id="catbarWrap" aria-label="Categorías">
-  <div class="wrap">
-    <div class="catbar__scroll" id="catbar" role="tablist"></div>
-  </div>
-</nav>
-
-<!-- ============ CATÁLOGO ============ -->
-<main class="wrap section" id="catalogo">
-  <div class="section__head reveal">
-    <div>
-      <p class="eyebrow" id="catEyebrow">La colección</p>
-      <h2 class="section__title" id="catTitle">Todo</h2>
-    </div>
-    <p class="section__desc" id="catDesc">La colección completa</p>
-  </div>
-  <div class="grid" id="grid"></div>
-</main>
-
-</div>
-
-<!-- ============ GARANTÍAS ============ -->
-<section class="wrap promises reveal" id="taller">
-  <div class="promise">
-    <span class="promise__n">01</span>
-    <h3>Plata 925 de ley</h3>
-    <p>Cada pieza lleva el sello. Nada de aleaciones sin identificar.</p>
-  </div>
-  <div class="promise">
-    <span class="promise__n">02</span>
-    <h3>Revisada una por una</h3>
-    <p>Se controla el engarce y el cierre antes de salir del taller.</p>
-  </div>
-  <div class="promise">
-    <span class="promise__n">03</span>
-    <h3>Envíos a todo el país</h3>
-    <p>Sin cargo a partir de cierto monto. Retiro en persona si preferís.</p>
-  </div>
-</section>
-
-<!-- ============ LLAMADO ============ -->
+<!-- ============ CONTACTO ============ -->
 <section class="call on-photo" id="contacto">
   <div class="call__bg" data-par="0.10" aria-hidden="true">
     <img src="img/fondos/anillos-bandeja.jpg" alt="" width="960" height="1280" loading="lazy">
   </div>
   <div class="wrap reveal">
     <p class="eyebrow">Atención personalizada</p>
-    <h2 class="call__title">¿Buscás una pieza <em>en particular?</em></h2>
+    <h2 class="call__title">¿Te gustó <em>alguna pieza?</em></h2>
     <p class="call__text">
       Escribinos y te mandamos fotos, medidas y disponibilidad en el momento.
-      Las piezas de la galería también se consultan por acá.
     </p>
-    <a class="btn btn--arrow" data-wa href="#catalogo">
+    <a class="btn btn--arrow" data-wa href="#galeria">
       Escribir por WhatsApp
       <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
     </a>
@@ -361,17 +200,9 @@
       <div>
         <span class="brand">
           <img class="brand__mark" src="img/logo.svg" alt="GS9" width="320" height="320">
-          <span>
-            <span class="brand__name">GS9</span>
-            <span class="brand__tag">Joyería · Plata 925 y Oro</span>
-          </span>
+          <span class="brand__name">GS9</span>
         </span>
         <p class="footer__quote">“El lujo está en los detalles.”</p>
-      </div>
-
-      <div>
-        <h3 class="footer__h">Colección</h3>
-        <ul class="footer__list" id="footerCats"></ul>
       </div>
 
       <div>
@@ -392,11 +223,7 @@
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
 
-<div id="layer"></div>
-
 <script src="js/config.js"></script>
-<script src="js/products.js"></script>
-<script src="js/app.js"></script>
-<script src="js/inmersivo.js"></script>
+<script src="js/sitio.js"></script>
 </body>
 </html>
