@@ -13,7 +13,9 @@
   /* Content */
   --bone:     #F5F3EF;
   --bone-dim: rgba(245,243,239,.62);
-  --bone-mut: rgba(245,243,239,.38);
+  /* .38 measured 3.22:1 on --ink, below WCAG AA (4.5) for the 10–12px labels
+     that use it; .55 clears it without losing the muted read. */
+  --bone-mut: rgba(245,243,239,.55);
 
   /* Accent */
   --gold:     #D9BD7C;
@@ -195,15 +197,20 @@ a{ color:inherit; text-decoration:none; }
 }
 .nav__count.is-pop{ transform:scale(1.45); }
 
-.burger{ display:none; width:26px; height:18px; position:relative; }
+/* 44px box via padding keeps the tap target thumb-sized while the drawn bars
+   stay 26x18; the negative margin stops it enlarging the nav row. */
+.burger{
+  display:none; width:26px; height:18px; position:relative;
+  padding:13px; margin:-13px; box-sizing:content-box;
+}
 .burger span{
-  position:absolute; left:0; width:100%; height:1.5px; background:var(--bone);
+  position:absolute; left:13px; width:26px; height:1.5px; background:var(--bone);
   transition:transform .45s var(--ease), opacity .3s;
 }
-.burger span:nth-child(1){ top:3px; }
-.burger span:nth-child(2){ bottom:3px; }
-.burger.is-open span:nth-child(1){ top:8px; transform:rotate(45deg); }
-.burger.is-open span:nth-child(2){ bottom:8.5px; transform:rotate(-45deg); }
+.burger span:nth-child(1){ top:16px; }
+.burger span:nth-child(2){ bottom:16px; }
+.burger.is-open span:nth-child(1){ top:21px; transform:rotate(45deg); }
+.burger.is-open span:nth-child(2){ bottom:21.5px; transform:rotate(-45deg); }
 
 /* ═══ MOBILE MENU ═══ */
 .menu{
