@@ -73,10 +73,11 @@
   var cinta = $("#ticker");
   if (cinta) {
     var bloque = [
-      "Calidad y elegancia en cada detalle",
-      "Revisada una por una",
+      "Brillá sin permiso",
+      "Pieza por pieza",
       "Envíos a todo el país",
-      "El lujo está en los detalles",
+      "Lo que brilla, habla",
+      "G.S.9",
     ].map(function (f) { return '<span class="ticker__item">' + esc(f) + "</span>"; }).join("");
     cinta.innerHTML = bloque + bloque;
   }
@@ -237,8 +238,8 @@
      en lugar de a un WhatsApp inexistente. */
 
   if (hayWhatsapp) {
-    var texto = "Hola! Vi la página de " + (cfg.marca || "GS9") +
-      " y quería consultar por una pieza.";
+    var texto = "Hola! Vi la página de " + (cfg.marca || "G.S.9") +
+      " y me copé con una pieza.";
     $$("[data-wa]").forEach(function (a) {
       a.href = "https://wa.me/" + numero + "?text=" + encodeURIComponent(texto);
       a.target = "_blank";

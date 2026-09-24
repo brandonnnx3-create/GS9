@@ -11,7 +11,7 @@
 const CONFIG = {
   whatsapp: "5492216056950",
 
-  marca: "GS9",
+  marca: "G.S.9",
   instagram: "",
   email: "",
   ciudad: "Buenos Aires, Argentina",
