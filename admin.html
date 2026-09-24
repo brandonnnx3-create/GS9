@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es" data-tema="oscura">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Panel — G.S.9</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#070707">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/fuentes.css">
+<link rel="stylesheet" href="css/tienda.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="p">
+
+<header class="p-head">
+  <a class="p-brand" href="./" aria-label="Ir a la página">
+    <img src="img/logo.svg" alt="" width="40" height="40">
+    <span>Panel</span>
+  </a>
+  <div class="p-head__actions">
+    <a class="p-link" href="./" target="_blank" rel="noopener">Ver la página ↗</a>
+    <button class="p-link" id="salir" type="button" hidden>Desconectar</button>
+  </div>
+</header>
+
+<main class="p-main">
+
+  <!-- ============ CONEXIÓN ============ -->
+  <section class="p-card" id="conexion" aria-labelledby="conexionTitulo">
+    <h1 class="p-title" id="conexionTitulo">Conectar el panel</h1>
+    <p class="p-text">
+      El panel publica directo en el repositorio de la página. Para eso necesita
+      un token de GitHub: es la llave. Sin él se puede abrir esta pantalla, pero
+      no se puede cambiar nada.
+    </p>
+
+    <form class="p-form" id="formToken" autocomplete="off">
+      <label class="p-label" for="token">Token de GitHub</label>
+      <input class="p-input" id="token" type="password" spellcheck="false" autocapitalize="off"
+             placeholder="github_pat_…" required>
+      <label class="p-check">
+        <input type="checkbox" id="recordar">
+        <span>Recordar en este navegador</span>
+      </label>
+      <p class="p-hint">
+        Sin tildar, el token se borra al cerrar la pestaña. Tildalo sólo en un
+        dispositivo tuyo.
+      </p>
+      <button class="btn btn--block" type="submit" id="conectar">Conectar</button>
+      <p class="p-msg" id="msgConexion" role="status" aria-live="polite"></p>
+    </form>
+
+    <details class="p-help">
+      <summary>¿Cómo saco el token? (una sola vez)</summary>
+      <ol>
+        <li>Entrá a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> con tu cuenta.</li>
+        <li><b>Token name:</b> Panel GS9. <b>Expiration:</b> el que quieras (cuando vence, sacás otro igual).</li>
+        <li><b>Repository access:</b> <i>Only select repositories</i> → elegí <b>GS9</b>. Sólo ese.</li>
+        <li><b>Permissions → Repository permissions → Contents:</b> <i>Read and write</i>. Nada más.</li>
+        <li>Tocá <b>Generate token</b>, copialo y pegalo arriba.</li>
+      </ol>
+      <p>
+        Así limitado, el token sólo puede tocar los archivos de GS9: ni tus otros
+        repositorios, ni tu cuenta. Si lo perdés o sospechás de algo, borralo en
+        esa misma página de GitHub y sacá otro.
+      </p>
+    </details>
+  </section>
+
+  <!-- ============ EDITOR ============ -->
+  <div class="p-editor" id="editor" hidden>
+
+    <nav class="p-tabs" role="tablist" aria-label="Secciones del panel">
+      <button class="p-tab" role="tab" id="tabFrases" aria-controls="panelFrases" aria-selected="true" type="button">Frases</button>
+      <button class="p-tab" role="tab" id="tabContacto" aria-controls="panelContacto" aria-selected="false" type="button">Contacto</button>
+    </nav>
+
+    <!-- Frases -->
+    <section class="p-grid" id="panelFrases" role="tabpanel" aria-labelledby="tabFrases">
+      <div class="p-fields" id="camposFrases"></div>
+
+      <aside class="p-preview" aria-label="Vista previa">
+        <p class="p-preview__label">Vista previa</p>
+        <div class="p-preview__hero on-photo">
+          <p class="eyebrow" data-prev="heroSobre"></p>
+          <h2 class="hero__title" data-prev="heroTitulo"></h2>
+          <p class="p-preview__lead" data-prev="heroBajada"></p>
+        </div>
+        <div class="p-preview__strip strip">
+          <p class="strip__quote" data-prev="frase"></p>
+        </div>
+        <div class="p-preview__call on-photo">
+          <h2 class="call__title" data-prev="contactoTitulo"></h2>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Contacto -->
+    <section class="p-grid p-grid--single" id="panelContacto" role="tabpanel" aria-labelledby="tabContacto" hidden>
+      <div class="p-fields" id="camposContacto"></div>
+    </section>
+  </div>
+
+</main>
+
+<!-- ============ BARRA DE PUBLICAR ============ -->
+<footer class="p-bar" id="barra" hidden>
+  <p class="p-bar__status" id="estado" role="status" aria-live="polite">Sin cambios</p>
+  <div class="p-bar__actions">
+    <button class="btn btn--ghost" id="descartar" type="button" disabled>Descartar</button>
+    <button class="btn" id="publicar" type="button" disabled>Publicar</button>
+  </div>
+</footer>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

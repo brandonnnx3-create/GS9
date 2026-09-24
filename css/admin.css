@@ -1,0 +1,291 @@
+/* ============================================================
+   G.S.9 — PANEL
+   Se apoya en css/tienda.css (tokens, letra, botones y el cromo
+   de los títulos) y sólo agrega el armado del panel. Pensado
+   primero para el celular: la barra de publicar queda fija abajo.
+   ============================================================ */
+
+/* `hidden` tiene que ganar siempre: si no, cualquier regla con display
+   (la barra, las pestañas, el botón de desconectar) lo pisa y se ven
+   cosas que todavía no corresponden. */
+[hidden] { display: none !important; }
+
+.p {
+  min-height: 100svh;
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ---------- Cabecera ---------- */
+
+.p-head {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px var(--gutter);
+  padding-top: calc(12px + env(safe-area-inset-top, 0px));
+  background: color-mix(in srgb, var(--ink) 90%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+.p-brand { display: flex; align-items: center; gap: 12px; }
+
+.p-brand img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--line-2);
+}
+
+.p-brand span {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.p-head__actions { display: flex; align-items: center; gap: 4px; }
+
+.p-link {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  min-height: 44px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  font-size: .72rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color .2s var(--ease);
+}
+
+.p-link:hover { color: var(--bone); }
+
+/* ---------- Contenido ---------- */
+
+.p-main {
+  width: 100%;
+  max-width: 1160px;
+  margin-inline: auto;
+  padding: clamp(24px, 5vw, 48px) var(--gutter);
+}
+
+.p-card {
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+.p-title {
+  font-size: clamp(2.2rem, 7vw, 3.4rem);
+  margin-bottom: 14px;
+}
+
+.p-text { color: var(--muted); margin-bottom: 28px; }
+
+.p-form { display: flex; flex-direction: column; gap: 10px; }
+
+.p-field { margin-bottom: 26px; }
+
+.p-label {
+  display: block;
+  font-size: .7rem;
+  font-weight: 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.p-input {
+  width: 100%;
+  background: var(--ink-3);
+  border: 1px solid var(--line-2);
+  border-radius: 0;
+  color: var(--bone);
+  font: inherit;
+  font-size: 1rem;            /* 16px: menos que eso y el iPhone hace zoom al tocar */
+  line-height: 1.45;
+  padding: 13px 14px;
+  transition: border-color .18s var(--ease);
+}
+
+textarea.p-input { resize: vertical; min-height: 56px; }
+
+.p-input:focus { outline: none; border-color: var(--bone); }
+.p-input[aria-invalid="true"] { border-color: #E07A72; }
+
+.p-hint { font-size: .8rem; color: var(--muted-2); margin-top: 7px; line-height: 1.5; }
+.p-hint:empty { display: none; }
+
+.p-warn { font-size: .8rem; color: var(--bone); margin-top: 6px; line-height: 1.45; }
+.p-warn:empty { display: none; }
+.p-warn--error { color: #E07A72; }
+
+[data-tema="clara"] .p-warn--error,
+[data-tema="clara"] .p-input[aria-invalid="true"] { color: #B3261E; border-color: #B3261E; }
+
+.p-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  cursor: pointer;
+  font-size: .92rem;
+}
+
+.p-check input { width: 18px; height: 18px; accent-color: var(--bone); }
+
+.p-form .btn { margin-top: 10px; }
+
+.p-msg { min-height: 1.4em; font-size: .88rem; color: var(--muted); }
+.p-msg--error { color: #E07A72; }
+
+.p-help {
+  margin-top: 34px;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+.p-help summary {
+  cursor: pointer;
+  color: var(--bone);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.p-help ol { padding-left: 20px; margin: 10px 0 14px; display: flex; flex-direction: column; gap: 8px; }
+.p-help a { color: var(--bone); text-decoration: underline; text-underline-offset: 3px; word-break: break-all; }
+.p-help b { color: var(--bone); font-weight: 400; }
+
+/* ---------- Pestañas ---------- */
+
+.p-tabs {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.p-tab {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+  min-height: 48px;
+  padding: 0 18px;
+  font-family: var(--display);
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+  transition: color .2s var(--ease), border-color .2s var(--ease);
+}
+
+.p-tab[aria-selected="true"] { color: var(--bone); border-bottom-color: var(--bone); }
+
+/* ---------- Editor: campos + vista previa ---------- */
+
+.p-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+}
+
+.p-grid--single { grid-template-columns: minmax(0, 560px); }
+
+.p-preview {
+  position: sticky;
+  top: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.p-preview__label {
+  font-size: .66rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+
+.p-preview__hero,
+.p-preview__call {
+  background: #000;
+  color: #fff;
+  padding: 26px 22px;
+  border: 1px solid var(--line);
+}
+
+.p-preview__hero .eyebrow { color: rgba(255,255,255,.7); }
+
+/* El título real mide 13vw: en la vista previa se achica
+   manteniendo la misma proporción entre renglones. */
+.p-preview__hero .hero__title {
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  margin-top: calc(10px + .16em);
+}
+
+.p-preview__lead { margin-top: 14px; font-size: .88rem; color: rgba(255,255,255,.8); }
+
+.p-preview__strip { padding: 28px 22px; }
+.p-preview__strip .strip__quote { font-size: clamp(1.8rem, 4.4vw, 3rem); max-width: none; }
+
+.p-preview__call { text-align: center; }
+.p-preview__call .call__title { font-size: clamp(1.8rem, 4.4vw, 3rem); margin: 0 auto; }
+
+/* ---------- Barra de publicar ---------- */
+
+.p-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px var(--gutter);
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in srgb, var(--ink) 94%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+}
+
+.p-bar__status { font-size: .88rem; color: var(--muted); }
+.p-bar__status--ok { color: var(--bone); }
+.p-bar__status--error { color: #E07A72; }
+
+.p-bar__actions { display: flex; gap: 8px; flex-shrink: 0; }
+.p-bar .btn { min-height: 46px; padding: 0 22px; }
+
+/* ---------- Celular ---------- */
+
+@media (max-width: 860px) {
+  .p-grid { grid-template-columns: minmax(0, 1fr); }
+  /* La vista previa va arriba y sin pegarse: en pantalla chica
+     taparía los campos. */
+  .p-preview { position: static; order: -1; }
+}
+
+@media (max-width: 560px) {
+  .p-bar { flex-direction: column; align-items: stretch; gap: 8px; }
+  .p-bar__status { text-align: center; }
+  .p-bar__actions .btn { flex: 1; }
+  .p { padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px)); }
+  .p-link[href] { display: none; }
+}

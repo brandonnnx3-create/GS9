@@ -103,13 +103,13 @@
   <div class="hero__veil" aria-hidden="true"></div>
 
   <div class="wrap hero__inner">
-    <p class="eyebrow hero__fade" style="--f:0">G.S.9 — Drop 01</p>
-    <h1 class="hero__title">
+    <p class="eyebrow hero__fade" style="--f:0" data-texto="heroSobre">G.S.9 — Drop 01</p>
+    <h1 class="hero__title" data-texto="heroTitulo">
       <span class="hero__line" style="--l:0"><span>Brillá</span></span>
-      <span class="hero__line" style="--l:1"><span><em>sin permiso</em></span></span>
+      <span class="hero__line" style="--l:1"><span>sin permiso</span></span>
     </h1>
     <div class="hero__foot">
-      <p class="hero__lead hero__fade" style="--f:1">
+      <p class="hero__lead hero__fade" style="--f:1" data-texto="heroBajada">
         Pieza por pieza, elegida a mano. Si te copás con alguna, escribinos.
       </p>
       <div class="hero__cta hero__fade" style="--f:2">
@@ -140,7 +140,7 @@
 <div class="strip">
   <div class="wrap reveal">
     <span class="strip__rule" aria-hidden="true"></span>
-    <p class="strip__quote">Lo que brilla, habla.</p>
+    <p class="strip__quote" data-texto="frase">Lo que brilla, habla.</p>
     <span class="strip__rule" aria-hidden="true"></span>
   </div>
 </div>
@@ -151,7 +151,7 @@
     <div class="wrap look__head">
       <div>
         <p class="eyebrow">Galería</p>
-        <h2 class="look__title">El <em>drop</em></h2>
+        <h2 class="look__title" data-texto="galeriaTitulo">El drop</h2>
       </div>
       <span class="look__count" id="lookCount" aria-hidden="true">01 / 12</span>
     </div>
@@ -180,8 +180,8 @@
   </div>
   <div class="wrap reveal">
     <p class="eyebrow">Directo, sin vueltas</p>
-    <h2 class="call__title">¿Te copaste <em>con alguna?</em></h2>
-    <p class="call__text">
+    <h2 class="call__title" data-texto="contactoTitulo">¿Te copaste<br>con alguna?</h2>
+    <p class="call__text" data-texto="contactoTexto">
       Mandanos mensaje y te pasamos fotos, medidas y disponibilidad al toque.
     </p>
     <a class="btn btn--arrow" data-wa href="#galeria">
@@ -199,7 +199,7 @@
         <span class="brand">
           <img class="brand__mark" src="img/logo.svg" alt="G.S.9" width="320" height="320">
         </span>
-        <p class="footer__quote">Lo que brilla, habla.</p>
+        <p class="footer__quote" data-texto="footerFrase">Lo que brilla, habla.</p>
       </div>
 
       <div>
@@ -221,6 +221,7 @@
 </button>
 
 <script src="js/config.js"></script>
+<script src="js/textos.js"></script>
 <script src="js/sitio.js"></script>
 </body>
 </html>

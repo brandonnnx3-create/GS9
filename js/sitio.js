@@ -30,6 +30,42 @@
   var numero = String(cfg.whatsapp || "").replace(/\D/g, "");
   var hayWhatsapp = numero.length >= 8;
 
+  /* ---------- Frases ----------
+     Salen de js/textos.js, que escribe el panel (admin.html). El texto
+     del HTML queda como respaldo si ese archivo no carga. Todo entra
+     como texto (textContent): nada de lo que se escribe en el panel
+     puede meter HTML en la página. */
+
+  var T = typeof TEXTOS !== "undefined" ? TEXTOS : {};
+
+  function conRenglones(el, texto) {
+    el.textContent = "";
+    String(texto).split("\n").forEach(function (linea, i) {
+      if (i) el.appendChild(document.createElement("br"));
+      el.appendChild(document.createTextNode(linea));
+    });
+  }
+
+  $$("[data-texto]").forEach(function (el) {
+    var v = T[el.dataset.texto];
+    if (typeof v !== "string" || !v.trim()) return;
+    if (el.classList.contains("hero__title")) {
+      /* Cada renglón del título es su propia máscara animada. */
+      el.textContent = "";
+      v.split("\n").filter(function (l) { return l.trim(); }).forEach(function (linea, i) {
+        var caja = document.createElement("span");
+        caja.className = "hero__line";
+        caja.style.setProperty("--l", i);
+        var s = document.createElement("span");
+        s.textContent = linea;
+        caja.appendChild(s);
+        el.appendChild(caja);
+      });
+    } else {
+      conRenglones(el, v);
+    }
+  });
+
   /* La clase .js habilita los estados de entrada. Se agrega desde acá
      para que, sin JavaScript, nada quede invisible. */
   if (!quieto) root.classList.add("js");
@@ -72,13 +108,14 @@
 
   var cinta = $("#ticker");
   if (cinta) {
-    var bloque = [
+    var frases = Array.isArray(T.cinta) && T.cinta.length ? T.cinta : [
       "Brillá sin permiso",
       "Pieza por pieza",
       "Envíos a todo el país",
       "Lo que brilla, habla",
       "G.S.9",
-    ].map(function (f) { return '<span class="ticker__item">' + esc(f) + "</span>"; }).join("");
+    ];
+    var bloque = frases.map(function (f) { return '<span class="ticker__item">' + esc(f) + "</span>"; }).join("");
     cinta.innerHTML = bloque + bloque;
   }
 
