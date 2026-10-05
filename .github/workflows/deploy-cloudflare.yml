@@ -1,0 +1,51 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [claude/gifted-clarke-mu6i09]
+  workflow_dispatch:
+
+# A commit from the admin panel and a commit pushed here can land close
+# together; let a running deploy finish rather than cancelling it mid-publish.
+concurrency:
+  group: cloudflare-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The account ID isn't a secret (it's the account-scoped prefix
+      # Cloudflare already shows in dashboard URLs); resolving it here
+      # means the token's account doesn't need to be typed in twice.
+      - name: Resolve Cloudflare account ID
+        id: cf
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          resp="$(curl -sS -H "Authorization: Bearer $CF_API_TOKEN" https://api.cloudflare.com/client/v4/accounts)"
+          id="$(python3 -c "import json,sys; d=json.loads(sys.argv[1]); print(d['result'][0]['id'] if d.get('success') and d.get('result') else '')" "$resp")"
+          if [ -z "$id" ]; then
+            echo "::error::Could not resolve a Cloudflare account for this token. Check that CLOUDFLARE_API_TOKEN is set and has Account > Cloudflare Pages > Edit access."
+            echo "$resp"
+            exit 1
+          fi
+          echo "account_id=$id" >> "$GITHUB_OUTPUT"
+
+      # No build step: the site is static HTML/CSS/JS served from the repo
+      # root, same as the GitHub Pages workflow.
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ steps.cf.outputs.account_id }}
+          projectName: gs9
+          directory: .
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Show the live URL
+        run: echo "Deployed to ${{ steps.deploy.outputs.url }}"
