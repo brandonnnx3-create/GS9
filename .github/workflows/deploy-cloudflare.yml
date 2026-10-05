@@ -5,6 +5,10 @@ on:
     branches: [claude/gifted-clarke-mu6i09]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  deployments: write
+
 # A commit from the admin panel and a commit pushed here can land close
 # together; let a running deploy finish rather than cancelling it mid-publish.
 concurrency:
@@ -35,17 +39,26 @@ jobs:
           fi
           echo "account_id=$id" >> "$GITHUB_OUTPUT"
 
+      # First run on a given project name creates it; later runs no-op
+      # against the existing project, so this is safe to repeat.
+      - name: Create the Pages project if it doesn't exist yet
+        continue-on-error: true
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ steps.cf.outputs.account_id }}
+          command: pages project create gs9 --production-branch=${{ github.ref_name }}
+
       # No build step: the site is static HTML/CSS/JS served from the repo
       # root, same as the GitHub Pages workflow.
       - name: Deploy to Cloudflare Pages
         id: deploy
-        uses: cloudflare/pages-action@v1
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ steps.cf.outputs.account_id }}
-          projectName: gs9
-          directory: .
+          command: pages deploy . --project-name=gs9 --branch=${{ github.ref_name }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Show the live URL
-        run: echo "Deployed to ${{ steps.deploy.outputs.url }}"
+        run: echo "Deployed to ${{ steps.deploy.outputs.deployment-url }}"
