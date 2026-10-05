@@ -1036,16 +1036,19 @@ p { margin: 0; }
 
 @keyframes menu { from { opacity: 0; transform: translateY(-12px); } }
 
+/* Grid de 3 columnas con los extremos del mismo ancho que el botón
+   de cerrar: así el logo queda centrado de verdad, no sólo "lo que
+   sobra" después del botón. */
 .menu__top {
-  display: flex;
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
   align-items: center;
-  justify-content: space-between;
   height: var(--hh);
-  margin-right: -10px;
   flex-shrink: 0;
 }
 
-.menu__top .brand__mark { height: 22px; }
+.menu__top .brand__mark { height: 22px; grid-column: 2; justify-self: center; }
+.menu__top .icon-btn { grid-column: 3; justify-self: end; }
 
 .index--menu { margin-top: 12px; }
 .index--menu .index__row { grid-template-columns: 2.4em minmax(0, 1fr) auto; padding-block: 18px; }
