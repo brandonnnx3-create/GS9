@@ -281,12 +281,19 @@
   </div>
 </section>
 
-<!-- ============ FRASE ============ -->
+<!-- ============ FRASE ============
+     La franja ya va en los colores dados vuelta (--inv-bg / --inv-fg).
+     El lettering a pincel entra como máscara y toma ese mismo color,
+     así se da vuelta solo al cambiar entre la versión negra y la
+     blanca: no hay un PNG blanco que quede invisible sobre blanco. -->
 <div class="strip">
   <div class="wrap reveal">
-    <span class="strip__rule" aria-hidden="true"></span>
-    <p class="strip__quote" data-texto="frase">Lo que brilla, habla.</p>
-    <span class="strip__rule" aria-hidden="true"></span>
+    <p class="ngu" role="img" aria-label="Never give up"></p>
+    <div class="strip__row">
+      <span class="strip__rule" aria-hidden="true"></span>
+      <p class="strip__quote" data-texto="frase">Lo que brilla, habla.</p>
+      <span class="strip__rule" aria-hidden="true"></span>
+    </div>
   </div>
 </div>
 

@@ -633,12 +633,51 @@ p { margin: 0; }
 
 .strip .wrap {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 3vw, 40px);
+}
+
+/* Sin ancho propio: así los filetes quedan pegados a la frase y no
+   colgados en los bordes del contenedor. */
+.strip__row {
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: clamp(18px, 4vw, 48px);
+  max-width: 100%;
 }
 
 .strip__rule { flex: 0 1 120px; height: 1px; background: currentColor; opacity: .35; }
+
+/* ---------- "Never give up" ----------
+   El trazo va de máscara, no de imagen: el relleno es `currentColor`,
+   que en esta franja es --inv-fg. Al cambiar de versión el color se
+   da vuelta solo, sin dos archivos ni un filtro encima. */
+
+.ngu {
+  width: clamp(168px, 24vw, 300px);
+  aspect-ratio: 537 / 532;
+  background-color: currentColor;
+  -webkit-mask: url("../img/never-give-up.svg") no-repeat center / contain;
+  mask: url("../img/never-give-up.svg") no-repeat center / contain;
+}
+
+/* Sin soporte de máscara quedaría un rectángulo lleno tapando la
+   franja: en ese caso no se dibuja nada y queda sólo la frase. */
+@supports not ((mask-image: url("#x")) or (-webkit-mask-image: url("#x"))) {
+  .ngu { display: none; }
+}
+
+/* Entra como si lo estuvieran escribiendo: se descubre de izquierda a
+   derecha. Va atado a .reveal, que sólo se activa con JS y sin
+   movimiento reducido. */
+.js .reveal .ngu { clip-path: inset(0 100% 0 0); }
+
+.js .reveal.in .ngu {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1.5s cubic-bezier(.5, 0, .2, 1) .15s;
+}
 
 .strip__quote {
   font-family: var(--display);
@@ -1371,10 +1410,32 @@ p { margin: 0; }
   margin-bottom: 18px;
 }
 
-.footer__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.footer__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
 .footer__list a, .footer__list li { font-size: .9rem; color: var(--bone); }
-.footer__list a { transition: opacity .2s var(--ease); }
-.footer__list a:hover { opacity: .6; }
+
+/* El renglón de texto mide 20 px: con el dedo se falla. El área
+   tocable se lleva a 44 px sin separar visualmente la lista, y como
+   es `inline-flex` no se estira a lo ancho de la columna. */
+.footer__list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  /* Palabras cortas ("Ropa") no llegan a 44 px de ancho: se agranda el
+     área con padding y se compensa con margen, así la columna sigue
+     alineada al borde. */
+  padding-inline: 9px;
+  margin-inline: -9px;
+  transition: opacity .2s var(--ease);
+}
+
+/* Los renglones sin link llevan el mismo alto para que las dos
+   columnas del footer queden renglón contra renglón. */
+.footer__list li { display: flex; align-items: center; min-height: 44px; }
+
+@media (hover: hover) {
+  .footer__list a:hover { opacity: .6; }
+}
+.footer__list a:active { opacity: .6; }
 
 .footer__bottom {
   border-top: 1px solid var(--line);
