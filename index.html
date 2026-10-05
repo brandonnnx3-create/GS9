@@ -76,6 +76,14 @@
     </nav>
 
     <div class="header__actions">
+      <button class="icon-btn cart-btn" id="abrirCarrito" type="button" aria-label="Ver el carrito" aria-controls="carrito" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M3.5 4.5h2.2l.6 2.4M7 14h10.2l2.3-8.1H6.3M7 14l-1.4 3.4h12.3M7 14L5.7 6.9"/>
+          <circle cx="9.3" cy="20" r="1.3" fill="currentColor" stroke="none"/>
+          <circle cx="16.8" cy="20" r="1.3" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="cart-btn__n" id="carritoN" hidden>0</span>
+      </button>
       <button class="icon-btn tema-a-clara" id="temaAClara" type="button" aria-label="Ver la versión en blanco">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
           <circle cx="12" cy="12" r="4.2"/>
@@ -109,10 +117,57 @@
     <ol class="index index--menu" id="menuLinks"></ol>
   </nav>
   <div class="menu__foot">
+    <button class="menu__cart" id="menuCarrito" type="button" hidden>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+        <path d="M3.5 4.5h2.2l.6 2.4M7 14h10.2l2.3-8.1H6.3M7 14l-1.4 3.4h12.3M7 14L5.7 6.9"/>
+        <circle cx="9.3" cy="20" r="1.3" fill="currentColor" stroke="none"/>
+        <circle cx="16.8" cy="20" r="1.3" fill="currentColor" stroke="none"/>
+      </svg>
+      Ver el carrito
+      <span id="menuCarritoN">0</span>
+    </button>
     <a class="btn btn--block btn--arrow" data-wa href="#contacto">
       Escribinos por WhatsApp
       <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
     </a>
+  </div>
+</dialog>
+
+<!-- ============ CARRITO ============
+     Junta varias piezas en un solo pedido. No cobra nada: arma un
+     WhatsApp con el detalle y el total estimado, y vos confirmás el
+     pago como siempre. Vive en localStorage, por eso sobrevive a
+     recargar la página pero no se comparte entre dispositivos. -->
+<dialog class="cart" id="carrito" aria-labelledby="carritoTitulo">
+  <div class="cart__top">
+    <h2 class="cart__title" id="carritoTitulo">Tu carrito</h2>
+    <button class="icon-btn" id="cerrarCarrito" type="button" aria-label="Cerrar el carrito">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+  </div>
+
+  <div class="cart__body">
+    <ol class="cart__list" id="carritoLista" hidden></ol>
+    <div class="cart__empty" id="carritoVacio" hidden>
+      <p>Tu carrito está vacío.</p>
+      <a class="btn btn--ghost btn--arrow" href="#tienda" id="carritoVacioCta">
+        Ver la tienda
+        <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="cart__foot" id="carritoFoot" hidden>
+    <div class="cart__total">
+      <span>Total estimado</span>
+      <strong id="carritoTotal">$0</strong>
+    </div>
+    <p class="cart__note" id="carritoNota" hidden>Hay piezas a consultar: el total final te lo confirmamos por WhatsApp.</p>
+    <a class="btn btn--block btn--arrow" id="carritoCta" data-wa href="#contacto">
+      Finalizar pedido por WhatsApp
+      <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
+    </a>
+    <button class="cart__clear" id="vaciarCarrito" type="button">Vaciar carrito</button>
   </div>
 </dialog>
 
@@ -269,11 +324,24 @@
     <fieldset class="sizes" id="fichaTalles" hidden>
       <legend>Talle</legend>
       <div class="sizes__list" id="fichaTallesLista"></div>
+      <p class="sizes__error" id="fichaTallesError" hidden>Elegí un talle para agregarlo.</p>
     </fieldset>
+
+    <div class="sheet__qty" id="fichaQty" hidden>
+      <span class="sheet__qty-label">Cantidad</span>
+      <div class="qty">
+        <button class="qty__btn" id="fichaMenos" type="button" aria-label="Restar uno">−</button>
+        <span class="qty__n" id="fichaCant">1</span>
+        <button class="qty__btn" id="fichaMas" type="button" aria-label="Sumar uno">+</button>
+      </div>
+    </div>
+
     <a class="btn btn--block btn--arrow" id="fichaCta" href="#contacto">
-      <span id="fichaCtaTexto">Consultar por WhatsApp</span>
+      <span id="fichaCtaTexto">Agregar al carrito</span>
       <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
     </a>
+    <p class="sheet__added" id="fichaAgregado" role="status" hidden>Agregado al carrito ✓</p>
+    <a class="sheet__alt" id="fichaConsultar" data-wa href="#contacto" hidden>o consultá directo por WhatsApp</a>
     <p class="sheet__note">Te respondemos con fotos, medidas y disponibilidad.</p>
   </div>
 </dialog>
