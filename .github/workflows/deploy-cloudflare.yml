@@ -15,29 +15,18 @@ concurrency:
   group: cloudflare-pages
   cancel-in-progress: false
 
+env:
+  # Not a secret: it's the account-scoped prefix Cloudflare already shows
+  # in dashboard URLs. The token itself (which IS the credential) stays a
+  # repository secret. A token scoped to Pages:Edit can't call GET
+  # /accounts to resolve this on its own, so it's pinned here instead.
+  CLOUDFLARE_ACCOUNT_ID: "75081f68f7c968fb145f7383ef446813"
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      # The account ID isn't a secret (it's the account-scoped prefix
-      # Cloudflare already shows in dashboard URLs); resolving it here
-      # means the token's account doesn't need to be typed in twice.
-      - name: Resolve Cloudflare account ID
-        id: cf
-        env:
-          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: |
-          set -euo pipefail
-          resp="$(curl -sS -H "Authorization: Bearer $CF_API_TOKEN" https://api.cloudflare.com/client/v4/accounts)"
-          id="$(python3 -c "import json,sys; d=json.loads(sys.argv[1]); print(d['result'][0]['id'] if d.get('success') and d.get('result') else '')" "$resp")"
-          if [ -z "$id" ]; then
-            echo "::error::Could not resolve a Cloudflare account for this token. Check that CLOUDFLARE_API_TOKEN is set and has Account > Cloudflare Pages > Edit access."
-            echo "$resp"
-            exit 1
-          fi
-          echo "account_id=$id" >> "$GITHUB_OUTPUT"
 
       # First run on a given project name creates it; later runs no-op
       # against the existing project, so this is safe to repeat.
@@ -46,7 +35,7 @@ jobs:
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ steps.cf.outputs.account_id }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
           command: pages project create gs9 --production-branch=${{ github.ref_name }}
 
       # No build step: the site is static HTML/CSS/JS served from the repo
@@ -56,7 +45,7 @@ jobs:
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ steps.cf.outputs.account_id }}
+          accountId: ${{ env.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy . --project-name=gs9 --branch=${{ github.ref_name }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
