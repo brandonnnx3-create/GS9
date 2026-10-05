@@ -1,8 +1,8 @@
 /* ============================================================
    GS9 — COMPORTAMIENTO DE LA PÁGINA
-   Entrada del hero, columnas y fondos que se desplazan, galería
-   horizontal, apariciones al scrollear, header, cinta, versión
-   negra/blanca y los links de WhatsApp.
+   Entrada del hero, columnas y fondos que se desplazan,
+   apariciones al scrollear, header, cinta, versión negra/blanca y
+   los links de WhatsApp. El catálogo vive en js/catalogo.js.
 
    Los datos de contacto salen de js/config.js.
    ============================================================ */
@@ -66,6 +66,31 @@
     }
   });
 
+  /* ---------- Título que siempre entra ----------
+     La letra de los títulos es muy ancha: una palabra larga escrita
+     desde el panel podría no entrar en el celular y quedar cortada por
+     la máscara del renglón. Si pasa, se achica el título lo justo. */
+
+  var tituloHero = $(".hero__title");
+
+  function ajustarTitulo() {
+    if (!tituloHero) return;
+    tituloHero.style.fontSize = "";
+    var sobra = 1;
+    $$(".hero__line").forEach(function (linea) {
+      var s = linea.firstElementChild;
+      if (s && s.offsetWidth > linea.clientWidth) sobra = Math.max(sobra, s.offsetWidth / linea.clientWidth);
+    });
+    if (sobra > 1) {
+      var actual = parseFloat(getComputedStyle(tituloHero).fontSize);
+      tituloHero.style.fontSize = Math.floor(actual / sobra * 0.98) + "px";
+    }
+  }
+
+  ajustarTitulo();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajustarTitulo);
+  window.addEventListener("resize", ajustarTitulo, { passive: true });
+
   /* La clase .js habilita los estados de entrada. Se agrega desde acá
      para que, sin JavaScript, nada quede invisible. */
   if (!quieto) root.classList.add("js");
@@ -99,7 +124,7 @@
         obs.unobserve(e.target);
       });
     }, { rootMargin: "0px 0px -10% 0px", threshold: 0.06 });
-    $$(".reveal, .look__item").forEach(function (el) { obs.observe(el); });
+    $$(".reveal").forEach(function (el) { obs.observe(el); });
   }
 
   /* ---------- Cinta ----------
@@ -128,65 +153,6 @@
   var hero = $("#inicio");
   var cols = hero ? Array.prototype.slice.call(hero.querySelectorAll("[data-speed]")) : [];
   var capas = quieto ? [] : $$("[data-par]");
-
-  var look = $("#galeria");
-  var pista = $("#lookTrack");
-  var barraLook = $("#lookBar");
-  var cuenta = $("#lookCount");
-  var total = pista ? pista.children.length : 0;
-  var distancia = 0;
-
-  /* ---------- Galería: grilla o lateral ----------
-     Lateral sólo con pantalla ancha, mouse y sin movimiento reducido.
-     En el celular secuestraría el gesto de bajar, y el alto de
-     pantalla cambia cuando aparece la barra del navegador. */
-
-  var lateralMQ = window.matchMedia
-    ? window.matchMedia("(min-width: 901px) and (hover: hover) and (prefers-reduced-motion: no-preference)")
-    : null;
-  var lateral = false;
-
-  /* La pista no se pega al scroll: persigue su destino con una
-     interpolación, así la rueda del mouse (que avanza a saltos)
-     se traduce en un movimiento continuo. */
-  var actual = 0, destino = 0, siguiendo = false;
-
-  function aplicarPista(x) {
-    pista.style.transform = "translate3d(" + (-x).toFixed(1) + "px,0,0)";
-    var p = distancia ? x / distancia : 0;
-    if (barraLook) barraLook.style.width = (p * 100).toFixed(2) + "%";
-    if (cuenta) {
-      var n = Math.min(total, Math.round(p * (total - 1)) + 1);
-      cuenta.textContent = (n < 10 ? "0" + n : n) + " / " + (total < 10 ? "0" + total : total);
-    }
-  }
-
-  function seguir() {
-    actual += (destino - actual) * 0.12;
-    if (Math.abs(destino - actual) < 0.4) actual = destino;
-    aplicarPista(actual);
-    if (actual !== destino && lateral) requestAnimationFrame(seguir);
-    else siguiendo = false;
-  }
-
-  /* El alto de la sección sale del ancho real de la pista: un píxel de
-     scroll vertical es un píxel de desplazamiento lateral. */
-  function medirGaleria() {
-    if (!look || !pista) return;
-    var quiere = !!(lateralMQ && lateralMQ.matches);
-    if (quiere !== lateral) {
-      lateral = quiere;
-      root.classList.toggle("galeria-lateral", lateral);
-      if (!lateral) {
-        look.style.height = "";
-        pista.style.transform = "";
-        actual = destino = distancia = 0;
-      }
-    }
-    if (!lateral) return;
-    distancia = Math.max(0, pista.scrollWidth - window.innerWidth);
-    look.style.height = (window.innerHeight + distancia) + "px";
-  }
 
   function cuadro() {
     pendiente = false;
@@ -223,11 +189,6 @@
       var amp = parseFloat(capa.dataset.par) || 0.07;
       img.style.transform = "translate3d(0," + (-amp * 100 + p * amp * 100).toFixed(2) + "%,0)";
     });
-
-    if (lateral && distancia) {
-      destino = clamp(-look.getBoundingClientRect().top / distancia, 0, 1) * distancia;
-      if (!siguiendo) { siguiendo = true; requestAnimationFrame(seguir); }
-    }
   }
 
   var pendiente = false;
@@ -238,12 +199,7 @@
   }
 
   window.addEventListener("scroll", alScrollear, { passive: true });
-  window.addEventListener("resize", function () { medirGaleria(); alScrollear(); }, { passive: true });
-  if (lateralMQ) {
-    var alCambiar = function () { medirGaleria(); alScrollear(); };
-    if (lateralMQ.addEventListener) lateralMQ.addEventListener("change", alCambiar);
-    else if (lateralMQ.addListener) lateralMQ.addListener(alCambiar);
-  }
+  window.addEventListener("resize", alScrollear, { passive: true });
 
   if (arriba) {
     arriba.addEventListener("click", function () {
@@ -251,7 +207,6 @@
     });
   }
 
-  medirGaleria();
   cuadro();
 
   /* ---------- Versión negra / blanca ----------
@@ -271,18 +226,25 @@
   if (aOscura) aOscura.addEventListener("click", function () { cambiarTema("oscura"); });
 
   /* ---------- WhatsApp ----------
-     Sin número cargado, los botones llevan a la galería o al contacto
-     en lugar de a un WhatsApp inexistente. */
+     Sin número cargado, los botones llevan a la tienda o al contacto
+     en lugar de a un WhatsApp inexistente. js/catalogo.js usa
+     GS9.whatsapp() para armar el mensaje de cada producto. */
 
-  if (hayWhatsapp) {
-    var texto = "Hola! Vi la página de " + (cfg.marca || "G.S.9") +
-      " y me copé con una pieza.";
-    $$("[data-wa]").forEach(function (a) {
-      a.href = "https://wa.me/" + numero + "?text=" + encodeURIComponent(texto);
-      a.target = "_blank";
-      a.rel = "noopener";
-    });
+  var marca = cfg.marca || "G.S.9";
+
+  function linkWhatsapp(a, texto) {
+    if (!hayWhatsapp) return false;
+    a.href = "https://wa.me/" + numero + "?text=" + encodeURIComponent(texto);
+    a.target = "_blank";
+    a.rel = "noopener";
+    return true;
   }
+
+  window.GS9 = { marca: marca, whatsapp: linkWhatsapp, esc: esc };
+
+  $$("[data-wa]").forEach(function (a) {
+    linkWhatsapp(a, "Hola! Vi la página de " + marca + " y me copé con algo.");
+  });
 
   /* ---------- Footer ---------- */
 
