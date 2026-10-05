@@ -21,14 +21,15 @@
   var CLAVE_TOKEN = "gs9_panel_token";
 
   var CAMPOS_FRASES = [
-    { k: "heroTitulo", label: "Título principal", tipo: "lineas", max: 16,
-      ayuda: "La frase más grande de la página. Un renglón por línea." },
+    { k: "heroTitulo", label: "Título principal", tipo: "lineas", max: 10,
+      ayuda: "La frase más grande de la página. Un renglón por línea. En el celular cada palabra puede ir en su propio renglón." },
     { k: "heroSobre", label: "Texto chico arriba del título", tipo: "texto" },
     { k: "heroBajada", label: "Bajada del título", tipo: "area" },
     { k: "frase", label: "Frase de la franja", tipo: "area",
-      ayuda: "La frase grande que aparece sola, entre la portada y la galería." },
-    { k: "galeriaTitulo", label: "Título de la galería", tipo: "texto" },
-    { k: "contactoTitulo", label: "Título del contacto", tipo: "lineas", max: 18,
+      ayuda: "La frase grande que aparece sola, entre la tienda y el contacto." },
+    { k: "galeriaTitulo", label: "Título de la tienda", tipo: "texto",
+      ayuda: "Va arriba de los productos." },
+    { k: "contactoTitulo", label: "Título del contacto", tipo: "lineas", max: 13,
       ayuda: "Un renglón por línea." },
     { k: "contactoTexto", label: "Texto del contacto", tipo: "area" },
     { k: "footerFrase", label: "Frase del footer", tipo: "texto" },
@@ -287,7 +288,7 @@
     var advertencia = "";
     if (!error && campo.max && typeof v === "string") {
       var larga = v.split("\n").filter(function (l) { return l.length > campo.max; })[0];
-      if (larga) advertencia = "“" + larga + "” es un renglón largo: en el celular puede partirse en dos. Probá cortarlo.";
+      if (larga) advertencia = "“" + larga + "” es un renglón largo: la letra de los títulos es ancha y va a partirse en dos. Probá cortarlo.";
     }
     var vacio = Array.isArray(v) ? !v.length : !String(v || "").trim();
     if (!error && clave === "textos" && vacio) {

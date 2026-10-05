@@ -1,12 +1,21 @@
-/* Tipografías locales (Anton, Jost — SIL OFL 1.1).
-   Anton es la letra del logo G.S.9: va en todos los títulos. */
+/* Tipografías locales (Roboto Serif, Jost — SIL OFL 1.1, licencias en
+   fonts/).
+
+   El logo G.S.9 está dibujado en una serif ancha con remates en cuña.
+   La marca en sí es el logo vectorizado (el <symbol id="gs9"> del
+   HTML), así que se ve idéntica. Para los títulos hace falta una letra
+   que escriba cualquier texto: Roboto Serif, recortada a su versión
+   más ancha (wdth 150) y de bajo contraste (opsz 10), que es la libre
+   más parecida al logo. Un solo peso (700), sólo latín básico +
+   acentos, y con los contornos fusionados: la versión variable los
+   tiene superpuestos y en el texto calado se veían las uniones. */
 
 @font-face{
-  font-family:'Anton';
+  font-family:'Roboto Serif';
   font-style:normal;
-  font-weight:400;
+  font-weight:700;
   font-display:swap;
-  src:url('../fonts/anton-400-latin.woff2') format('woff2');
+  src:url('../fonts/roboto-serif-ancho-700-latin.woff2') format('woff2');
 }
 
 @font-face{
