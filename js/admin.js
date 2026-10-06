@@ -25,8 +25,6 @@
       ayuda: "La frase más grande de la página. Un renglón por línea. En el celular cada palabra puede ir en su propio renglón." },
     { k: "heroSobre", label: "Texto chico arriba del título", tipo: "texto" },
     { k: "heroBajada", label: "Bajada del título", tipo: "area" },
-    { k: "frase", label: "Frase de la franja", tipo: "area",
-      ayuda: "La frase grande que aparece sola, entre la tienda y el contacto." },
     { k: "galeriaTitulo", label: "Título de la tienda", tipo: "texto",
       ayuda: "Va arriba de los productos." },
     { k: "contactoTitulo", label: "Título del contacto", tipo: "lineas", max: 13,

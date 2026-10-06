@@ -17,7 +17,6 @@ const TEXTOS = {
     "Lo que brilla, habla",
     "G.S.9"
   ],
-  "frase": "Nunca te rindas.",
   "galeriaTitulo": "El drop",
   "contactoTitulo": "¿Te copaste\ncon alguna?",
   "contactoTexto": "Mandanos mensaje y te pasamos fotos, medidas y disponibilidad al toque.",

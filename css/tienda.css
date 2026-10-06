@@ -631,24 +631,7 @@ p { margin: 0; }
   text-align: center;
 }
 
-.strip .wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(18px, 3vw, 40px);
-}
-
-/* Sin ancho propio: así los filetes quedan pegados a la frase y no
-   colgados en los bordes del contenedor. */
-.strip__row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(18px, 4vw, 48px);
-  max-width: 100%;
-}
-
-.strip__rule { flex: 0 1 120px; height: 1px; background: currentColor; opacity: .35; }
+.strip .wrap { display: flex; justify-content: center; }
 
 /* ---------- "Never give up" ----------
    El trazo va de máscara, no de imagen: el relleno es `currentColor`,
@@ -656,7 +639,7 @@ p { margin: 0; }
    da vuelta solo, sin dos archivos ni un filtro encima. */
 
 .ngu {
-  width: clamp(168px, 24vw, 300px);
+  width: clamp(190px, 28vw, 380px);
   aspect-ratio: 537 / 532;
   background-color: currentColor;
   -webkit-mask: url("../img/never-give-up.svg") no-repeat center / contain;
@@ -679,15 +662,6 @@ p { margin: 0; }
   transition: clip-path 1.5s cubic-bezier(.5, 0, .2, 1) .15s;
 }
 
-.strip__quote {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: clamp(1.7rem, 5.4vw, 5.2rem);
-  line-height: 1.02;
-  text-transform: uppercase;
-  text-wrap: balance;
-  max-width: 11em;
-}
 
 /* ============================================================
    ENCABEZADO DE SECCIÓN
@@ -1567,7 +1541,6 @@ p { margin: 0; }
   .brand__mark { height: 22px; }
   .footer__grid { grid-template-columns: 1fr 1fr; }
   .footer__grid > :first-child { grid-column: 1 / -1; }
-  .strip__rule { display: none; }
 }
 
 /* ============================================================
