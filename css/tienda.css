@@ -1263,19 +1263,41 @@ p { margin: 0; }
 
 @keyframes menu { from { opacity: 0; transform: translateY(-12px); } }
 
-/* Grid de 3 columnas con los extremos del mismo ancho que el botón
-   de cerrar: así el logo queda centrado de verdad, no sólo "lo que
-   sobra" después del botón. */
+/* Arriba va sólo el botón de cerrar: el logo ya no vive acá. */
 .menu__top {
-  display: grid;
-  grid-template-columns: 44px 1fr 44px;
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
   height: var(--hh);
   flex-shrink: 0;
 }
 
-.menu__top .brand__mark { height: 22px; grid-column: 2; justify-self: center; }
-.menu__top .icon-btn { grid-column: 3; justify-self: end; }
+/* El logo, en el medio del menú. Se queda con todo el espacio libre
+   que sobra entre los links y el botón de abajo, y se centra ahí
+   adentro: por eso queda en el medio aunque cambie el alto de la
+   pantalla o la cantidad de categorías. */
+.menu__mark {
+  flex: 1 1 auto;
+  display: grid;
+  place-items: center;
+  padding-block: clamp(24px, 6vh, 56px);
+}
+
+.menu__mark svg {
+  width: min(62vw, 300px);
+  height: auto;
+  fill: currentColor;
+}
+
+/* Pantalla baja: el logo se achica para no empujar el botón de
+   WhatsApp fuera de la vista. */
+@media (max-height: 720px) {
+  .menu__mark { padding-block: 12px; }
+  .menu__mark svg { width: min(44vw, 190px); }
+  /* Los renglones se juntan un poco: es preferible a sacar el logo
+     o a dejar el botón de WhatsApp abajo del todo, fuera de la vista. */
+  .index--menu .index__row { padding-block: 11px; }
+}
 
 .index--menu { margin-top: 12px; }
 .index--menu .index__row { grid-template-columns: 2.4em minmax(0, 1fr) auto; padding-block: 18px; }
