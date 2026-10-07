@@ -492,8 +492,18 @@
      y la clase `is-open` por delante (es lo que mueve el signo +/−). */
 
   var quietoMenu = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var DUR_FOLD = 550;
-  var CURVA_FOLD = "cubic-bezier(.4,0,.15,1)";
+  /* Duración y curva salen de css/tienda.css (--t-fold, --ease-menu):
+     un solo lugar para ajustarlas. Los números de abajo son sólo el
+     respaldo si el navegador no resuelve las variables. */
+  var estilo = getComputedStyle(document.documentElement);
+  function aMs(v, resp) {
+    v = String(v).trim();
+    var n = parseFloat(v);
+    if (!isFinite(n) || n <= 0) return resp;
+    return /ms$/.test(v) ? n : n * 1000;
+  }
+  var DUR_FOLD = aMs(estilo.getPropertyValue("--t-fold"), 900);
+  var CURVA_FOLD = estilo.getPropertyValue("--ease-menu").trim() || "cubic-bezier(.5,0,.2,1)";
 
   Array.prototype.forEach.call(document.querySelectorAll(".fold"), function (det) {
     var cab = det.querySelector("summary");
