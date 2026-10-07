@@ -7,7 +7,7 @@
    ============================================================ */
 
 const TEXTOS = {
-  "heroSobre": "G.S.9 — Drop 01",
+  "heroSobre": "G.S.9 — Buenos Aires",
   "heroTitulo": "Brillá\nsin permiso",
   "heroBajada": "Pieza por pieza, elegida a mano. Si te copás con alguna, escribinos.",
   "cinta": [
@@ -18,7 +18,7 @@ const TEXTOS = {
     "G.S.9"
   ],
   "sobreNosotros": "G.S.9 es una marca de Buenos Aires. Elegimos pieza por pieza, a mano, y vendemos sólo lo que nos pondríamos.",
-  "galeriaTitulo": "El drop",
+  "galeriaTitulo": "Todas las piezas",
   "contactoTitulo": "¿Te copaste\ncon alguna?",
   "contactoTexto": "Mandanos mensaje y te pasamos fotos, medidas y disponibilidad al toque.",
   "footerFrase": "Lo que brilla, habla."

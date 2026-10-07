@@ -1471,30 +1471,9 @@ p { margin: 0; }
   line-height: 1.6;
 }
 
-/* El logo, en el medio del menú. Se queda con todo el espacio libre
-   que sobra entre los links y el botón de abajo, y se centra ahí
-   adentro: por eso queda en el medio aunque cambie el alto de la
-   pantalla o la cantidad de categorías. */
-.menu__mark {
-  flex: 1 1 auto;
-  display: grid;
-  place-items: center;
-  padding-block: clamp(24px, 6vh, 56px);
-}
-
-.menu__mark svg {
-  width: min(74%, 250px);
-  height: auto;
-  fill: currentColor;
-}
-
-/* Pantalla baja: el logo se achica para no empujar el botón de
-   WhatsApp fuera de la vista. */
+/* Pantalla baja: los renglones se juntan un poco para que, con
+   "Colecciones" abierta, entren sin tener que scrollear el panel. */
 @media (max-height: 720px) {
-  .menu__mark { padding-block: 12px; }
-  .menu__mark svg { width: min(58%, 180px); }
-  /* Los renglones se juntan un poco: es preferible a sacar el logo
-     o a dejar el botón de WhatsApp abajo del todo, fuera de la vista. */
   .index--menu .index__row { padding-block: 11px; }
 }
 
