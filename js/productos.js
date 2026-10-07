@@ -32,7 +32,7 @@ const CATALOGO = {
   "categorias": [
     {
       "id": "joyas",
-      "nombre": "Joyas",
+      "nombre": "Joyería",
       "bajada": "Cadenas, dijes, anillos y pulseras",
       "imagen": "img/galeria/busto-capas.jpg"
     },

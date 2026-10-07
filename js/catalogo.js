@@ -127,11 +127,7 @@
       '<li><a class="index__row" href="#tienda" data-cat="todo">' +
       '<span class="index__n">' + dosCifras(cats.length + 1) + "</span>" +
       '<span class="index__main"><span class="index__name">Todo</span></span>' +
-      '<span class="index__meta">' + cuantos(prods.length) + "</span>" + flecha + "</a></li>" +
-      '<li><a class="index__row" href="#contacto">' +
-      '<span class="index__n">' + dosCifras(cats.length + 2) + "</span>" +
-      '<span class="index__main"><span class="index__name">Contacto</span></span>' +
-      '<span class="index__meta"></span>' + flecha + "</a></li>";
+      '<span class="index__meta">' + cuantos(prods.length) + "</span>" + flecha + "</a></li>";
   }
 
   /* ---------- Foto que asoma en el índice ----------
@@ -469,16 +465,6 @@
     menu.addEventListener("click", function (e) {
       if (e.target.closest('a[href^="#"]:not([data-cat])')) cerrarMenu();
     });
-    $("#menuCarrito").addEventListener("click", function () {
-      cerrarMenu();
-      abrirCarrito();
-    });
-    /* Si la pantalla se agranda con el menú abierto, el header vuelve a
-       mostrar los links: el menú sobra. */
-    var anchoMQ = window.matchMedia ? window.matchMedia("(min-width: 961px)") : null;
-    if (anchoMQ && anchoMQ.addEventListener) {
-      anchoMQ.addEventListener("change", function (e) { if (e.matches) cerrarMenu(); });
-    }
   }
 
   /* ---------- Carrito ----------
@@ -608,14 +594,6 @@
     var badge = $("#carritoN");
     if (badge) { badge.textContent = texto; badge.hidden = !n; }
 
-    /* El atajo del menú del celular: el menú tapa el header entero
-       (es pantalla completa), así que sin esto no habría forma de
-       llegar al carrito sin cerrarlo primero. */
-    var atajo = $("#menuCarrito");
-    if (atajo) {
-      atajo.hidden = !n;
-      $("#menuCarritoN").textContent = texto;
-    }
   }
 
   function pintarCarrito() {

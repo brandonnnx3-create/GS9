@@ -17,6 +17,7 @@ const TEXTOS = {
     "Lo que brilla, habla",
     "G.S.9"
   ],
+  "sobreNosotros": "G.S.9 es una marca de Buenos Aires. Elegimos pieza por pieza, a mano, y vendemos sólo lo que nos pondríamos.",
   "galeriaTitulo": "El drop",
   "contactoTitulo": "¿Te copaste\ncon alguna?",
   "contactoTexto": "Mandanos mensaje y te pasamos fotos, medidas y disponibilidad al toque.",
