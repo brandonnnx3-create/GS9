@@ -22,6 +22,7 @@
 <link rel="preload" href="fonts/jost-300-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/fuentes.css">
 <link rel="stylesheet" href="css/tienda.css">
+<noscript><style>.header__nav{display:flex!important}.menu-btn{display:none!important}</style></noscript>
 
 <!-- Antes de pintar: la versión elegida (sin parpadeo del color
      equivocado) y el estado de entrada del hero, con un seguro que
@@ -59,12 +60,17 @@
 <!-- ============ HEADER ============ -->
 <header class="header" id="header">
   <div class="wrap header__bar">
-    <a class="brand" href="#inicio" aria-label="G.S.9, ir al inicio">
-      <svg class="brand__mark" viewBox="0 0 297 82" aria-hidden="true"><use href="#gs9"/></svg>
-    </a>
+    <!-- Izquierda: la puerta al menú. Los links de categorías viven
+         adentro del menú, no sueltos en la barra. -->
+    <button class="menu-btn" id="abrirMenu" type="button" aria-controls="menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+        <path d="M3 8h18M3 16h18"/>
+      </svg>
+      <span class="menu-btn__txt">Menú</span>
+    </button>
 
-    <!-- Los links de categorías se arman desde js/productos.js; estos
-         son el respaldo si el script no carga. -->
+    <!-- Sin JavaScript el menú no se arma: estos links quedan de
+         respaldo y sólo se muestran en ese caso. -->
     <nav class="header__nav" aria-label="Secciones">
       <ul class="header__links" id="navLinks">
         <li><a href="#tienda">Tienda</a></li>
@@ -74,6 +80,10 @@
       </ul>
       <a href="#contacto">Contacto</a>
     </nav>
+
+    <a class="brand" href="#inicio" aria-label="G.S.9, ir al inicio">
+      <svg class="brand__mark" viewBox="0 0 297 82" aria-hidden="true"><use href="#gs9"/></svg>
+    </a>
 
     <div class="header__actions">
       <button class="icon-btn cart-btn" id="abrirCarrito" type="button" aria-label="Ver el carrito" aria-controls="carrito" aria-expanded="false">
@@ -93,11 +103,6 @@
       <button class="icon-btn tema-a-oscura" id="temaAOscura" type="button" aria-label="Ver la versión en negro">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
           <path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/>
-        </svg>
-      </button>
-      <button class="icon-btn menu-btn" id="abrirMenu" type="button" aria-label="Abrir el menú" aria-controls="menu" aria-expanded="false">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
-          <path d="M3 8h18M3 16h18"/>
         </svg>
       </button>
     </div>

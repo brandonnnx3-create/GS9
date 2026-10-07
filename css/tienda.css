@@ -207,30 +207,25 @@ p { margin: 0; }
   border-bottom-color: var(--line);
 }
 
+/* Tres columnas con los costados del mismo ancho: menú a la
+   izquierda, logo en el medio, carrito y tema a la derecha. El logo
+   cae en el centro exacto y no se corre según cuánto ocupe cada lado.
+
+   La fila va fijada a mano (grid-area 1 / n): sin eso el acomodado
+   automático manda cada cosa a su propia fila y la barra se parte. */
 .header__bar {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: 20px;
   height: var(--hh);
   max-width: none;
 }
 
-/* Escritorio (donde hay links arriba): tres columnas con los costados
-   del mismo ancho, así el logo queda en el medio de la barra de
-   verdad y no se corre según cuánto ocupen los links o los iconos.
-   En el celular no se usa: con tres botones a la derecha y nada a la
-   izquierda el logo quedaría corrido unos píxeles, que se lee como
-   un error. Ahí sigue a la izquierda, como estaba. */
-@media (min-width: 961px) {
-  .header__bar { display: grid; grid-template-columns: 1fr auto 1fr; }
-
-  /* La fila va fijada a mano: si no, el acomodado automático manda el
-     nav y los iconos a una segunda fila y la barra se parte en dos. */
-  .header__bar .brand { grid-area: 1 / 2; justify-self: center; }
-  .header__bar .header__nav { grid-area: 1 / 1; justify-self: start; }
-  .header__bar .header__actions { grid-area: 1 / 3; justify-self: end; }
-}
+.header__bar .menu-btn     { grid-area: 1 / 1; justify-self: start; }
+.header__bar .header__nav  { grid-area: 1 / 1; justify-self: start; }
+.header__bar .brand        { grid-area: 1 / 2; justify-self: center; }
+.header__bar .header__actions { grid-area: 1 / 3; justify-self: end; }
 
 .header__progress {
   position: absolute;
@@ -256,7 +251,7 @@ p { margin: 0; }
   fill: currentColor;
 }
 
-.header__nav { display: flex; align-items: center; gap: 34px; }
+.header__nav { display: none; align-items: center; gap: 34px; }
 .header__links { display: flex; gap: 34px; list-style: none; margin: 0; padding: 0; }
 
 .header__nav a {
@@ -287,13 +282,6 @@ p { margin: 0; }
 
 .header__actions { display: flex; align-items: center; gap: 2px; margin-right: -10px; }
 
-/* Ventana de escritorio angosta: los links se juntan para que entren
-   en su columna. Si se pasan de ancho empujan al logo y deja de
-   estar en el medio. */
-@media (min-width: 961px) and (max-width: 1319px) {
-  .header__nav, .header__links { gap: 15px; }
-  .header__nav a { letter-spacing: .12em; }
-}
 
 .icon-btn {
   position: relative;
@@ -313,7 +301,51 @@ p { margin: 0; }
 .icon-btn:hover { opacity: 1; background: color-mix(in srgb, currentColor 10%, transparent); }
 
 /* El botón del menú sólo existe donde no entran los links. */
-.menu-btn { display: none; }
+/* Hamburguesa + la palabra "Menú". Es un botón de texto, no un
+   icono suelto: se entiende sin tener que adivinar. */
+.menu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px;
+  min-width: 44px;        /* con sólo la hamburguesa quedaba en 42 */
+  padding: 0 10px;
+  margin-left: -10px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+  font-size: .7rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  opacity: .78;
+  transition: opacity .25s var(--ease);
+}
+
+.menu-btn svg { flex-shrink: 0; }
+.menu-btn:active { opacity: 1; }
+
+@media (hover: hover) {
+  .menu-btn:hover { opacity: 1; }
+}
+
+/* En pantalla angosta queda sólo la hamburguesa: la palabra empujaría
+   al logo fuera del centro. Se esconde a la vista pero no del lector
+   de pantalla: con `display:none` el botón se quedaría sin nombre y
+   se anunciaría como "botón" a secas. */
+@media (max-width: 560px) {
+  .menu-btn__txt {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .menu-btn { gap: 0; }
+}
 
 /* Qué botón de versión se ve lo decide el tema, sin JavaScript. */
 .tema-a-oscura { display: none; }
@@ -1313,6 +1345,25 @@ p { margin: 0; }
   fill: currentColor;
 }
 
+/* Escritorio: el menú ahora es la navegación principal, no un
+   recurso del celular. El contenido se encolumna y los nombres
+   crecen; si no, queda un diseño de celular estirado a 1440 px. */
+@media (min-width: 900px) {
+  .menu { padding-inline: clamp(32px, 5vw, 72px); }
+  .menu > * { width: 100%; max-width: 1180px; margin-inline: auto; }
+
+  .index--menu .index__row { padding-block: 26px; }
+  .index--menu .index__name { font-size: clamp(2.4rem, 4.2vw, 4rem); }
+
+  .menu__mark svg { width: min(26vw, 340px); }
+
+  /* El botón a lo ancho de la pantalla se lee como una franja, no
+     como un botón. */
+  .menu__foot { align-items: center; }
+  .menu__foot .btn--block { width: auto; min-width: 340px; }
+  .menu__cart { align-self: center; min-width: 340px; }
+}
+
 /* Pantalla baja: el logo se achica para no empujar el botón de
    WhatsApp fuera de la vista. */
 @media (max-height: 720px) {
@@ -1547,8 +1598,6 @@ p { margin: 0; }
 
 /* Cinco links no entran al lado del logo: pasan al menú. */
 @media (max-width: 960px) {
-  .header__nav { display: none; }
-  .menu-btn { display: grid; }
 }
 
 @media (max-width: 680px) {
