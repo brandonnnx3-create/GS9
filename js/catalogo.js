@@ -459,8 +459,22 @@
        la X aparecería de golpe. */
     var cerrarBtn = $("#cerrarMenu");
 
+    /* El grano de la página se esconde mientras el panel se mueve (ver
+       html.anima-menu en el CSS). `close` salta apenas se pide cerrar,
+       pero el panel sigue saliendo durante --t-menu: la clase se saca
+       recién cuando termina, o el grano volvería a pintarse a mitad del
+       movimiento y bajaría los cuadros justo ahí. */
+    var timerGrano = null;
+    function granoFuera(si) {
+      clearTimeout(timerGrano);
+      if (si) { root.classList.add("anima-menu"); return; }
+      var ms = aMs(getComputedStyle(root).getPropertyValue("--t-menu"), 1100) + 150;
+      timerGrano = setTimeout(function () { root.classList.remove("anima-menu"); }, ms);
+    }
+
     abrir.addEventListener("click", function () {
       cerrarCarrito();
+      granoFuera(true);
       if (menu.showModal) menu.showModal(); else menu.setAttribute("open", "");
       abrir.setAttribute("aria-expanded", "true");
       bloquear(true);
@@ -470,6 +484,7 @@
     menu.addEventListener("close", function () {
       abrir.setAttribute("aria-expanded", "false");
       bloquear(algoAbierto());
+      granoFuera(false);
     });
 
     /* Se saca al pedir cerrar, no al terminar: el panel tarda en

@@ -185,6 +185,13 @@ p { margin: 0; }
 
 [data-tema="clara"] .grain { opacity: .07; mix-blend-mode: multiply; }
 
+/* Mientras el menú se anima, el grano se esconde. Lo caro no es que se
+   mueva sino su mix-blend-mode: recompone toda la pantalla en cada
+   cuadro, y pausarlo no alcanza (medido: 30 fps pausado, 60 fps oculto).
+   A 5 % de opacidad sobre fondo oscuro no se nota que falte. El JS pone
+   la clase al abrir y la saca cuando termina de cerrarse. */
+html.anima-menu .grain { display: none; }
+
 @keyframes grano {
   0%, 100% { background-position: 0 0; }
   20% { background-position: -13px 9px; }
@@ -1345,10 +1352,14 @@ p { margin: 0; }
 /* De dónde arranca la primera vez que se muestra. */
 @starting-style { .menu[open] { translate: -100% 0; } }
 
+/* Sin backdrop-filter, a propósito. Desenfocar la página que queda
+   detrás obliga a recalcular el blur en CADA cuadro mientras el panel
+   se mueve; medido, bajaba el movimiento a ~10 cuadros por segundo, y
+   un movimiento a saltos se siente "demasiado rápido" por más que dure
+   un segundo. Se reemplaza por una atenuación más oscura, que no cuesta
+   nada de dibujar. */
 .menu::backdrop {
-  background: color-mix(in srgb, var(--ink) 55%, transparent);
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
+  background: color-mix(in srgb, var(--ink) 72%, transparent);
   opacity: 0;
   transition: opacity var(--t-menu) var(--ease-menu),
               overlay var(--t-menu) var(--ease-menu) allow-discrete,
