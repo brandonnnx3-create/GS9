@@ -481,6 +481,64 @@
     });
   }
 
+  /* ---------- Secciones del menú (Colecciones / Sobre nosotros) ----------
+     <details> abre y cierra de golpe: el navegador no anima el alto de
+     algo que pasa de display:none a visible. Por eso se intercepta el
+     click del <summary> y se anima a mano el alto y la opacidad del
+     envoltorio .fold__panel.
+
+     El atributo `open` va por detrás de la animación (se saca recién al
+     terminar de plegar, así el contenido no desaparece antes de tiempo)
+     y la clase `is-open` por delante (es lo que mueve el signo +/−). */
+
+  var quietoMenu = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var DUR_FOLD = 550;
+  var CURVA_FOLD = "cubic-bezier(.4,0,.15,1)";
+
+  Array.prototype.forEach.call(document.querySelectorAll(".fold"), function (det) {
+    var cab = det.querySelector("summary");
+    var panel = det.querySelector(".fold__panel");
+    if (!cab || !panel) return;
+    var anim = null;
+
+    function altoActual() { return panel.getBoundingClientRect().height; }
+
+    function correr(desde, hasta, op0, op1, alTerminar) {
+      if (anim) anim.cancel();
+      if (quietoMenu) { alTerminar(); return; }
+      anim = panel.animate(
+        [{ height: desde + "px", opacity: op0 }, { height: hasta + "px", opacity: op1 }],
+        { duration: DUR_FOLD, easing: CURVA_FOLD, fill: "both" }
+      );
+      var mia = anim;
+      anim.onfinish = function () {
+        if (anim !== mia) return;
+        alTerminar();
+        mia.cancel();
+        anim = null;
+      };
+    }
+
+    cab.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      if (!det.classList.contains("is-open")) {
+        /* Abrir. Si venía plegándose, sigue desde donde estaba. */
+        var desde = anim ? altoActual() : 0;
+        var op0 = anim ? parseFloat(getComputedStyle(panel).opacity) : 0;
+        det.open = true;
+        det.classList.add("is-open");
+        correr(desde, panel.scrollHeight, op0, 1, function () {});
+      } else {
+        /* Cerrar. */
+        det.classList.remove("is-open");
+        correr(altoActual(), 0, parseFloat(getComputedStyle(panel).opacity) || 1, 0, function () {
+          det.open = false;
+        });
+      }
+    });
+  });
+
   /* ---------- Carrito ----------
      Una línea por combinación producto+talle. Vive en localStorage: no
      hay servidor que lo guarde, así que no viaja entre dispositivos ni

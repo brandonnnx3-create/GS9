@@ -127,8 +127,11 @@
         <span class="fold__sign" aria-hidden="true"></span>
       </summary>
       <!-- Los renglones se arman desde js/productos.js: agregar una
-           categoría ahí la suma acá sola. -->
-      <ol class="index index--menu" id="menuLinks"></ol>
+           categoría ahí la suma acá sola. El envoltorio .fold__panel es
+           lo que se anima (alto y opacidad) al abrir y cerrar. -->
+      <div class="fold__panel">
+        <ol class="index index--menu" id="menuLinks"></ol>
+      </div>
     </details>
 
     <details class="fold">
@@ -136,11 +139,13 @@
         <span class="fold__title">Sobre nosotros</span>
         <span class="fold__sign" aria-hidden="true"></span>
       </summary>
-      <div class="fold__body">
-        <p class="fold__text" data-texto="sobreNosotros">
-          G.S.9 es una marca de Buenos Aires. Elegimos pieza por pieza, a mano,
-          y vendemos sólo lo que nos pondríamos.
-        </p>
+      <div class="fold__panel">
+        <div class="fold__body">
+          <p class="fold__text" data-texto="sobreNosotros">
+            G.S.9 es una marca de Buenos Aires. Elegimos pieza por pieza, a mano,
+            y vendemos sólo lo que nos pondríamos.
+          </p>
+        </div>
       </div>
     </details>
   </nav>
