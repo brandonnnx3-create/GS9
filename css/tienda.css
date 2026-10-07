@@ -1299,25 +1299,79 @@ p { margin: 0; }
    MENÚ (celular)
    ============================================================ */
 
+/* Panel pegado a la izquierda, no pantalla completa: la página sigue
+   a la vista detrás, atenuada. */
 .menu {
   position: fixed;
-  inset: 0;
-  width: 100%;
+  inset: 0 auto 0 0;
+  width: min(420px, 88vw);
   height: 100%;
   max-width: none;
   max-height: none;
   margin: 0;
-  padding: env(safe-area-inset-top, 0px) var(--gutter) calc(24px + env(safe-area-inset-bottom, 0px));
+  /* Margen propio, no el de la página: --gutter está pensado para el
+     ancho completo y en un panel de 420 px se come un tercio. */
+  padding: env(safe-area-inset-top, 0px) 26px calc(24px + env(safe-area-inset-bottom, 0px));
   border: 0;
   background: var(--ink);
   color: var(--bone);
   overflow-y: auto;
+
+  /* Entra y sale deslizándose. `allow-discrete` es lo que deja animar
+     display y overlay: sin eso el panel aparecería de golpe al abrir
+     y desaparecería de golpe al cerrar. */
+  translate: -100% 0;
+  transition: translate .5s var(--ease-out),
+              overlay .5s var(--ease-out) allow-discrete,
+              display .5s var(--ease-out) allow-discrete;
 }
 
-.menu[open] { display: flex; flex-direction: column; animation: menu .45s var(--ease-out); }
-.menu::backdrop { background: transparent; }
+.menu[open] { display: flex; flex-direction: column; translate: 0 0; }
 
-@keyframes menu { from { opacity: 0; transform: translateY(-12px); } }
+/* De dónde arranca la primera vez que se muestra. */
+@starting-style { .menu[open] { translate: -100% 0; } }
+
+.menu::backdrop {
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  opacity: 0;
+  transition: opacity .5s var(--ease-out),
+              overlay .5s var(--ease-out) allow-discrete,
+              display .5s var(--ease-out) allow-discrete;
+}
+
+.menu[open]::backdrop { opacity: 1; }
+@starting-style { .menu[open]::backdrop { opacity: 0; } }
+
+/* ---------- Las rayitas que se doblan hasta ser una X ----------
+   Dos barras de verdad, no un icono: una transición puede moverlas y
+   girarlas, a un <path> de un SVG no. */
+
+.rayas {
+  position: relative;
+  width: 21px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.rayas i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.4px;
+  background: currentColor;
+  transition: top .35s var(--ease-out), transform .35s var(--ease-out) .1s;
+}
+
+.rayas i:nth-child(1) { top: 3px; }
+.rayas i:nth-child(2) { top: 11px; }
+
+/* Primero se juntan en el medio, después giran: por eso el giro sale
+   con un retraso y al revés al cerrar. */
+.is-x .rayas i { top: 7px; transition-delay: 0s, .1s; }
+.is-x .rayas i:nth-child(1) { transform: rotate(45deg); }
+.is-x .rayas i:nth-child(2) { transform: rotate(-45deg); }
 
 /* Arriba, a la izquierda, "Cerrar": en el mismo lugar donde estaba
    "Menú" en la barra, así el ojo no tiene que buscarlo. */
@@ -1364,7 +1418,7 @@ p { margin: 0; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 14px;
   min-height: 64px;
   padding-block: 10px;
   cursor: pointer;
@@ -1376,9 +1430,12 @@ p { margin: 0; }
 
 .fold__title {
   font-family: var(--display);
-  font-size: clamp(1.3rem, 4.6vw, 1.9rem);
+  /* El panel mide min(420px, 88vw): en celular el título tiene que
+     achicarse con él o "Sobre nosotros" se parte en dos renglones. */
+  font-size: clamp(.95rem, 4.9vw, 1.35rem);
   text-transform: uppercase;
   letter-spacing: .02em;
+  line-height: 1.15;
 }
 
 /* El signo se dibuja con dos barras: la vertical se achata al abrir y
@@ -1426,33 +1483,16 @@ p { margin: 0; }
 }
 
 .menu__mark svg {
-  width: min(62vw, 300px);
+  width: min(74%, 250px);
   height: auto;
   fill: currentColor;
-}
-
-/* Escritorio: el menú ahora es la navegación principal, no un
-   recurso del celular. El contenido se encolumna y los nombres
-   crecen; si no, queda un diseño de celular estirado a 1440 px. */
-@media (min-width: 900px) {
-  .menu { padding-inline: clamp(32px, 5vw, 72px); }
-  .menu > * { width: 100%; max-width: 1180px; margin-inline: auto; }
-
-  .index--menu .index__row { padding-block: 26px; }
-  .index--menu .index__name { font-size: clamp(2.4rem, 4.2vw, 4rem); }
-
-  .menu__mark svg { width: min(26vw, 340px); }
-
-  /* El botón a lo ancho de la pantalla se lee como una franja, no
-     como un botón. */
-  .menu__foot { align-items: center; }
 }
 
 /* Pantalla baja: el logo se achica para no empujar el botón de
    WhatsApp fuera de la vista. */
 @media (max-height: 720px) {
   .menu__mark { padding-block: 12px; }
-  .menu__mark svg { width: min(44vw, 190px); }
+  .menu__mark svg { width: min(58%, 180px); }
   /* Los renglones se juntan un poco: es preferible a sacar el logo
      o a dejar el botón de WhatsApp abajo del todo, fuera de la vista. */
   .index--menu .index__row { padding-block: 11px; }
@@ -1460,7 +1500,7 @@ p { margin: 0; }
 
 .index--menu { margin-top: 12px; }
 .index--menu .index__row { grid-template-columns: 2.4em minmax(0, 1fr) auto; padding-block: 18px; }
-.index--menu .index__name { font-size: clamp(1.5rem, 7.4vw, 2.6rem); }
+.index--menu .index__name { font-size: clamp(1.4rem, 6vw, 1.8rem); }
 .index--menu .index__sub, .index--menu .arrow { display: none; }
 
 /* Abajo, sólo Contacto: un link chico, no un botón que compita con

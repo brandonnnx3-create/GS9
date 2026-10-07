@@ -446,22 +446,36 @@
   var abrir = $("#abrirMenu");
 
   function cerrarMenu() {
+    var x = $("#cerrarMenu");
+    if (x) x.classList.remove("is-x");
     if (!menu || !menu.open) return;
     if (menu.close) menu.close(); else menu.removeAttribute("open");
   }
 
   if (menu && abrir) {
+    /* Las rayitas se doblan hasta formar la X. La clase se pone un
+       cuadro después de mostrar el panel: puesta en el mismo cuadro,
+       el navegador no tiene un estado anterior desde donde animar y
+       la X aparecería de golpe. */
+    var cerrarBtn = $("#cerrarMenu");
+
     abrir.addEventListener("click", function () {
       cerrarCarrito();
       if (menu.showModal) menu.showModal(); else menu.setAttribute("open", "");
       abrir.setAttribute("aria-expanded", "true");
       bloquear(true);
+      requestAnimationFrame(function () { cerrarBtn.classList.add("is-x"); });
     });
+
     menu.addEventListener("close", function () {
       abrir.setAttribute("aria-expanded", "false");
       bloquear(algoAbierto());
     });
-    $("#cerrarMenu").addEventListener("click", cerrarMenu);
+
+    /* Se saca al pedir cerrar, no al terminar: el panel tarda en
+       salir deslizándose y la X se desarma a la vista mientras tanto. */
+    menu.addEventListener("cancel", function () { cerrarBtn.classList.remove("is-x"); });
+    cerrarBtn.addEventListener("click", cerrarMenu);
     menu.addEventListener("click", function (e) {
       if (e.target.closest('a[href^="#"]:not([data-cat])')) cerrarMenu();
     });
