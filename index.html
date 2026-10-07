@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>G.S.9 — Brillá sin permiso</title>
+<title>G.S.9 — Joyería, ropa y zapatillas</title>
 <meta name="description" content="G.S.9. Joyería, ropa y zapatillas. Pieza por pieza, envíos a todo el país.">
 <meta name="theme-color" content="#070707">
 
 <meta property="og:title" content="G.S.9">
-<meta property="og:description" content="Brillá sin permiso.">
+<meta property="og:description" content="Joyería, ropa y zapatillas. Pieza por pieza, envíos a todo el país.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="img/fondos/anillos-bandeja.jpg">
 
@@ -197,36 +197,18 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero on-photo" id="inicio">
-  <div class="hero__wall" aria-hidden="true">
-    <div class="hero__col" style="--c:0" data-speed="-0.10">
-      <figure><img src="img/fondos/anillos-bandeja.jpg" alt="" width="960" height="1280" fetchpriority="high"></figure>
-      <figure><img src="img/fondos/dije-m.jpg" alt="" width="960" height="1280"></figure>
-      <figure><img src="img/fondos/bandeja-pulseras.jpg" alt="" width="1050" height="1400" loading="lazy"></figure>
-    </div>
-    <div class="hero__col" style="--c:1" data-speed="0.06">
-      <figure><img src="img/fondos/bustos-tres.jpg" alt="" width="1050" height="1400" fetchpriority="high"></figure>
-      <figure><img src="img/fondos/pulseras-guante.jpg" alt="" width="960" height="1280"></figure>
-      <figure><img src="img/fondos/dije-32.jpg" alt="" width="960" height="1280" loading="lazy"></figure>
-    </div>
-    <div class="hero__col" style="--c:2" data-speed="-0.16">
-      <figure><img src="img/fondos/dije-todo-pasa.jpg" alt="" width="960" height="1280"></figure>
-      <figure><img src="img/fondos/anillos-pila.jpg" alt="" width="1050" height="1400"></figure>
-      <figure><img src="img/fondos/dije-corona.jpg" alt="" width="960" height="1280" loading="lazy"></figure>
-    </div>
-    <div class="hero__col" style="--c:3" data-speed="0.10">
-      <figure><img src="img/fondos/soga.jpg" alt="" width="960" height="1280"></figure>
-      <figure><img src="img/fondos/busto-capas.jpg" alt="" width="960" height="1280"></figure>
-      <figure><img src="img/fondos/dije-32-b.jpg" alt="" width="960" height="1280" loading="lazy"></figure>
-    </div>
-  </div>
+  <!-- Una sola foto a pantalla completa. Cambiarla es cambiar el src de
+       esta imagen; object-position (en el CSS) decide qué parte se ve. -->
+  <figure class="hero__photo" aria-hidden="true">
+    <img src="img/portada.jpg" alt="" width="1200" height="1600" fetchpriority="high">
+  </figure>
   <div class="hero__veil" aria-hidden="true"></div>
 
   <div class="wrap hero__inner">
     <p class="eyebrow hero__fade" style="--f:0" data-texto="heroSobre">G.S.9 — Buenos Aires</p>
-    <h1 class="hero__title" data-texto="heroTitulo">
-      <span class="hero__line" style="--l:0"><span>Brillá</span></span>
-      <span class="hero__line" style="--l:1"><span>sin permiso</span></span>
-    </h1>
+    <!-- Sin frase grande: el título de la página queda para lectores de
+         pantalla y buscadores, no se ve. -->
+    <h1 class="sr-only">G.S.9</h1>
     <div class="hero__foot">
       <p class="hero__lead hero__fade" style="--f:1" data-texto="heroBajada">
         Pieza por pieza, elegida a mano. Si te copás con alguna, escribinos.
@@ -266,7 +248,6 @@
     </div>
     <ol class="index" id="catsLista"></ol>
   </div>
-  <figure class="cats__peek" id="catsPeek" aria-hidden="true"><img alt="" src="data:," width="600" height="800"></figure>
 </section>
 
 <!-- ============ TIENDA ============ -->
@@ -397,7 +378,6 @@
 
     <div class="footer__bottom">
       <span id="footerCopy">© GS9</span>
-      <span>Brillá sin permiso</span>
     </div>
   </div>
   <svg class="footer__giant" viewBox="-1 -1 299 84" aria-hidden="true"><use href="#gs9"/></svg>

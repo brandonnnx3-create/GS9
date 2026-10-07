@@ -1,6 +1,6 @@
 /* ============================================================
    GS9 — COMPORTAMIENTO DE LA PÁGINA
-   Entrada del hero, columnas y fondos que se desplazan,
+   Entrada del hero, fondos que se desplazan,
    apariciones al scrollear, header, cinta, versión negra/blanca y
    los links de WhatsApp. El catálogo vive en js/catalogo.js.
 
@@ -49,47 +49,8 @@
   $$("[data-texto]").forEach(function (el) {
     var v = T[el.dataset.texto];
     if (typeof v !== "string" || !v.trim()) return;
-    if (el.classList.contains("hero__title")) {
-      /* Cada renglón del título es su propia máscara animada. */
-      el.textContent = "";
-      v.split("\n").filter(function (l) { return l.trim(); }).forEach(function (linea, i) {
-        var caja = document.createElement("span");
-        caja.className = "hero__line";
-        caja.style.setProperty("--l", i);
-        var s = document.createElement("span");
-        s.textContent = linea;
-        caja.appendChild(s);
-        el.appendChild(caja);
-      });
-    } else {
-      conRenglones(el, v);
-    }
+    conRenglones(el, v);
   });
-
-  /* ---------- Título que siempre entra ----------
-     La letra de los títulos es muy ancha: una palabra larga escrita
-     desde el panel podría no entrar en el celular y quedar cortada por
-     la máscara del renglón. Si pasa, se achica el título lo justo. */
-
-  var tituloHero = $(".hero__title");
-
-  function ajustarTitulo() {
-    if (!tituloHero) return;
-    tituloHero.style.fontSize = "";
-    var sobra = 1;
-    $$(".hero__line").forEach(function (linea) {
-      var s = linea.firstElementChild;
-      if (s && s.offsetWidth > linea.clientWidth) sobra = Math.max(sobra, s.offsetWidth / linea.clientWidth);
-    });
-    if (sobra > 1) {
-      var actual = parseFloat(getComputedStyle(tituloHero).fontSize);
-      tituloHero.style.fontSize = Math.floor(actual / sobra * 0.98) + "px";
-    }
-  }
-
-  ajustarTitulo();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajustarTitulo);
-  window.addEventListener("resize", ajustarTitulo, { passive: true });
 
   /* La clase .js habilita los estados de entrada. Se agrega desde acá
      para que, sin JavaScript, nada quede invisible. */
@@ -134,7 +95,6 @@
   var cinta = $("#ticker");
   if (cinta) {
     var frases = Array.isArray(T.cinta) && T.cinta.length ? T.cinta : [
-      "Brillá sin permiso",
       "Pieza por pieza",
       "Envíos a todo el país",
       "Lo que brilla, habla",
@@ -150,8 +110,6 @@
   var progreso = $("#progress");
   var arriba = $("#toTop");
 
-  var hero = $("#inicio");
-  var cols = hero ? Array.prototype.slice.call(hero.querySelectorAll("[data-speed]")) : [];
   var capas = quieto ? [] : $$("[data-par]");
 
   function cuadro() {
@@ -170,12 +128,6 @@
       var ver = y > 700;
       if (ver && arriba.hidden) arriba.hidden = false;
       arriba.classList.toggle("show", ver);
-    }
-
-    if (!quieto && hero && y <= hero.offsetHeight) {
-      cols.forEach(function (c) {
-        c.style.setProperty("--y", (y * parseFloat(c.dataset.speed)).toFixed(1) + "px");
-      });
     }
 
     /* Cada fondo con data-par se mueve entre -2·amp y 0 de su propio

@@ -21,8 +21,6 @@
   var CLAVE_TOKEN = "gs9_panel_token";
 
   var CAMPOS_FRASES = [
-    { k: "heroTitulo", label: "Título principal", tipo: "lineas", max: 10,
-      ayuda: "La frase más grande de la página. Un renglón por línea. En el celular cada palabra puede ir en su propio renglón." },
     { k: "heroSobre", label: "Texto chico arriba del título", tipo: "texto" },
     { k: "heroBajada", label: "Bajada del título", tipo: "area" },
     { k: "sobreNosotros", label: "Sobre nosotros", tipo: "area",
@@ -316,19 +314,7 @@
     var t = editado.textos || {};
     $$("[data-prev]").forEach(function (el) {
       var k = el.dataset.prev;
-      if (k === "heroTitulo") {
-        el.textContent = "";
-        String(t[k] || "").split("\n").filter(Boolean).forEach(function (l) {
-          var caja = document.createElement("span");
-          caja.className = "hero__line";
-          var s = document.createElement("span");
-          s.textContent = l;
-          caja.appendChild(s);
-          el.appendChild(caja);
-        });
-      } else {
-        renglones(el, t[k]);
-      }
+      renglones(el, t[k]);
     });
   }
 

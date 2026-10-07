@@ -231,13 +231,6 @@ textarea.p-input { resize: vertical; min-height: 56px; }
 
 .p-preview__hero .eyebrow { color: rgba(255,255,255,.7); }
 
-/* La letra de los títulos es muy ancha: en la vista previa el título
-   se achica para que un renglón de 10 letras entre como en la página. */
-.p-preview__hero .hero__title {
-  font-size: clamp(1.3rem, 3.2vw, 2.9rem);
-  margin-top: calc(10px + .16em);
-}
-
 .p-preview__lead { margin-top: 14px; font-size: .88rem; color: rgba(255,255,255,.8); }
 
 .p-preview__call { text-align: center; }

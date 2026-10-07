@@ -94,8 +94,7 @@
   function renglon(c, i) {
     var n = deCat(c.id).length;
     var meta = n ? cuantos(n) : "Próximamente";
-    return '<li><a class="index__row' + (n ? "" : " is-soon") + '" href="#' + esc(c.id) + '" data-cat="' + esc(c.id) + '"' +
-      (c.imagen ? ' data-img="' + esc(c.imagen) + '"' : "") + ">" +
+    return '<li><a class="index__row' + (n ? "" : " is-soon") + '" href="#' + esc(c.id) + '" data-cat="' + esc(c.id) + '">' +
       '<span class="index__n">' + dosCifras(i + 1) + "</span>" +
       '<span class="index__main"><span class="index__name">' + esc(c.nombre) + "</span>" +
       (c.bajada ? '<span class="index__sub">' + esc(c.bajada) + "</span>" : "") + "</span>" +
@@ -128,30 +127,6 @@
       '<span class="index__n">' + dosCifras(cats.length + 1) + "</span>" +
       '<span class="index__main"><span class="index__name">Todo</span></span>' +
       '<span class="index__meta">' + cuantos(prods.length) + "</span>" + flecha + "</a></li>";
-  }
-
-  /* ---------- Foto que asoma en el índice ----------
-     Sólo con mouse: sigue al puntero mientras está sobre una categoría
-     que tiene foto. En pantallas táctiles no aparece. */
-
-  var peek = $("#catsPeek");
-  var finoMQ = window.matchMedia ? window.matchMedia("(hover: hover) and (pointer: fine)") : null;
-  if (peek && catsLista && finoMQ) {
-    var peekImg = peek.querySelector("img");
-    catsLista.addEventListener("pointerover", function (e) {
-      if (!finoMQ.matches) return;
-      var fila = e.target.closest(".index__row");
-      if (!fila || !fila.dataset.img) { peek.classList.remove("is-on"); return; }
-      if (peekImg.getAttribute("src") !== fila.dataset.img) peekImg.src = fila.dataset.img;
-      peek.classList.add("is-on");
-    });
-    catsLista.addEventListener("pointerleave", function () { peek.classList.remove("is-on"); });
-    catsLista.addEventListener("pointermove", function (e) {
-      if (!finoMQ.matches) return;
-      var r = peek.parentNode.getBoundingClientRect();
-      peek.style.setProperty("--x", (e.clientX - r.left) + "px");
-      peek.style.setProperty("--y", (e.clientY - r.top) + "px");
-    });
   }
 
   /* ---------- Tienda: filtros y grilla ---------- */

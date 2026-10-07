@@ -9,7 +9,6 @@
               Es la que va en el link: tusitio/#zapatillas
      nombre   como se muestra ("Zapatillas").
      bajada   una línea opcional debajo del nombre.
-     imagen   foto opcional que aparece al pasar el mouse.
    Una categoría sin productos se muestra como "Próximamente", con
    un botón para que te pidan aviso por WhatsApp.
 
@@ -33,20 +32,17 @@ const CATALOGO = {
     {
       "id": "joyas",
       "nombre": "Joyería",
-      "bajada": "Cadenas, dijes, anillos y pulseras",
-      "imagen": "img/galeria/busto-capas.jpg"
+      "bajada": "Cadenas, dijes, anillos y pulseras"
     },
     {
       "id": "ropa",
       "nombre": "Ropa",
-      "bajada": "",
-      "imagen": ""
+      "bajada": ""
     },
     {
       "id": "zapatillas",
       "nombre": "Zapatillas",
-      "bajada": "",
-      "imagen": ""
+      "bajada": ""
     }
   ],
   "productos": [

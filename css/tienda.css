@@ -498,43 +498,27 @@ html.anima-menu .grain { display: none; }
   color: var(--on-photo);
 }
 
-.hero__wall {
+.hero__photo {
   position: absolute;
-  inset: -12% -2%;
+  inset: 0;
   z-index: -2;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.hero__col {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  will-change: transform;
-}
-
-.hero__col:nth-child(even) { margin-top: -22%; }
-
-.hero__col figure {
   margin: 0;
-  aspect-ratio: 3 / 4;
   overflow: hidden;
-  background: #111;
-  flex-shrink: 0;
+  background: #000;
 }
 
-.hero__col img {
+.hero__photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Qué parte de la foto se ve cuando la pantalla es más ancha que ella
+     (escritorio): la foto es vertical, así que se recorta arriba y
+     abajo. 14 % deja entrar el busto y las cadenas. */
+  object-position: 50% 14%;
   transform: scale(1.08);
-  animation: respirar 18s ease-in-out infinite alternate;
+  will-change: transform;
+  animation: respirar 22s ease-in-out infinite alternate;
 }
-
-.hero__col:nth-child(2) img { animation-delay: -5s; }
-.hero__col:nth-child(3) img { animation-delay: -10s; }
-.hero__col:nth-child(4) img { animation-delay: -14s; }
 
 @keyframes respirar { to { transform: scale(1.0); } }
 
@@ -556,22 +540,16 @@ html.anima-menu .grain { display: none; }
 
 .hero .eyebrow { color: rgba(255,255,255,.72); }
 
-.hero__title {
-  /* "SIN PERMISO" mide 8,8 em: con 9,2vw entra justo de punta a punta. */
-  font-size: clamp(1.9rem, 9.2vw, 8.2rem);
-  line-height: .98;
-  letter-spacing: -.005em;
-  /* suma lo que .hero__line sube para hacer lugar a los acentos */
-  margin-top: calc(20px + .16em);
+/* Texto sólo para lectores de pantalla y buscadores. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
-
-/* Cada renglón entra desde abajo de su propia máscara. El padding de
-   arriba (compensado con margen negativo) deja entrar los acentos de
-   las mayúsculas: sin él, la máscara corta la tilde de "BRILLÁ". El
-   título hereda el blanco de .hero (--on-photo): color sólido, sin
-   degradé. */
-.hero__line { display: block; overflow: hidden; padding-top: .16em; margin-top: -.16em; padding-bottom: .06em; }
-.hero__line > span { display: inline-block; }
 
 .hero__foot {
   display: flex;
@@ -632,25 +610,10 @@ html.anima-menu .grain { display: none; }
    temporizador que agrega .is-ready a los 2,5 s pase lo que pase:
    si js/sitio.js no carga, la portada igual aparece. Sin
    JavaScript no hay .intro y todo se ve de entrada. */
-.intro .hero__col { opacity: 0; transform: translateY(8%); }
-.intro .hero__line > span { transform: translateY(105%); }
+.intro .hero__photo { opacity: 0; }
 .intro .hero__fade { opacity: 0; transform: translateY(18px); }
 
-.is-ready .hero__col {
-  opacity: 1;
-  transform: translateY(var(--y, 0));
-  transition: opacity 1.4s var(--ease), transform 1.6s var(--ease-out);
-  transition-delay: calc(var(--c, 0) * 110ms);
-}
-
-/* Una vez que entró, el scroll mueve las columnas sin demora. */
-.is-live .hero__col { transition: none; }
-
-.is-ready .hero__line > span {
-  transform: none;
-  transition: transform 1.25s var(--ease-out);
-  transition-delay: calc(.35s + var(--l, 0) * 120ms);
-}
+.is-ready .hero__photo { opacity: 1; transition: opacity 1.8s var(--ease); }
 
 .is-ready .hero__fade {
   opacity: 1;
@@ -838,25 +801,6 @@ html.anima-menu .grain { display: none; }
 }
 
 .index__row[aria-current="true"] .index__meta { color: var(--bone); }
-
-/* Foto que sigue al mouse sobre una categoría que tiene foto. */
-.cats__peek {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  width: clamp(180px, 17vw, 260px);
-  aspect-ratio: 3 / 4;
-  margin: 0;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(var(--x, 0), var(--y, 0)) translate(28px, -50%) scale(.92);
-  transition: opacity .3s var(--ease), transform .45s var(--ease-out);
-}
-
-.cats__peek.is-on { opacity: 1; transform: translate(var(--x, 0), var(--y, 0)) translate(28px, -50%); }
-.cats__peek img { width: 100%; height: 100%; object-fit: cover; }
 
 /* ============================================================
    TIENDA
@@ -1757,11 +1701,6 @@ html.anima-menu .grain { display: none; }
    RESPONSIVE
    ============================================================ */
 
-@media (max-width: 1080px) {
-  .hero__wall { grid-template-columns: repeat(3, 1fr); }
-  .hero__col:nth-child(4) { display: none; }
-}
-
 /* Cinco links no entran al lado del logo: pasan al menú. */
 @media (max-width: 960px) {
 }
@@ -1786,17 +1725,13 @@ html.anima-menu .grain { display: none; }
   .sheet__media img { aspect-ratio: 4 / 5; max-height: 54svh; }
   .sheet__body { padding: 24px var(--gutter) calc(24px + env(safe-area-inset-bottom, 0px)); }
 
-  .hero__wall { grid-template-columns: repeat(2, 1fr); gap: 6px; inset: -8% -4%; }
-  .hero__col { gap: 6px; }
-  .hero__col:nth-child(3) { display: none; }
+  /* En vertical la foto entra casi entera de alto: se corre hacia el
+     busto, que está a la izquierda. */
+  .hero__photo img { object-position: 30% 20%; }
   .hero__veil {
     background: linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.3) 26%, rgba(0,0,0,.78) 62%, #000 100%);
   }
   .hero__scroll { display: none; }
-  /* En pantalla angosta manda la palabra más larga, no el renglón:
-     "PERMISO" (6,2 em) entra con 13,8vw y la frase pasa a tres
-     renglones, más grande. js/sitio.js achica si una palabra no entra. */
-  .hero__title { font-size: min(13.8vw, 4.4rem); }
   .hero__cta { width: 100%; }
   .hero__cta .btn { flex: 1 1 100%; }
   .brand__mark { height: 22px; }
@@ -1821,7 +1756,7 @@ html.anima-menu .grain { display: none; }
 
   .grain { display: none; }
   .js .card { animation: none; }
-  .hero__col, .hero__line > span, .hero__fade { opacity: 1 !important; transform: none !important; }
-  .hero__col img { transform: none; }
+  .hero__photo, .hero__fade { opacity: 1 !important; transform: none !important; }
+  .hero__photo img { transform: none; }
   .ticker__track { animation: none; }
 }

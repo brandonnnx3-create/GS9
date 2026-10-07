@@ -8,10 +8,8 @@
 
 const TEXTOS = {
   "heroSobre": "G.S.9 — Buenos Aires",
-  "heroTitulo": "Brillá\nsin permiso",
   "heroBajada": "Pieza por pieza, elegida a mano. Si te copás con alguna, escribinos.",
   "cinta": [
-    "Brillá sin permiso",
     "Pieza por pieza",
     "Envíos a todo el país",
     "Lo que brilla, habla",
