@@ -670,9 +670,13 @@ html.anima-menu .grain { display: none; }
    FRASE — franja invertida
    ============================================================ */
 
+/* Mismos colores que el resto de la página: oscura con letra blanca en
+   la versión negra, y clara con letra negra en la blanca. Antes iba
+   a propósito al revés (--inv-bg / --inv-fg), y en la versión negra
+   quedaba un bloque blanco en medio de la página. */
 .strip {
-  background: var(--inv-bg);
-  color: var(--inv-fg);
+  background: var(--ink);
+  color: var(--bone);
   padding-block: clamp(70px, 11vw, 150px);
   text-align: center;
 }
@@ -681,7 +685,7 @@ html.anima-menu .grain { display: none; }
 
 /* ---------- "Never give up" ----------
    El trazo va de máscara, no de imagen: el relleno es `currentColor`,
-   que en esta franja es --inv-fg. Al cambiar de versión el color se
+   que en esta franja es --bone. Al cambiar de versión el color se
    da vuelta solo, sin dos archivos ni un filtro encima. */
 
 .ngu {
