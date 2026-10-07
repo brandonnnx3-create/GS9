@@ -459,6 +459,17 @@
        la X aparecería de golpe. */
     var cerrarBtn = $("#cerrarMenu");
 
+    /* La foto de fondo del panel se precarga en un momento libre. Un
+       fondo CSS dentro de un <dialog> cerrado no se descarga hasta que
+       se muestra: sin esto la foto aparecería de golpe en medio del
+       deslizamiento. */
+    function precargarFondo() {
+      var im = new Image();
+      im.src = "img/menu-fondo.jpg";
+    }
+    if ("requestIdleCallback" in window) requestIdleCallback(precargarFondo, { timeout: 4000 });
+    else setTimeout(precargarFondo, 2000);
+
     /* El grano de la página se esconde mientras el panel se mueve (ver
        html.anima-menu en el CSS). `close` salta apenas se pide cerrar,
        pero el panel sigue saliendo durante --t-menu: la clase se saca

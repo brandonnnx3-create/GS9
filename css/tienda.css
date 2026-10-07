@@ -185,6 +185,12 @@ p { margin: 0; }
 
 [data-tema="clara"] .grain { opacity: .07; mix-blend-mode: multiply; }
 
+/* En la versión blanca el velo tiene que ser bastante más fuerte: la
+   foto es oscura, y con el mismo velo que en negro quedaba un gris
+   medio detrás del texto chico (medido: hasta 2,9:1 de contraste contra
+   los 4,5:1 mínimos). Con esto la foto queda como una huella clara. */
+[data-tema="clara"] .menu { --velo-1: 91%; --velo-2: 94%; --velo-3: 96%; }
+
 /* Mientras el menú se anima, el grano se esconde. Lo caro no es que se
    mueva sino su mix-blend-mode: recompone toda la pantalla en cada
    cuadro, y pausarlo no alcanza (medido: 30 fps pausado, 60 fps oculto).
@@ -1334,9 +1340,27 @@ html.anima-menu .grain { display: none; }
      ancho completo y en un panel de 420 px se come un tercio. */
   padding: env(safe-area-inset-top, 0px) 26px calc(24px + env(safe-area-inset-bottom, 0px));
   border: 0;
-  background: var(--ink);
   color: var(--bone);
   overflow-y: auto;
+
+  /* Foto de fondo con un velo del color del tema encima (--ink). En la
+     versión negra la foto queda oscura y en la blanca queda como una
+     huella clara: el texto se lee en las dos sin un caso aparte, y no
+     hay que "invertir" nada al cambiar de versión. El velo es más fuerte
+     abajo, donde está Contacto, y más suave arriba. */
+  --velo-1: 74%;   /* arriba */
+  --velo-2: 85%;   /* medio */
+  --velo-3: 93%;   /* abajo */
+  background-color: var(--ink);
+  background-image:
+    linear-gradient(to bottom,
+      color-mix(in srgb, var(--ink) var(--velo-1), transparent) 0%,
+      color-mix(in srgb, var(--ink) var(--velo-2), transparent) 55%,
+      color-mix(in srgb, var(--ink) var(--velo-3), transparent) 100%),
+    url("../img/menu-fondo.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
   /* Entra y sale deslizándose. `allow-discrete` es lo que deja animar
      display y overlay: sin eso el panel aparecería de golpe al abrir
@@ -1502,16 +1526,25 @@ html.anima-menu .grain { display: none; }
   line-height: 1.6;
 }
 
+.index--menu { margin-top: 12px; }
+
+/* El panel es angosto en todos los anchos de pantalla, así que el
+   apilado va siempre: nombre arriba y "12 productos" / "Próximamente"
+   debajo. El apilado general (.index__row) sólo se activa por debajo
+   de 680 px de PANTALLA, y en escritorio el panel quedaba con el nombre
+   compitiendo por el ancho con la leyenda: "JOYERÍA" se partía en
+   "JOYERÍ / A". */
+.index--menu .index__row { grid-template-columns: 2.4em minmax(0, 1fr); row-gap: 8px; padding-block: 18px; }
+.index--menu .index__meta { grid-column: 2; }
+.index--menu .index__name { font-size: clamp(1.15rem, 6vw, 1.8rem); }
+.index--menu .index__sub, .index--menu .arrow { display: none; }
+
 /* Pantalla baja: los renglones se juntan un poco para que, con
-   "Colecciones" abierta, entren sin tener que scrollear el panel. */
+   "Colecciones" abierta, entren sin tener que scrollear el panel. Va
+   DESPUÉS de la regla base: antes estaba arriba y nunca ganaba. */
 @media (max-height: 720px) {
   .index--menu .index__row { padding-block: 11px; }
 }
-
-.index--menu { margin-top: 12px; }
-.index--menu .index__row { grid-template-columns: 2.4em minmax(0, 1fr) auto; padding-block: 18px; }
-.index--menu .index__name { font-size: clamp(1.4rem, 6vw, 1.8rem); }
-.index--menu .index__sub, .index--menu .arrow { display: none; }
 
 /* Abajo, sólo Contacto: un link chico, no un botón que compita con
    las secciones de arriba. */
