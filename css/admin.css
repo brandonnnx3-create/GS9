@@ -231,8 +231,6 @@ textarea.p-input { resize: vertical; min-height: 56px; }
 
 .p-preview__hero .eyebrow { color: rgba(255,255,255,.7); }
 
-.p-preview__lead { margin-top: 14px; font-size: .88rem; color: rgba(255,255,255,.8); }
-
 .p-preview__call { text-align: center; }
 .p-preview__call .call__title { font-size: clamp(1.2rem, 2.6vw, 2rem); margin: 0 auto; }
 

@@ -547,20 +547,10 @@ html.anima-menu .grain { display: none; }
   white-space: nowrap;
 }
 
-.hero__foot {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 40px;
-  flex-wrap: wrap;
-  margin-top: clamp(28px, 4vw, 44px);
-}
-
-.hero__lead {
-  max-width: 44ch;
-  font-size: clamp(.98rem, 1.2vw, 1.08rem);
-  color: rgba(255,255,255,.8);
-}
+/* Ya sólo envuelve los botones (la bajada que tenía al lado se sacó);
+   queda como contenedor por el margen de arriba, separándolos del
+   texto chico. */
+.hero__foot { margin-top: clamp(28px, 4vw, 44px); }
 
 .hero__cta { display: flex; gap: 12px; flex-wrap: wrap; }
 
@@ -676,6 +666,15 @@ html.anima-menu .grain { display: none; }
   padding-block: clamp(70px, 11vw, 150px);
   text-align: center;
 }
+
+/* En oscura, el hero y el contacto (las secciones que la rodean) son
+   fotos con #000 de base, no --ink: medido en pantalla, #070707 queda
+   un pelito más claro justo al lado y se nota la costura. No es la
+   foto del "Never give up" (ahí no hay foto, es máscara + currentColor);
+   es que --ink y el #000 de los vecinos no son el mismo negro. Se
+   empareja sólo acá, sólo en oscura: en clara ya coincide, porque ahí
+   el fondo de la franja y el de las fotos no se comparan igual. */
+[data-tema="oscura"] .strip { background: #000; }
 
 .strip .wrap { display: flex; justify-content: center; }
 

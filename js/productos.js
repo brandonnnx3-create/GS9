@@ -5,9 +5,9 @@
    es JSON: comillas dobles y sin coma después del último elemento.
 
    CATEGORÍAS
-     id       palabra corta, sin espacios ni tildes ("zapatillas").
-              Es la que va en el link: tusitio/#zapatillas
-     nombre   como se muestra ("Zapatillas").
+     id       palabra corta, sin espacios ni tildes ("joyas").
+              Es la que va en el link: tusitio/#joyas
+     nombre   como se muestra ("Joyería").
      bajada   una línea opcional debajo del nombre.
    Una categoría sin productos se muestra como "Próximamente", con
    un botón para que te pidan aviso por WhatsApp.
@@ -32,17 +32,7 @@ const CATALOGO = {
     {
       "id": "joyas",
       "nombre": "Joyería",
-      "bajada": "Cadenas, dijes, anillos y pulseras"
-    },
-    {
-      "id": "ropa",
-      "nombre": "Ropa",
-      "bajada": ""
-    },
-    {
-      "id": "zapatillas",
-      "nombre": "Zapatillas",
-      "bajada": ""
+      "bajada": "Cadenas, dijes y anillos"
     }
   ],
   "productos": [
@@ -83,49 +73,13 @@ const CATALOGO = {
       "estado": ""
     },
     {
-      "id": "set-cadenas-placas",
-      "nombre": "Set de cadenas con placas",
-      "categoria": "joyas",
-      "tipo": "Cadenas",
-      "precio": "",
-      "imagen": "img/galeria/bustos-tres.jpg",
-      "alt": "Tres cadenas de distinto largo con placas y estuche de anillos",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
       "id": "dije-inicial-m",
-      "nombre": "Dije placa inicial M",
+      "nombre": "Dije placa inicial personalizada",
       "categoria": "joyas",
       "tipo": "Dijes",
       "precio": "",
       "imagen": "img/galeria/dije-m.jpg",
-      "alt": "Dije placa con inicial M",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "duo-pulseras",
-      "nombre": "Dúo de pulseras",
-      "categoria": "joyas",
-      "tipo": "Pulseras",
-      "precio": "",
-      "imagen": "img/galeria/pulseras-guante.jpg",
-      "alt": "Dos pulseras en la muñeca",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "dije-32",
-      "nombre": "Dije placa 32",
-      "categoria": "joyas",
-      "tipo": "Dijes",
-      "precio": "",
-      "imagen": "img/galeria/dije-32.jpg",
-      "alt": "Dije placa con el número 32",
+      "alt": "Dije placa con inicial personalizada",
       "detalle": "",
       "talles": [],
       "estado": ""
@@ -143,18 +97,6 @@ const CATALOGO = {
       "estado": ""
     },
     {
-      "id": "cadenas-en-capas",
-      "nombre": "Cadenas en capas",
-      "categoria": "joyas",
-      "tipo": "Cadenas",
-      "precio": "",
-      "imagen": "img/galeria/busto-capas.jpg",
-      "alt": "Cadenas en capas con anillos y pulsera",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
       "id": "dije-corona",
       "nombre": "Dije placa corona",
       "categoria": "joyas",
@@ -162,30 +104,6 @@ const CATALOGO = {
       "precio": "",
       "imagen": "img/galeria/dije-corona.jpg",
       "alt": "Dije placa con corona grabada",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "estuche-pulseras-aros",
-      "nombre": "Pulseras, aros y anillos",
-      "categoria": "joyas",
-      "tipo": "Pulseras",
-      "precio": "",
-      "imagen": "img/galeria/bandeja-pulseras.jpg",
-      "alt": "Pulseras, aros y anillos en su estuche",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "dije-32-corona",
-      "nombre": "Dije placa 32 con corona",
-      "categoria": "joyas",
-      "tipo": "Dijes",
-      "precio": "",
-      "imagen": "img/galeria/dije-32-b.jpg",
-      "alt": "Dije placa 32 con corona",
       "detalle": "",
       "talles": [],
       "estado": ""

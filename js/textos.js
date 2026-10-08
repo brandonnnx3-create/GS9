@@ -8,7 +8,6 @@
 
 const TEXTOS = {
   "heroSobre": "G.S.9 — Buenos Aires",
-  "heroBajada": "Pieza por pieza, elegida a mano. Si te copás con alguna, escribinos.",
   "cinta": [
     "Pieza por pieza",
     "Envíos a todo el país",

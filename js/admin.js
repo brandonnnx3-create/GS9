@@ -22,7 +22,6 @@
 
   var CAMPOS_FRASES = [
     { k: "heroSobre", label: "Texto chico arriba del título", tipo: "texto" },
-    { k: "heroBajada", label: "Bajada del título", tipo: "area" },
     { k: "sobreNosotros", label: "Sobre nosotros", tipo: "area",
       ayuda: "El texto que se abre en el menú, en \"Sobre nosotros\"." },
     { k: "galeriaTitulo", label: "Título de la tienda", tipo: "texto",

@@ -5,7 +5,7 @@
    partir de js/productos.js.
 
    Links que entiende la página:
-     #joyas, #ropa…           la tienda filtrada por esa categoría
+     #joyas                   la tienda filtrada por esa categoría
      #producto/<id>           la ficha de ese producto, abierta
    Así se puede pasar por Instagram el link de una categoría o de
    un producto puntual. La ficha suma un paso al historial: el
