@@ -16,7 +16,10 @@ const TEXTOS = {
   ],
   "sobreNosotros": "G.S.9 es una marca de Buenos Aires. Elegimos pieza por pieza, a mano, y vendemos sólo lo que nos pondríamos.",
   "galeriaTitulo": "Todas las piezas",
-  "contactoTitulo": "¿Te copaste\ncon alguna?",
+  "cuidadoSobre": "Cuidados",
+  "cuidadoTitulo": "Cómo cuidar las joyas",
+  "cuidadoBajada": "Para que tus piezas te duren, tené en cuenta esto.",
+  "contactoTitulo": "Contanos\nqué buscás",
   "contactoTexto": "Mandanos mensaje y te pasamos fotos, medidas y disponibilidad al toque.",
   "footerFrase": "Lo que brilla, habla."
 };

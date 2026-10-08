@@ -222,7 +222,8 @@ textarea.p-input { resize: vertical; min-height: 56px; }
 }
 
 .p-preview__hero,
-.p-preview__call {
+.p-preview__call,
+.p-preview__care {
   background: #000;
   color: #fff;
   padding: 26px 22px;
@@ -233,6 +234,10 @@ textarea.p-input { resize: vertical; min-height: 56px; }
 
 .p-preview__call { text-align: center; }
 .p-preview__call .call__title { font-size: clamp(1.2rem, 2.6vw, 2rem); margin: 0 auto; }
+
+.p-preview__care .eyebrow { color: rgba(255,255,255,.7); }
+.p-preview__care .sec-title { font-size: clamp(1.2rem, 2.8vw, 2rem); margin-top: 8px; }
+.p-preview__lead { margin-top: 14px; font-size: .88rem; color: rgba(255,255,255,.8); }
 
 /* ---------- Barra de publicar ---------- */
 
