@@ -511,16 +511,12 @@ html.anima-menu .grain { display: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Qué parte de la foto se ve cuando la pantalla es más ancha que ella
-     (escritorio): la foto es vertical, así que se recorta arriba y
-     abajo. 14 % deja entrar el busto y las cadenas. */
-  object-position: 50% 14%;
-  transform: scale(1.08);
-  will-change: transform;
-  animation: respirar 22s ease-in-out infinite alternate;
+  /* La foto es horizontal (4:3). En escritorio la pantalla es más
+     ancha todavía: se recorta arriba y abajo, centrada, así entran
+     los edificios de punta a punta. En celular es al revés (ver
+     RESPONSIVE): se recorta a los costados y conviene correrla. */
+  object-position: 50% 50%;
 }
-
-@keyframes respirar { to { transform: scale(1.0); } }
 
 /* El velo: fuerte abajo a la izquierda, donde va el texto, y más
    liviano arriba para que el muro se lea. */
@@ -1729,9 +1725,9 @@ html.anima-menu .grain { display: none; }
   .sheet__media img { aspect-ratio: 4 / 5; max-height: 54svh; }
   .sheet__body { padding: 24px var(--gutter) calc(24px + env(safe-area-inset-bottom, 0px)); }
 
-  /* En vertical la foto entra casi entera de alto: se corre hacia el
-     busto, que está a la izquierda. */
-  .hero__photo img { object-position: 30% 20%; }
+  /* En vertical la pantalla es angosta contra el ancho de la foto:
+     se recorta a los costados y queda centrada, sin correr. */
+  .hero__photo img { object-position: 50% 50%; }
   .hero__veil {
     background: linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.3) 26%, rgba(0,0,0,.78) 62%, #000 100%);
   }
