@@ -107,6 +107,78 @@ const CATALOGO = {
       "detalle": "",
       "talles": [],
       "estado": ""
+    },
+    {
+      "id": "cadena-caracol-aplastada",
+      "nombre": "Cadena caracol aplastada",
+      "categoria": "joyas",
+      "tipo": "Cadenas finas",
+      "precio": "",
+      "imagen": "img/galeria/cadena-caracol-aplastada.jpg",
+      "alt": "Cadena caracol aplastada en maniquí",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "cadena-destello-3x1",
+      "nombre": "Cadena destello 3x1",
+      "categoria": "joyas",
+      "tipo": "Cadenas finas",
+      "precio": "",
+      "imagen": "img/galeria/cadena-destello-3x1.jpg",
+      "alt": "Cadena destello 3x1 en maniquí",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "cadena-enrollado-fino",
+      "nombre": "Cadena enrollado fino",
+      "categoria": "joyas",
+      "tipo": "Cadenas finas",
+      "precio": "",
+      "imagen": "img/galeria/cadena-enrollado-fino.jpg",
+      "alt": "Cadena enrollado fino en maniquí",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "cadena-groumet-fina",
+      "nombre": "Cadena groumet fina",
+      "categoria": "joyas",
+      "tipo": "Cadenas finas",
+      "precio": "",
+      "imagen": "img/galeria/cadena-groumet-fina.jpg",
+      "alt": "Cadena groumet fina en maniquí",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "cadena-singapur-fina",
+      "nombre": "Cadena singapur fina",
+      "categoria": "joyas",
+      "tipo": "Cadenas finas",
+      "precio": "",
+      "imagen": "img/galeria/cadena-singapur-fina.jpg",
+      "alt": "Cadena singapur fina en maniquí",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "cadena-tourbillon-fina",
+      "nombre": "Cadena tourbillon fina",
+      "categoria": "joyas",
+      "tipo": "Cadenas finas",
+      "precio": "",
+      "imagen": "img/galeria/cadena-tourbillon-fina.jpg",
+      "alt": "Cadena tourbillon fina en maniquí",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
     }
   ]
 };
