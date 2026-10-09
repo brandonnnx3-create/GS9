@@ -947,8 +947,9 @@ html.anima-menu .grain { display: none; }
 
 .card__price {
   margin-top: 6px;
-  font-size: .82rem;
-  color: var(--muted);
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--bone);
 }
 
 /* Categoría sin productos todavía. */
