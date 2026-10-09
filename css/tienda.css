@@ -873,7 +873,7 @@ html.anima-menu .grain { display: none; }
   .chip:hover { border-color: var(--bone); }
 }
 
-.chips--sub .chip { min-height: 40px; border-color: transparent; color: var(--muted); padding: 0 14px; }
+.chips--sub .chip { min-height: 44px; border-color: transparent; color: var(--muted); padding: 0 14px; }
 .chips--sub .chip[aria-pressed="true"] { background: transparent; color: var(--bone); border-color: var(--line-2); }
 
 .grid {

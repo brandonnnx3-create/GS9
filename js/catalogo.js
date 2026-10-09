@@ -143,15 +143,24 @@
       esc(texto) + (extra ? '<span class="chip__n">' + extra + "</span>" : "") + "</button>";
   }
 
+  /* Con una sola categoría, "Todo" y "Joyería" muestran siempre los
+     mismos productos: el renglón de categoría no suma nada y sólo le
+     agrega un clic al cliente para llegar al filtro por tipo. Se
+     saca ese renglón y el filtro por tipo pasa a ser el único, visible
+     desde el principio. Si en algún momento vuelve a haber más de una
+     categoría, esto se desarma solo y el filtro de categoría reaparece. */
+  var unaCategoria = cats.length <= 1;
+
   function pintarChips() {
     if (!chipsCat) return;
-    chipsCat.innerHTML = chip("todo", "Todo", filtro.cat === "todo", prods.length) +
+    chipsCat.hidden = unaCategoria;
+    chipsCat.innerHTML = unaCategoria ? "" : chip("todo", "Todo", filtro.cat === "todo", prods.length) +
       cats.map(function (c) {
         var n = deCat(c.id).length;
         return chip(c.id, c.nombre, filtro.cat === c.id, n || "Pronto");
       }).join("");
 
-    var t = filtro.cat === "todo" ? [] : tipos(deCat(filtro.cat));
+    var t = unaCategoria || filtro.cat !== "todo" ? tipos(deCat(filtro.cat)) : [];
     chipsTipo.hidden = t.length < 2;
     chipsTipo.innerHTML = t.length < 2 ? "" : chip("", "Todos", !filtro.tipo) +
       t.map(function (x) { return chip(x, x, filtro.tipo === x); }).join("");
