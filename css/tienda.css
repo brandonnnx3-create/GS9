@@ -1841,7 +1841,19 @@ html.anima-menu .grain { display: none; }
      esto mismo en la versión de escritorio, por eso allá ya estaba
      con minmax(0, …) en las dos columnas. */
   .sheet[open] { grid-template-columns: minmax(0, 1fr); animation-name: hoja-movil; }
-  .sheet__media img { aspect-ratio: 4 / 5; max-height: 54svh; }
+  /* Alto fijo en vez de dejar que la fila del grid lo calcule sola a
+     partir del aspect-ratio de la imagen: en una sola columna no hay
+     nada más en esa fila que le dé una medida propia, así que esa
+     fila "auto" terminaba dependiendo por completo de que el motor
+     sume bien el aspect-ratio de la imagen al calcular el contenido —
+     justo el tipo de cuenta que a Safari en iOS históricamente le
+     cuesta en grillas. Es la sospecha más razonada que tengo para la
+     foto en 0px que reportó el usuario, no algo que haya podido
+     confirmar en un Safari real desde acá. Con un alto fijo en el
+     contenedor esa cuenta no hace falta: la imagen sólo tiene que
+     llenarlo. */
+  .sheet__media { height: 54svh; min-height: 0; }
+  .sheet__media img { aspect-ratio: auto; max-height: none; }
   .sheet__body { padding: 24px var(--gutter) calc(24px + env(safe-area-inset-bottom, 0px)); }
   .sheet__similares { padding: 20px var(--gutter) calc(24px + env(safe-area-inset-bottom, 0px)); }
   .sheet__similares-pista { margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); }
