@@ -183,6 +183,16 @@
       "</div></a></article>";
   }
 
+  /* Tarjeta chica para "También te puede interesar" en la ficha: mismo
+     tipo que el producto abierto, sin contarlo a él. */
+  function similar(p) {
+    return '<a class="sim" href="#producto/' + encodeURIComponent(p.id) + '" data-producto="' + esc(p.id) + '">' +
+      (p.imagen ? '<img src="' + esc(p.imagen) + '" alt="' + esc(p.alt || p.nombre) + '" width="136" height="181" loading="lazy">' : "") +
+      '<span class="sim__nombre">' + esc(p.nombre) + "</span>" +
+      '<span class="sim__precio">' + (precio(p) || "Consultar") + "</span>" +
+      "</a>";
+  }
+
   function pintarGrilla() {
     if (!grid) return;
     var lista = deCat(filtro.cat).filter(function (p) { return !filtro.tipo || p.tipo === filtro.tipo; });
@@ -346,6 +356,13 @@
 
     actualizarCta();
 
+    var relacionados = prods.filter(function (x) { return x.tipo === p.tipo && x.id !== p.id; }).slice(0, 8);
+    var bloqueSimilares = $("#fichaSimilares");
+    if (bloqueSimilares) {
+      bloqueSimilares.hidden = !relacionados.length;
+      $("#fichaSimilaresPista").innerHTML = relacionados.map(similar).join("");
+    }
+
     if (!ficha.open) {
       if (ficha.showModal) ficha.showModal(); else ficha.setAttribute("open", "");
       bloquear(true);
@@ -380,6 +397,22 @@
       actualizarCta();
     });
     $("#cerrarFicha").addEventListener("click", pedirCierre);
+
+    /* Tocar una tarjeta de "También te puede interesar" cambia el
+       contenido de la misma ficha ya abierta, en vez de apilar una
+       entrada nueva en el historial por cada una que se mire. */
+    var fichaSimilaresPista = $("#fichaSimilaresPista");
+    if (fichaSimilaresPista) {
+      fichaSimilaresPista.addEventListener("click", function (e) {
+        var a = e.target.closest("a[data-producto]");
+        if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
+        e.preventDefault();
+        var p = producto(a.dataset.producto);
+        if (!p) return;
+        abrirFicha(p);
+        history.replaceState(null, "", "#producto/" + encodeURIComponent(p.id));
+      });
+    }
 
     $("#fichaMenos").addEventListener("click", function () {
       cantidadFicha = Math.max(1, cantidadFicha - 1);

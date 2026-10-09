@@ -1044,6 +1044,17 @@ html.anima-menu .grain { display: none; }
 .sheet__text { color: var(--muted); }
 .sheet__text[hidden] { display: none; }
 .sheet__note { font-size: .78rem; color: var(--muted-2); }
+
+.sheet__envio {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: .78rem;
+  color: var(--muted-2);
+  line-height: 1.45;
+}
+.sheet__envio svg { flex-shrink: 0; margin-top: 2px; color: var(--muted); }
+
 .sheet .btn { margin-top: auto; }
 
 .sheet__qty { display: flex; align-items: center; justify-content: space-between; }
@@ -1112,6 +1123,48 @@ html.anima-menu .grain { display: none; }
 
 .size input:checked + span { background: var(--bone); color: var(--ink); border-color: var(--bone); }
 .size input:focus-visible + span { outline: 1.5px solid var(--accent); outline-offset: 3px; }
+
+/* Ocupa las dos columnas de la ficha, en un renglón propio debajo. */
+.sheet__similares {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--line);
+  padding: clamp(20px, 3vw, 28px) clamp(28px, 4vw, 48px) clamp(28px, 4vw, 48px);
+}
+
+.sheet__similares-titulo {
+  font-size: .68rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  margin-bottom: 14px;
+}
+
+.sheet__similares-pista {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-inline: calc(-1 * clamp(28px, 4vw, 48px));
+  padding-inline: clamp(28px, 4vw, 48px);
+  scroll-padding-inline: clamp(28px, 4vw, 48px);
+}
+.sheet__similares-pista::-webkit-scrollbar { display: none; }
+
+.sim {
+  flex-shrink: 0;
+  width: 136px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: inherit;
+}
+.sim img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; background: var(--ink-3); }
+.sim__nombre { font-size: .76rem; font-weight: 600; line-height: 1.25; }
+.sim__precio { font-size: .76rem; font-weight: 600; color: var(--bone); }
+
+@media (hover: hover) {
+  .sim:hover .sim__nombre { text-decoration: underline; text-underline-offset: .2em; }
+}
 
 /* ============================================================
    CARRITO
@@ -1781,9 +1834,17 @@ html.anima-menu .grain { display: none; }
     margin: auto 0 0;
     border-width: 1px 0 0;
   }
-  .sheet[open] { grid-template-columns: 1fr; animation-name: hoja-movil; }
+  /* minmax(0, 1fr) y no 1fr a secas: con una sola columna, una fila
+     ancha que no se achica (como la de "También te puede interesar",
+     con overflow-x propio) fuerza la columna a su ancho de contenido
+     y la ficha entera termina más ancha que la pantalla. Ya pasaba
+     esto mismo en la versión de escritorio, por eso allá ya estaba
+     con minmax(0, …) en las dos columnas. */
+  .sheet[open] { grid-template-columns: minmax(0, 1fr); animation-name: hoja-movil; }
   .sheet__media img { aspect-ratio: 4 / 5; max-height: 54svh; }
   .sheet__body { padding: 24px var(--gutter) calc(24px + env(safe-area-inset-bottom, 0px)); }
+  .sheet__similares { padding: 20px var(--gutter) calc(24px + env(safe-area-inset-bottom, 0px)); }
+  .sheet__similares-pista { margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); }
 
   /* En vertical la pantalla es angosta contra el ancho de la foto:
      se recorta a los costados y queda centrada, sin correr.
