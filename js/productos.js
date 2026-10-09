@@ -37,37 +37,13 @@ const CATALOGO = {
   ],
   "productos": [
     {
-      "id": "sellos-surtidos",
-      "nombre": "Sellos surtidos",
-      "categoria": "joyas",
-      "tipo": "Anillos",
-      "precio": "",
-      "imagen": "img/galeria/anillos-bandeja.jpg",
-      "alt": "Bandeja con sellos de distintos diseños",
-      "detalle": "Sellos de distintos diseños. Preguntanos por el modelo que te guste y tu medida.",
-      "talles": [],
-      "estado": ""
-    },
-    {
       "id": "dije-todo-pasa",
       "nombre": "Dije placa Todo pasa",
       "categoria": "joyas",
       "tipo": "Dijes",
-      "precio": "",
+      "precio": 16500,
       "imagen": "img/galeria/dije-todo-pasa.jpg",
       "alt": "Dije placa con la frase Todo pasa",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "cadena-soga",
-      "nombre": "Cadena tejido soga",
-      "categoria": "joyas",
-      "tipo": "Cadenas",
-      "precio": "",
-      "imagen": "img/galeria/soga.jpg",
-      "alt": "Cadena tejido soga sostenida en la mano",
       "detalle": "",
       "talles": [],
       "estado": ""
@@ -85,23 +61,11 @@ const CATALOGO = {
       "estado": ""
     },
     {
-      "id": "sellos-piedra",
-      "nombre": "Sellos con y sin piedra",
-      "categoria": "joyas",
-      "tipo": "Anillos",
-      "precio": "",
-      "imagen": "img/galeria/anillos-pila.jpg",
-      "alt": "Sellos apilados con y sin piedra",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
       "id": "dije-corona",
       "nombre": "Dije placa corona",
       "categoria": "joyas",
       "tipo": "Dijes",
-      "precio": "",
+      "precio": 16500,
       "imagen": "img/galeria/dije-corona.jpg",
       "alt": "Dije placa con corona grabada",
       "detalle": "",
