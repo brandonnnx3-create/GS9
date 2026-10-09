@@ -1781,7 +1781,18 @@ html.anima-menu .grain { display: none; }
 
   /* En vertical la pantalla es angosta contra el ancho de la foto:
      se recorta a los costados y queda centrada, sin correr. */
-  .hero__photo img { object-position: 50% 50%; }
+  /* La frase grabada en la foto ("Running Out Of Dreams") ocupa
+     ~48% del ancho de la imagen; la ventana que deja ver `cover` en
+     un celular angosto es sólo ~35% (probado, no corregible con
+     object-position: a ningún valor entra completa). Mostrar el
+     100% del ancho la hacía entrar pero dejaba la foto chiquita, con
+     mucho negro vacío arriba y el velo oscureciéndola más todavía.
+     650px es el punto medio encontrado probando en el celular real:
+     la frase entra con margen de sobra a los dos lados y la foto
+     sigue teniendo presencia, sin pisar el texto propio de abajo
+     ("G.S.9 — Buenos Aires"). */
+  .hero__photo { display: flex; align-items: flex-end; justify-content: center; }
+  .hero__photo img { width: 650px; max-width: none; height: auto; object-fit: unset; }
   .hero__veil {
     background: linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.3) 26%, rgba(0,0,0,.78) 62%, #000 100%);
   }
