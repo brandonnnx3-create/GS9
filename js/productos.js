@@ -179,6 +179,90 @@ const CATALOGO = {
       "detalle": "",
       "talles": [],
       "estado": ""
+    },
+    {
+      "id": "dije-cuadrado-jesus",
+      "nombre": "Dije cuadrado Jesús",
+      "categoria": "joyas",
+      "tipo": "Dijes",
+      "precio": "",
+      "imagen": "img/galeria/dije-cuadrado-jesus.jpg",
+      "alt": "Dije placa cuadrada con imagen de Jesús grabada",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "dije-virgen-milagrosa",
+      "nombre": "Dije enchapado Virgen Milagrosa",
+      "categoria": "joyas",
+      "tipo": "Dijes",
+      "precio": "",
+      "imagen": "img/galeria/dije-virgen-milagrosa.jpg",
+      "alt": "Medalla ovalada de la Virgen Milagrosa",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "dije-gauchito-gil",
+      "nombre": "Dije placa Gauchito Gil",
+      "categoria": "joyas",
+      "tipo": "Dijes",
+      "precio": "",
+      "imagen": "img/galeria/dije-gauchito-gil.jpg",
+      "alt": "Dije placa con imagen de Gauchito Gil grabada",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "dije-solo-plata-no-amores",
+      "nombre": "Dije placa Solo plata y no amores",
+      "categoria": "joyas",
+      "tipo": "Dijes",
+      "precio": "",
+      "imagen": "img/galeria/dije-solo-plata-no-amores.jpg",
+      "alt": "Dije placa con la frase Solo plata y no amores",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "dije-vamos-por-todo",
+      "nombre": "Dije placa Vamos por todo",
+      "categoria": "joyas",
+      "tipo": "Dijes",
+      "precio": "",
+      "imagen": "img/galeria/dije-vamos-por-todo.jpg",
+      "alt": "Dije placa con la frase Vamos por todo",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "dije-sol",
+      "nombre": "Dije sol",
+      "categoria": "joyas",
+      "tipo": "Dijes",
+      "precio": "",
+      "imagen": "img/galeria/dije-sol.jpg",
+      "alt": "Dije con forma de sol y piedra central",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "dije-trebol-blanco",
+      "nombre": "Dije Van Cleef blanco",
+      "categoria": "joyas",
+      "tipo": "Dijes",
+      "precio": "",
+      "imagen": "img/galeria/dije-trebol-blanco.jpg",
+      "alt": "Dije con forma de trébol de cuatro hojas, detalle blanco",
+      "detalle": "",
+      "talles": [],
+      "estado": ""
     }
   ]
 };
