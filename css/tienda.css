@@ -1296,7 +1296,14 @@ html.anima-menu .grain { display: none; }
       color-mix(in srgb, var(--ink) var(--velo-3), transparent) 100%),
     url("../img/menu-fondo.jpg");
   background-size: cover;
-  background-position: center;
+  /* `center` dejaba al chico corrido a la izquierda con un vacío
+     grande a la derecha: centra la FOTO, no la figura dentro de
+     ella, y el panel es angosto y alto, muy distinto a la foto
+     (4:5 aprox). Los dos valores salen de probar varias posiciones
+     en el panel real: el del celular no sirve en escritorio porque
+     ahí el panel es fijo a 420 px en vez de seguir el ancho de
+     pantalla, y la proporción panel/foto cambia. */
+  background-position: 20% 15%;
   background-repeat: no-repeat;
 
   /* Entra y sale deslizándose. `allow-discrete` es lo que deja animar
@@ -1306,6 +1313,14 @@ html.anima-menu .grain { display: none; }
   transition: translate var(--t-menu) var(--ease-menu),
               overlay var(--t-menu) var(--ease-menu) allow-discrete,
               display var(--t-menu) var(--ease-menu) allow-discrete;
+}
+
+/* 88vw = 420px a los 477,3px de ancho: justo ahí el panel deja de
+   seguir el ancho de pantalla (min(420px, 88vw)) y queda fijo en
+   420px, mientras el alto sigue siendo el de la ventana. Esa
+   proporción distinta pide otro recorte de la misma foto. */
+@media (min-width: 478px) {
+  .menu { background-position: 25% 55%; }
 }
 
 .menu[open] { display: flex; flex-direction: column; translate: 0 0; }
