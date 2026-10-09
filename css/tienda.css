@@ -1001,10 +1001,14 @@ html.anima-menu .grain { display: none; }
   animation: hoja .5s var(--ease-out);
 }
 
+/* Sin backdrop-filter, a propósito (mismo motivo que el menú: ver
+   más abajo en este archivo). Acá el síntoma no era lentitud sino
+   la foto del producto desapareciendo en el celular real al achicar
+   con los dedos — un desenfoque sobre lo que queda detrás de un
+   <dialog> es un punto ya débil de Safari en iOS, y la imagen vive
+   justo al lado. Se reemplaza por un fondo más oscuro, sin filtro. */
 .sheet::backdrop {
-  background: rgba(0,0,0,.72);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(0,0,0,.82);
 }
 
 @keyframes hoja { from { opacity: 0; transform: translateY(24px); } }
@@ -1164,7 +1168,8 @@ html.anima-menu .grain { display: none; }
 }
 
 .cart[open] { display: flex; flex-direction: column; animation: cart-in .4s var(--ease-out); }
-.cart::backdrop { background: rgba(0,0,0,.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+/* Mismo motivo que el backdrop de la ficha: sin backdrop-filter. */
+.cart::backdrop { background: rgba(0,0,0,.72); }
 
 @keyframes cart-in { from { transform: translateX(100%); } }
 
