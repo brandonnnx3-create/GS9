@@ -721,17 +721,11 @@ html.anima-menu .grain { display: none; }
 }
 
 /* ============================================================
-   CATEGORÍAS — índice
-   Cada categoría es un renglón con el nombre grande. Las que
-   todavía no tienen productos van caladas (sólo el contorno):
-   se ven, pero se distinguen de las que ya están a la venta.
-   El mismo índice se usa en el menú del celular.
+   ÍNDICE — renglones con el nombre grande
+   Lo usa el menú del celular (#menuLinks). Las categorías sin
+   productos van caladas (sólo el contorno): se ven, pero se
+   distinguen de las que ya están a la venta.
    ============================================================ */
-
-.cats {
-  position: relative;
-  padding-block: clamp(80px, 11vw, 140px) clamp(40px, 6vw, 80px);
-}
 
 .index {
   list-style: none;
