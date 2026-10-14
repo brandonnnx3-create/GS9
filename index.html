@@ -338,52 +338,83 @@
   </div>
 </section>
 
-</main>
+<!-- ============ PÁGINA DE PRODUCTO ============
+     Se muestra en #producto/<id> en lugar del resto de la página (el
+     header y el footer quedan). Es una página común y corriente, no
+     una ventana encima: así se scrollea como cualquier otra y no
+     depende de cómo cada navegador dibuja un <dialog>. -->
+<section class="pdp" id="ficha" aria-labelledby="fichaNombre" hidden>
+  <div class="wrap">
+    <a class="pdp__volver" id="cerrarFicha" href="#tienda">
+      <svg width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M17 5H2M6 1L2 5l4 4"/></svg>
+      Tienda
+    </a>
 
-<!-- ============ FICHA DE PRODUCTO ============ -->
-<dialog class="sheet" id="ficha" aria-labelledby="fichaNombre">
-  <button class="icon-btn sheet__close" id="cerrarFicha" type="button" aria-label="Cerrar">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
-  </button>
-  <div class="sheet__media"><img id="fichaImg" alt="" src="data:," width="825" height="1100"></div>
-  <div class="sheet__body">
-    <p class="eyebrow" id="fichaCat"></p>
-    <h2 class="sheet__name" id="fichaNombre"></h2>
-    <p class="sheet__price" id="fichaPrecio"></p>
-    <p class="sheet__text" id="fichaDetalle"></p>
-    <fieldset class="sizes" id="fichaTalles" hidden>
-      <legend>Talle</legend>
-      <div class="sizes__list" id="fichaTallesLista"></div>
-      <p class="sizes__error" id="fichaTallesError" hidden>Elegí un talle para agregarlo.</p>
-    </fieldset>
+    <div class="pdp__grid">
+      <div class="pdp__galeria">
+        <div class="pdp__pista" id="fichaGaleria"></div>
+        <div class="pdp__miniaturas" id="fichaMiniaturas" role="group" aria-label="Fotos" hidden></div>
+      </div>
 
-    <div class="sheet__qty" id="fichaQty" hidden>
-      <span class="sheet__qty-label">Cantidad</span>
-      <div class="qty">
-        <button class="qty__btn" id="fichaMenos" type="button" aria-label="Restar uno">−</button>
-        <span class="qty__n" id="fichaCant">1</span>
-        <button class="qty__btn" id="fichaMas" type="button" aria-label="Sumar uno">+</button>
+      <div class="pdp__info">
+        <p class="eyebrow" id="fichaCat"></p>
+        <h1 class="pdp__nombre" id="fichaNombre" tabindex="-1"></h1>
+        <p class="pdp__texto" id="fichaDetalle" hidden></p>
+        <p class="pdp__estado" id="fichaEstado"></p>
+
+        <div class="pdp__precio">
+          <span class="pdp__precio-label">Precio</span>
+          <span class="pdp__precio-valor" id="fichaPrecio"></span>
+        </div>
+
+        <p class="pdp__dato" id="fichaLargo" hidden><span>Largo:</span> <b id="fichaLargoValor"></b></p>
+
+        <fieldset class="sizes" id="fichaTalles" hidden>
+          <legend>Talle</legend>
+          <div class="sizes__list" id="fichaTallesLista"></div>
+          <p class="sizes__error" id="fichaTallesError" hidden>Elegí un talle para agregarlo.</p>
+        </fieldset>
+
+        <div class="pdp__comprar">
+          <div class="qty qty--grande" id="fichaQty">
+            <button class="qty__btn" id="fichaMenos" type="button" aria-label="Restar uno">−</button>
+            <span class="qty__n" id="fichaCant" aria-live="polite">1</span>
+            <button class="qty__btn" id="fichaMas" type="button" aria-label="Sumar uno">+</button>
+          </div>
+          <a class="btn pdp__cta" id="fichaCta" href="#contacto"><span id="fichaCtaTexto">Agregar al carrito</span></a>
+        </div>
+        <!-- La confirmación visible es el propio botón ("Agregado ✓");
+             esto es para que el lector de pantalla también la diga. -->
+        <p class="sr-only" id="fichaAgregado" role="status"></p>
+
+        <a class="pdp__alt" id="fichaConsultar" data-wa href="#contacto" hidden>o consultá directo por WhatsApp</a>
+        <p class="pdp__note">Te respondemos con fotos, medidas y disponibilidad.</p>
+        <p class="pdp__envio">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 7h13v10H1z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/></svg>
+          <span>Hacemos envíos — coordinamos costo y forma por WhatsApp.</span>
+        </p>
+
+        <!-- Los mismos consejos de la sección "Cómo cuidar las joyas":
+             el script los copia de ahí, así hay un solo lugar donde
+             cambiarlos. -->
+        <details class="pdp__acordeon" id="fichaCuidados" hidden>
+          <summary>
+            Cuidados
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <ul class="pdp__lista" id="fichaCuidadosLista"></ul>
+        </details>
       </div>
     </div>
 
-    <a class="btn btn--block btn--arrow" id="fichaCta" href="#contacto">
-      <span id="fichaCtaTexto">Agregar al carrito</span>
-      <svg class="arrow" width="17" height="10" viewBox="0 0 17 10" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg>
-    </a>
-    <p class="sheet__added" id="fichaAgregado" role="status" hidden>Agregado al carrito ✓</p>
-    <a class="sheet__alt" id="fichaConsultar" data-wa href="#contacto" hidden>o consultá directo por WhatsApp</a>
-    <p class="sheet__note">Te respondemos con fotos, medidas y disponibilidad.</p>
-    <p class="sheet__envio">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 7h13v10H1z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/></svg>
-      <span>Hacemos envíos — coordinamos costo y forma por WhatsApp.</span>
-    </p>
+    <div class="pdp__similares" id="fichaSimilares" hidden>
+      <h2 class="sec-title">Seguí descubriendo</h2>
+      <div class="grid" id="fichaSimilaresGrid"></div>
+    </div>
   </div>
+</section>
 
-  <div class="sheet__similares" id="fichaSimilares" hidden>
-    <p class="sheet__similares-titulo">También te puede interesar</p>
-    <div class="sheet__similares-pista" id="fichaSimilaresPista"></div>
-  </div>
-</dialog>
+</main>
 
 <!-- ============ FOOTER ============ -->
 <footer class="footer">

@@ -21,10 +21,15 @@
                Con dos tipos o más aparecen como filtro.
      precio    número sin puntos (25000) o "" para "Consultar".
      imagen    ruta de la foto, vertical 3:4 (ej. 825 × 1100).
+     fotos     opcional: más fotos del mismo producto, misma medida.
+               ["img/galeria/x-2.jpg", "img/galeria/x-3.jpg"]
+               Con una o más, la página del producto muestra
+               miniaturas y se pueden deslizar.
      alt       qué se ve en la foto, para quien no la ve.
-     detalle   texto opcional de la ficha.
+     detalle   texto opcional de la página del producto.
+     largo     opcional: "50 cm aprox." — aparece como "Largo: …".
      talles    lista opcional: ["S", "M", "L"] o ["40", "41", "42"].
-     estado    "" , "nuevo" o "agotado".
+     estado    "" (disponible), "nuevo" o "agotado".
    ============================================================ */
 
 const CATALOGO = {

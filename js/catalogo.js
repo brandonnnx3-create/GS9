@@ -1,15 +1,15 @@
 /* ============================================================
    G.S.9 — CATÁLOGO
    Arma el índice de categorías, los filtros, la grilla de
-   productos, la ficha de cada uno y el menú del celular, todo a
+   productos, la página de cada uno y el menú del celular, todo a
    partir de js/productos.js.
 
    Links que entiende la página:
      #joyas                   la tienda filtrada por esa categoría
-     #producto/<id>           la ficha de ese producto, abierta
+     #producto/<id>           la página de ese producto
    Así se puede pasar por Instagram el link de una categoría o de
-   un producto puntual. La ficha suma un paso al historial: el
-   botón "atrás" del celular la cierra.
+   un producto puntual. Entrar a un producto suma un paso al
+   historial: el botón "atrás" del celular vuelve a la tienda.
 
    El carrito junta varias piezas en un solo pedido de WhatsApp. No
    cobra nada: vive en localStorage (por eso no se comparte entre
@@ -166,10 +166,20 @@
       t.map(function (x) { return chip(x, x, filtro.tipo === x); }).join("");
   }
 
-  function tarjeta(p, i) {
+  function tallesDe(p) {
+    return Array.isArray(p.talles) ? p.talles.filter(Boolean) : [];
+  }
+
+  /* conAgregar suma el botón "+ Agregar" (lo usa "Seguí descubriendo").
+     Agotado no lleva botón; con más de un talle tampoco, porque hay
+     que elegirlo adentro del producto. */
+  function tarjeta(p, i, conAgregar) {
     var c = cat(p.categoria);
     var etiqueta = p.estado === "agotado" ? "Agotado" : p.estado === "nuevo" ? "Nuevo" : "";
     var meta = [filtro.cat === "todo" && c ? c.nombre : "", p.tipo].filter(Boolean).join(" · ");
+    var agregar = conAgregar && p.estado !== "agotado" && tallesDe(p).length < 2
+      ? '<button class="card__add" type="button" data-agregar="' + esc(p.id) + '">+ Agregar</button>'
+      : "";
     return '<article class="card' + (p.estado === "agotado" ? " is-out" : "") + '" style="--i:' + Math.min(i, 8) + '">' +
       '<a class="card__link" href="#producto/' + encodeURIComponent(p.id) + '">' +
       '<div class="card__frame">' +
@@ -180,23 +190,13 @@
       (meta ? '<p class="card__meta">' + esc(meta) + "</p>" : "") +
       '<h3 class="card__name">' + esc(p.nombre) + "</h3>" +
       '<p class="card__price">' + (precio(p) || "Consultar") + "</p>" +
-      "</div></a></article>";
-  }
-
-  /* Tarjeta chica para "También te puede interesar" en la ficha: mismo
-     tipo que el producto abierto, sin contarlo a él. */
-  function similar(p) {
-    return '<a class="sim" href="#producto/' + encodeURIComponent(p.id) + '" data-producto="' + esc(p.id) + '">' +
-      (p.imagen ? '<img src="' + esc(p.imagen) + '" alt="' + esc(p.alt || p.nombre) + '" width="136" height="181" loading="lazy">' : "") +
-      '<span class="sim__nombre">' + esc(p.nombre) + "</span>" +
-      '<span class="sim__precio">' + (precio(p) || "Consultar") + "</span>" +
-      "</a>";
+      "</div></a>" + agregar + "</article>";
   }
 
   function pintarGrilla() {
     if (!grid) return;
     var lista = deCat(filtro.cat).filter(function (p) { return !filtro.tipo || p.tipo === filtro.tipo; });
-    grid.innerHTML = lista.map(tarjeta).join("");
+    grid.innerHTML = lista.map(function (p, i) { return tarjeta(p, i); }).join("");
     grid.hidden = !lista.length;
     if (cuenta) cuenta.textContent = lista.length ? cuantos(lista.length) : "";
 
@@ -255,26 +255,104 @@
     if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
     e.preventDefault();
     cerrarMenu();
+    /* replaceState no dispara hashchange: si se viene de un producto,
+       hay que salir de esa página a mano antes de bajar a la tienda. */
+    var deProducto = enProducto();
+    if (deProducto) salirProducto("", true);
     filtrar(a.dataset.cat, "");
     history.replaceState(null, "", hashDeFiltro());
-    irATienda(true);
+    if (deProducto) sinDeslizar(function () { irATienda(false); });
+    else irATienda(true);
   });
 
-  /* ---------- Ficha de producto ---------- */
+  /* ---------- Página de producto ----------
+     #producto/<id> muestra la página del producto en lugar del resto
+     (html.ver-producto esconde las otras secciones; header y footer
+     quedan). Al volver, la tienda reaparece donde estaba el cliente.
+
+     Entrar desde una tarjeta de la tienda deja una sola entrada en el
+     historial: el "atrás" del celular y el link "Tienda" vuelven a la
+     grilla. Pasar de un producto a otro desde "Seguí descubriendo"
+     reemplaza esa entrada en vez de apilar una por cada uno. */
 
   var ficha = $("#ficha");
   var carrito = $("#carrito");
+  var pista = $("#fichaGaleria");
+  var miniaturas = $("#fichaMiniaturas");
   var actual = null;
-  var desdeLista = false;   // si la abrió un click, cerrar = volver atrás
+  var desdeLista = false;     // la abrió un click en la tienda: volver = atrás en el historial
+  var posicionLista = null;   // dónde estaba la página antes de entrar al producto
+  var focoPrevio = null;
   var cantidadFicha = 1;
+  var tiempoAgregado = null;
+  var tituloBase = document.title;
 
   function bloquear(si) { root.classList.toggle("bloqueado", si); }
 
-  /* Puede haber más de un <dialog> involucrado (ej. se abre el carrito
-     con la ficha todavía cerrándose): sólo se desbloquea el scroll
-     cuando ninguno de los tres queda abierto. */
+  /* Menú y carrito son <dialog>: sólo se desbloquea el scroll cuando
+     ninguno de los dos queda abierto. */
   function algoAbierto() {
-    return !!((ficha && ficha.open) || (menu && menu.open) || (carrito && carrito.open));
+    return !!((menu && menu.open) || (carrito && carrito.open));
+  }
+
+  function enProducto() { return root.classList.contains("ver-producto"); }
+
+  /* El html tiene scroll-behavior: smooth para los links internos. Al
+     pasar entre la tienda y un producto el salto tiene que ser
+     instantáneo: deslizar toda la página hasta donde estaba se vería
+     como un mareo, no como volver. */
+  function sinDeslizar(fn) {
+    var antes = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    fn();
+    root.style.scrollBehavior = antes;
+  }
+
+  /* Después del salto, un cuadro más tarde se confirma que la página
+     siga ahí: un deslizamiento suave que venía en curso (por ejemplo
+     de un link interno tocado justo antes) o el propio navegador
+     restaurando el scroll al ir "atrás" pueden moverla después. */
+  function fijarScroll() {
+    var y = window.pageYOffset || root.scrollTop;
+    requestAnimationFrame(function () {
+      if (Math.abs((window.pageYOffset || root.scrollTop) - y) > 1) {
+        sinDeslizar(function () { window.scrollTo(0, y); });
+      }
+    });
+  }
+
+  function entrarProducto(guardarPosicion) {
+    if (enProducto()) return;
+    posicionLista = guardarPosicion ? (window.pageYOffset || root.scrollTop) : null;
+    focoPrevio = document.activeElement;
+    root.classList.add("ver-producto");
+    ficha.hidden = false;
+  }
+
+  /* h: el hash nuevo, sin "#". Si apunta a una sección (ej. #contacto
+     desde el menú) se va ahí; si no, a donde estaba la tienda; y si se
+     entró directo por el link del producto, al principio de la tienda.
+     sinScroll lo usa quien se ocupa del scroll por su cuenta. */
+  function salirProducto(h, sinScroll) {
+    if (!enProducto()) return;
+    root.classList.remove("ver-producto");
+    ficha.hidden = true;
+    document.title = tituloBase;
+    actual = null;
+    desdeLista = false;
+    var pos = posicionLista;
+    posicionLista = null;
+    if (!sinScroll) {
+      var destino = h && h !== "tienda" && !cat(h) ? document.getElementById(h) : null;
+      sinDeslizar(function () {
+        if (destino) destino.scrollIntoView({ block: "start" });
+        else if (pos !== null) window.scrollTo(0, pos);
+        else irATienda(false);
+      });
+      fijarScroll();
+    }
+    if (focoPrevio && focoPrevio.focus && document.contains(focoPrevio)) focoPrevio.focus({ preventScroll: true });
+    focoPrevio = null;
   }
 
   function mensaje(p, talle) {
@@ -300,7 +378,8 @@
     var texto = $("#fichaCtaTexto");
     var consultar = $("#fichaConsultar");
     var qty = $("#fichaQty");
-    $("#fichaAgregado").hidden = true;
+    clearTimeout(tiempoAgregado);
+    $("#fichaAgregado").textContent = "";
 
     if (actual.estado === "agotado") {
       qty.hidden = true;
@@ -324,26 +403,82 @@
     }
   }
 
-  function abrirFicha(p) {
+  /* Fotos: la principal (imagen) más las extra (fotos), si las hay.
+     Con una sola foto no aparecen miniaturas. */
+  function pintarGaleria(p) {
+    var fotos = [p.imagen].concat(Array.isArray(p.fotos) ? p.fotos : []).filter(Boolean);
+    var alt = p.alt || p.nombre;
+    pista.innerHTML = fotos.map(function (src, i) {
+      return '<div class="pdp__slide"><img src="' + esc(src) + '" alt="' +
+        esc(i ? alt + " (foto " + (i + 1) + ")" : alt) + '" width="825" height="1100"' +
+        (i ? ' loading="lazy"' : "") + "></div>";
+    }).join("");
+    pista.scrollLeft = 0;
+    miniaturas.hidden = fotos.length < 2;
+    miniaturas.innerHTML = fotos.length < 2 ? "" : fotos.map(function (src, i) {
+      return '<button class="pdp__mini" type="button" data-i="' + i + '" aria-label="Ver foto ' + (i + 1) + '"' +
+        (i ? "" : ' aria-current="true"') + '><img src="' + esc(src) + '" alt="" width="825" height="1100" loading="lazy"></button>';
+    }).join("");
+  }
+
+  /* Los consejos de la sección "Cómo cuidar las joyas", copiados de
+     ahí una sola vez: si se cambian en el HTML, cambian en los dos
+     lados. */
+  function pintarCuidados() {
+    var items = $$(".care__item");
+    var lista = $("#fichaCuidadosLista");
+    if (!items.length || !lista) return;
+    lista.innerHTML = items.map(function (li) {
+      var h = li.querySelector(".care__h");
+      var t = li.querySelector(".care__p");
+      return "<li><b>" + esc(h ? h.textContent.trim() : "") + ".</b> " + esc(t ? t.textContent.trim() : "") + "</li>";
+    }).join("");
+    $("#fichaCuidados").hidden = false;
+  }
+
+  /* Hasta cuatro, primero los del mismo tipo y arrancando por los que
+     siguen a este en el catálogo: así cada producto muestra otros
+     distintos y no siempre los mismos cuatro primeros. Si del mismo
+     tipo hay menos, se completa con el resto. */
+  function relacionadosDe(p) {
+    var i = prods.indexOf(p);
+    var orden = prods.slice(i + 1).concat(prods.slice(0, i));
+    return orden.filter(function (x) { return x.tipo === p.tipo; })
+      .concat(orden.filter(function (x) { return x.tipo !== p.tipo; }))
+      .slice(0, 4);
+  }
+
+  function abrirFicha(p, inicial) {
     if (!ficha || !p) return;
     actual = p;
     var c = cat(p.categoria);
-    var img = $("#fichaImg");
-    img.src = p.imagen || "data:,";
-    img.alt = p.alt || p.nombre;
-    $("#fichaCat").textContent = [c ? c.nombre : "", p.tipo].filter(Boolean).join(" · ");
+    var agotado = p.estado === "agotado";
+
+    pintarGaleria(p);
+    $("#fichaCat").textContent = unaCategoria
+      ? (p.tipo || (c ? c.nombre : ""))
+      : [c ? c.nombre : "", p.tipo].filter(Boolean).join(" · ");
     $("#fichaNombre").textContent = p.nombre;
-    var pr = precio(p);
-    var precioEl = $("#fichaPrecio");
-    precioEl.textContent = p.estado === "agotado" ? "Agotado" : pr || "Precio a consultar";
-    precioEl.classList.toggle("is-soft", p.estado === "agotado" || !pr);
+
     var det = $("#fichaDetalle");
     det.textContent = p.detalle || "";
     det.hidden = !p.detalle;
 
-    var talles = Array.isArray(p.talles) ? p.talles.filter(Boolean) : [];
+    var estado = $("#fichaEstado");
+    estado.textContent = agotado ? "Agotado" : "Disponible";
+    estado.classList.toggle("is-out", agotado);
+
+    var pr = precio(p);
+    var precioEl = $("#fichaPrecio");
+    precioEl.textContent = pr || "A consultar";
+    precioEl.classList.toggle("is-soft", !pr);
+
+    $("#fichaLargo").hidden = !p.largo;
+    $("#fichaLargoValor").textContent = p.largo || "";
+
+    var talles = tallesDe(p);
     var campoTalles = $("#fichaTalles");
-    campoTalles.hidden = !talles.length || p.estado === "agotado";
+    campoTalles.hidden = !talles.length || agotado;
     campoTalles.classList.remove("is-invalid");
     $("#fichaTallesError").hidden = true;
     $("#fichaTallesLista").innerHTML = talles.map(function (t, i) {
@@ -353,43 +488,36 @@
 
     cantidadFicha = 1;
     $("#fichaCant").textContent = cantidadFicha;
-
     actualizarCta();
 
-    var relacionados = prods.filter(function (x) { return x.tipo === p.tipo && x.id !== p.id; }).slice(0, 8);
-    var bloqueSimilares = $("#fichaSimilares");
-    if (bloqueSimilares) {
-      bloqueSimilares.hidden = !relacionados.length;
-      $("#fichaSimilaresPista").innerHTML = relacionados.map(similar).join("");
-    }
+    var relacionados = relacionadosDe(p);
+    $("#fichaSimilares").hidden = !relacionados.length;
+    $("#fichaSimilaresGrid").innerHTML = relacionados.map(function (x, i) { return tarjeta(x, i, true); }).join("");
 
-    if (!ficha.open) {
-      if (ficha.showModal) ficha.showModal(); else ficha.setAttribute("open", "");
-      bloquear(true);
-    }
-    ficha.scrollTop = 0;
+    entrarProducto(!inicial);
+    document.title = p.nombre + " — " + G.marca;
+    sinDeslizar(function () { window.scrollTo(0, 0); });
+    fijarScroll();
+    $("#fichaNombre").focus({ preventScroll: true });
   }
 
-  function cerrarFichaVisual() {
-    if (!ficha || !ficha.open) return;
-    if (ficha.close) ficha.close(); else ficha.removeAttribute("open");
-  }
-
-  /* Cerrar desde la X, Esc o tocando afuera: si la ficha la abrió un
-     click, se vuelve atrás en el historial (y hashchange la cierra);
-     si se entró directo por el link, se reemplaza el hash. */
-  function pedirCierre() {
+  /* Link "Tienda" de arriba: si se entró tocando una tarjeta, es lo
+     mismo que el "atrás" del celular (y hashchange hace el resto); si
+     se entró directo por un link, se reemplaza el hash y se baja a la
+     tienda. */
+  function pedirCierre(e) {
+    if (e && (e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0)) return;
+    if (e) e.preventDefault();
     if (/^#producto\//.test(location.hash)) {
       if (desdeLista) { history.back(); return; }
       history.replaceState(null, "", hashDeFiltro());
     }
-    cerrarFichaVisual();
+    salirProducto(location.hash.slice(1));
   }
 
   if (ficha) {
-    ficha.addEventListener("close", function () { actual = null; desdeLista = false; bloquear(algoAbierto()); });
-    ficha.addEventListener("cancel", function (e) { e.preventDefault(); pedirCierre(); });
-    ficha.addEventListener("click", function (e) { if (e.target === ficha) pedirCierre(); });
+    pintarCuidados();
+
     ficha.addEventListener("change", function (e) {
       if (e.target.name !== "talle") return;
       $("#fichaTalles").classList.remove("is-invalid");
@@ -398,21 +526,51 @@
     });
     $("#cerrarFicha").addEventListener("click", pedirCierre);
 
-    /* Tocar una tarjeta de "También te puede interesar" cambia el
-       contenido de la misma ficha ya abierta, en vez de apilar una
-       entrada nueva en el historial por cada una que se mire. */
-    var fichaSimilaresPista = $("#fichaSimilaresPista");
-    if (fichaSimilaresPista) {
-      fichaSimilaresPista.addEventListener("click", function (e) {
-        var a = e.target.closest("a[data-producto]");
-        if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
-        e.preventDefault();
-        var p = producto(a.dataset.producto);
-        if (!p) return;
-        abrirFicha(p);
-        history.replaceState(null, "", "#producto/" + encodeURIComponent(p.id));
+    /* Al deslizar las fotos, la miniatura marcada sigue a la que se ve. */
+    var pendienteGaleria = false;
+    pista.addEventListener("scroll", function () {
+      if (pendienteGaleria || miniaturas.hidden) return;
+      pendienteGaleria = true;
+      requestAnimationFrame(function () {
+        pendienteGaleria = false;
+        var i = Math.round(pista.scrollLeft / Math.max(pista.clientWidth, 1));
+        $$(".pdp__mini", miniaturas).forEach(function (b, j) {
+          if (j === i) b.setAttribute("aria-current", "true");
+          else b.removeAttribute("aria-current");
+        });
       });
-    }
+    }, { passive: true });
+
+    miniaturas.addEventListener("click", function (e) {
+      var b = e.target.closest(".pdp__mini");
+      if (!b) return;
+      pista.scrollTo({ left: Number(b.dataset.i) * pista.clientWidth, behavior: quieto ? "auto" : "smooth" });
+    });
+
+    $("#fichaSimilaresGrid").addEventListener("click", function (e) {
+      var boton = e.target.closest(".card__add");
+      if (boton) {
+        var q = producto(boton.dataset.agregar);
+        if (!q) return;
+        var t = tallesDe(q);
+        agregarAlCarrito(q.id, t.length === 1 ? t[0] : "", 1);
+        boton.textContent = "Agregado ✓";
+        boton.classList.add("is-ok");
+        clearTimeout(boton._tiempo);
+        boton._tiempo = setTimeout(function () {
+          boton.textContent = "+ Agregar";
+          boton.classList.remove("is-ok");
+        }, 1800);
+        return;
+      }
+      var a = e.target.closest(".card__link");
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
+      e.preventDefault();
+      var p = producto(decodeURIComponent(a.getAttribute("href").replace(/^#producto\//, "")));
+      if (!p) return;
+      abrirFicha(p);
+      history.replaceState(null, "", "#producto/" + encodeURIComponent(p.id));
+    });
 
     $("#fichaMenos").addEventListener("click", function () {
       cantidadFicha = Math.max(1, cantidadFicha - 1);
@@ -423,17 +581,13 @@
       $("#fichaCant").textContent = cantidadFicha;
     });
 
+    /* Modo "avisame" sin WhatsApp cargado: el href quedó en #contacto y
+       el propio link lleva ahí (hashchange sale del producto). */
     $("#fichaCta").addEventListener("click", function (e) {
-      var cta = e.currentTarget;
-      if (cta.dataset.modo !== "carrito") {
-        /* Modo "avisame": si no hay WhatsApp cargado el href quedó en
-           #contacto, así que cerrar la ficha es ir a esa sección. */
-        if (cta.getAttribute("href") === "#contacto") pedirCierre();
-        return;
-      }
+      if (e.currentTarget.dataset.modo !== "carrito") return;
       e.preventDefault();
       if (!actual) return;
-      var talles = Array.isArray(actual.talles) ? actual.talles.filter(Boolean) : [];
+      var talles = tallesDe(actual);
       var elegido = ficha.querySelector('input[name="talle"]:checked');
       if (talles.length > 1 && !elegido) {
         $("#fichaTalles").classList.add("is-invalid");
@@ -441,13 +595,14 @@
         return;
       }
       agregarAlCarrito(actual.id, elegido ? elegido.value : "", cantidadFicha);
-      var agregado = $("#fichaAgregado");
-      agregado.hidden = false;
-      clearTimeout(agregado._tiempo);
-      agregado._tiempo = setTimeout(function () { agregado.hidden = true; }, 2200);
-    });
-    $("#fichaConsultar").addEventListener("click", function (e) {
-      if (e.currentTarget.getAttribute("href") === "#contacto") pedirCierre();
+      var texto = $("#fichaCtaTexto");
+      texto.textContent = "Agregado ✓";
+      $("#fichaAgregado").textContent = "Agregado al carrito";
+      clearTimeout(tiempoAgregado);
+      tiempoAgregado = setTimeout(function () {
+        texto.textContent = "Agregar al carrito";
+        $("#fichaAgregado").textContent = "";
+      }, 1800);
     });
   }
 
@@ -758,8 +913,9 @@
   }
 
   if (carrito && abrirCarritoBtn) {
+    /* El carrito se abre encima de lo que haya, incluida la página de
+       un producto: al cerrarlo se sigue ahí mismo. */
     abrirCarritoBtn.addEventListener("click", function () {
-      cerrarFichaVisual();
       cerrarMenu();
       abrirCarrito();
     });
@@ -803,20 +959,20 @@
     if (m) {
       var p = producto(m[1]);
       if (p) {
-        if (inicial) { filtrar(p.categoria, ""); irATienda(false); }
-        abrirFicha(p);
+        if (inicial) filtrar(p.categoria, "");
+        abrirFicha(p, inicial);
         return;
       }
     }
-    var veniaDeFicha = ficha && ficha.open;
-    cerrarFichaVisual();
+    var veniaDeProducto = enProducto();
+    salirProducto(h);
     if (h === "tienda" || cat(h)) {
       var destino = h === "tienda" ? "todo" : h;
-      /* Al volver de una ficha, quedarse donde estaba y con los mismos
-         filtros (incluido el de tipo). */
-      if (veniaDeFicha && destino === filtro.cat) return;
+      /* Al volver de un producto, quedarse donde estaba y con los
+         mismos filtros (incluido el de tipo). */
+      if (veniaDeProducto && destino === filtro.cat) return;
       filtrar(destino, "");
-      if (!veniaDeFicha && h !== "tienda") irATienda(!inicial);
+      if (!veniaDeProducto && h !== "tienda") irATienda(!inicial);
     }
   }
 
