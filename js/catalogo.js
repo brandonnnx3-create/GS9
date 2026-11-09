@@ -5,13 +5,13 @@
    partir de js/productos.js.
 
    Links que entiende la página:
-     #joyas                   la tienda filtrada por esa categoría
+     #perfumes                  la tienda filtrada por esa categoría
      #producto/<id>           la página de ese producto
    Así se puede pasar por Instagram el link de una categoría o de
    un producto puntual. Entrar a un producto suma un paso al
    historial: el botón "atrás" del celular vuelve a la tienda.
 
-   El carrito junta varias piezas en un solo pedido de WhatsApp. No
+   El carrito junta varios perfumes en un solo pedido de WhatsApp. No
    cobra nada: vive en localStorage (por eso no se comparte entre
    dispositivos) y al finalizar arma un mensaje con el detalle y el
    total estimado; el pago se sigue confirmando como siempre.
@@ -143,7 +143,7 @@
       esc(texto) + (extra ? '<span class="chip__n">' + extra + "</span>" : "") + "</button>";
   }
 
-  /* Con una sola categoría, "Todo" y "Joyería" muestran siempre los
+  /* Con una sola categoría, "Todo" y "Perfumes" muestran siempre los
      mismos productos: el renglón de categoría no suma nada y sólo le
      agrega un clic al cliente para llegar al filtro por tipo. Se
      saca ese renglón y el filtro por tipo pasa a ser el único, visible
@@ -421,7 +421,7 @@
     }).join("");
   }
 
-  /* Los consejos de la sección "Cómo cuidar las joyas", copiados de
+  /* Los consejos de la sección "Cómo cuidar tus perfumes", copiados de
      ahí una sola vez: si se cambian en el HTML, cambian en los dos
      lados. */
   function pintarCuidados() {

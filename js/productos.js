@@ -5,19 +5,19 @@
    es JSON: comillas dobles y sin coma después del último elemento.
 
    CATEGORÍAS
-     id       palabra corta, sin espacios ni tildes ("joyas").
-              Es la que va en el link: tusitio/#joyas
-     nombre   como se muestra ("Joyería").
+     id       palabra corta, sin espacios ni tildes ("perfumes").
+              Es la que va en el link: tusitio/#perfumes
+     nombre   como se muestra ("Perfumes").
      bajada   una línea opcional debajo del nombre.
    Una categoría sin productos se muestra como "Próximamente", con
    un botón para que te pidan aviso por WhatsApp.
 
    PRODUCTOS
-     id        único, sin espacios ni tildes ("buzo-negro-logo").
-               Link directo al producto: tusitio/#producto/buzo-negro-logo
+     id        único, sin espacios ni tildes ("9pm-night-out").
+               Link directo al producto: tusitio/#producto/9pm-night-out
      nombre    como se muestra.
      categoria el id de su categoría.
-     tipo      subgrupo dentro de la categoría ("Anillos", "Buzos").
+     tipo      subgrupo dentro de la categoría (la marca: "Armaf").
                Con dos tipos o más aparecen como filtro.
      precio    número sin puntos (25000) o "" para "Consultar".
      imagen    ruta de la foto, vertical 3:4 (ej. 825 × 1100).
@@ -27,7 +27,7 @@
                miniaturas y se pueden deslizar.
      alt       qué se ve en la foto, para quien no la ve.
      detalle   texto opcional de la página del producto.
-     largo     opcional: "50 cm aprox." — aparece como "Largo: …".
+     largo     opcional: "50 cm aprox." — aparece como "Largo: …" (no se usa en perfumes).
      talles    lista opcional: ["S", "M", "L"] o ["40", "41", "42"].
      estado    "" (disponible), "nuevo" o "agotado".
    ============================================================ */
@@ -35,200 +35,80 @@
 const CATALOGO = {
   "categorias": [
     {
-      "id": "joyas",
-      "nombre": "Joyería",
-      "bajada": "Cadenas, dijes y anillos"
+      "id": "perfumes",
+      "nombre": "Perfumes",
+      "bajada": "Perfumes originales, elegidos para durar más que la noche"
     }
   ],
   "productos": [
     {
-      "id": "dije-todo-pasa",
-      "nombre": "Dije placa Todo pasa",
-      "categoria": "joyas",
-      "tipo": "Dijes",
-      "precio": 16500,
-      "imagen": "img/galeria/dije-todo-pasa.jpg",
-      "alt": "Dije placa con la frase Todo pasa",
+      "id": "9pm-night-out",
+      "nombre": "Afnan 9pm Night Out",
+      "categoria": "perfumes",
+      "tipo": "Afnan",
+      "precio": "",
+      "imagen": "img/galeria/9pm-night-out.jpg",
+      "alt": "Frasco y caja del perfume 9pm Night Out de Afnan",
+      "detalle": "Extrait de Parfum · 100 ml",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "club-de-nuit-intense-man",
+      "nombre": "Armaf Club de Nuit Intense Man",
+      "categoria": "perfumes",
+      "tipo": "Armaf",
+      "precio": "",
+      "imagen": "img/galeria/club-de-nuit-intense-man.jpg",
+      "alt": "Frasco y caja del perfume Club de Nuit Intense Man de Armaf",
+      "detalle": "Eau de Toilette · 105 ml",
+      "talles": [],
+      "estado": ""
+    },
+    {
+      "id": "amber-oud-black-edition",
+      "nombre": "Al Haramain Amber Oud Black Edition",
+      "categoria": "perfumes",
+      "tipo": "Al Haramain",
+      "precio": "",
+      "imagen": "img/galeria/amber-oud-black-edition.jpg",
+      "alt": "Frasco y caja del perfume Amber Oud Black Edition de Al Haramain",
       "detalle": "",
       "talles": [],
       "estado": ""
     },
     {
-      "id": "dije-inicial-m",
-      "nombre": "Dije placa inicial personalizada",
-      "categoria": "joyas",
-      "tipo": "Dijes",
-      "precio": 18000,
-      "imagen": "img/galeria/dije-m.jpg",
-      "alt": "Dije placa con inicial personalizada",
-      "detalle": "",
+      "id": "odyssey-mandarin-sky",
+      "nombre": "Armaf Odyssey Mandarin Sky",
+      "categoria": "perfumes",
+      "tipo": "Armaf",
+      "precio": "",
+      "imagen": "img/galeria/odyssey-mandarin-sky.jpg",
+      "alt": "Frasco y caja del perfume Odyssey Mandarin Sky de Armaf",
+      "detalle": "Eau de Parfum · Edición limitada",
       "talles": [],
       "estado": ""
     },
     {
-      "id": "dije-corona",
-      "nombre": "Dije placa corona",
-      "categoria": "joyas",
-      "tipo": "Dijes",
-      "precio": 16500,
-      "imagen": "img/galeria/dije-corona.jpg",
-      "alt": "Dije placa con corona grabada",
-      "detalle": "",
+      "id": "erba-pura",
+      "nombre": "Xerjoff Erba Pura",
+      "categoria": "perfumes",
+      "tipo": "Xerjoff",
+      "precio": "",
+      "imagen": "img/galeria/erba-pura.jpg",
+      "alt": "Frasco y caja del perfume Erba Pura de Xerjoff",
+      "detalle": "Eau de Parfum · 100 ml",
       "talles": [],
       "estado": ""
     },
     {
-      "id": "cadena-caracol-aplastada",
-      "nombre": "Cadena caracol aplastada",
-      "categoria": "joyas",
-      "tipo": "Cadenas finas",
-      "precio": 18000,
-      "imagen": "img/galeria/cadena-caracol-aplastada.jpg",
-      "alt": "Cadena caracol aplastada en maniquí",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "cadena-destello-3x1",
-      "nombre": "Cadena destello 3x1",
-      "categoria": "joyas",
-      "tipo": "Cadenas finas",
-      "precio": 20000,
-      "imagen": "img/galeria/cadena-destello-3x1.jpg",
-      "alt": "Cadena destello 3x1 en maniquí",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "cadena-enrollado-fino",
-      "nombre": "Cadena enrollado fino",
-      "categoria": "joyas",
-      "tipo": "Cadenas finas",
-      "precio": 18000,
-      "imagen": "img/galeria/cadena-enrollado-fino.jpg",
-      "alt": "Cadena enrollado fino en maniquí",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "cadena-groumet-fina",
-      "nombre": "Cadena groumet fina",
-      "categoria": "joyas",
-      "tipo": "Cadenas finas",
-      "precio": 20000,
-      "imagen": "img/galeria/cadena-groumet-fina.jpg",
-      "alt": "Cadena groumet fina en maniquí",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "cadena-singapur-fina",
-      "nombre": "Cadena singapur fina",
-      "categoria": "joyas",
-      "tipo": "Cadenas finas",
-      "precio": 18000,
-      "imagen": "img/galeria/cadena-singapur-fina.jpg",
-      "alt": "Cadena singapur fina en maniquí",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "cadena-tourbillon-fina",
-      "nombre": "Cadena tourbillon fina",
-      "categoria": "joyas",
-      "tipo": "Cadenas finas",
-      "precio": 18000,
-      "imagen": "img/galeria/cadena-tourbillon-fina.jpg",
-      "alt": "Cadena tourbillon fina en maniquí",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "dije-cuadrado-jesus",
-      "nombre": "Dije cuadrado Jesús",
-      "categoria": "joyas",
-      "tipo": "Dijes",
-      "precio": 10000,
-      "imagen": "img/galeria/dije-cuadrado-jesus.jpg",
-      "alt": "Dije placa cuadrada con imagen de Jesús grabada",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "dije-virgen-milagrosa",
-      "nombre": "Dije enchapado Virgen Milagrosa",
-      "categoria": "joyas",
-      "tipo": "Dijes",
-      "precio": 10000,
-      "imagen": "img/galeria/dije-virgen-milagrosa.jpg",
-      "alt": "Medalla ovalada de la Virgen Milagrosa",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "dije-gauchito-gil",
-      "nombre": "Dije placa Gauchito Gil",
-      "categoria": "joyas",
-      "tipo": "Dijes",
-      "precio": 16500,
-      "imagen": "img/galeria/dije-gauchito-gil.jpg",
-      "alt": "Dije placa con imagen de Gauchito Gil grabada",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "dije-solo-plata-no-amores",
-      "nombre": "Dije placa Solo plata y no amores",
-      "categoria": "joyas",
-      "tipo": "Dijes",
-      "precio": 16500,
-      "imagen": "img/galeria/dije-solo-plata-no-amores.jpg",
-      "alt": "Dije placa con la frase Solo plata y no amores",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "dije-vamos-por-todo",
-      "nombre": "Dije placa Vamos por todo",
-      "categoria": "joyas",
-      "tipo": "Dijes",
-      "precio": 16500,
-      "imagen": "img/galeria/dije-vamos-por-todo.jpg",
-      "alt": "Dije placa con la frase Vamos por todo",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "dije-sol",
-      "nombre": "Dije sol",
-      "categoria": "joyas",
-      "tipo": "Dijes",
-      "precio": 10000,
-      "imagen": "img/galeria/dije-sol.jpg",
-      "alt": "Dije con forma de sol y piedra central",
-      "detalle": "",
-      "talles": [],
-      "estado": ""
-    },
-    {
-      "id": "dije-trebol-blanco",
-      "nombre": "Dije Van Cleef blanco",
-      "categoria": "joyas",
-      "tipo": "Dijes",
-      "precio": 10000,
-      "imagen": "img/galeria/dije-trebol-blanco.jpg",
-      "alt": "Dije con forma de trébol de cuatro hojas, detalle blanco",
+      "id": "le-male-elixir",
+      "nombre": "Jean Paul Gaultier Le Male Elixir",
+      "categoria": "perfumes",
+      "tipo": "Jean Paul Gaultier",
+      "precio": "",
+      "imagen": "img/galeria/le-male-elixir.jpg",
+      "alt": "Frasco y caja del perfume Le Male Elixir de Jean Paul Gaultier",
       "detalle": "",
       "talles": [],
       "estado": ""

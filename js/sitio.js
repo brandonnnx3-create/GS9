@@ -95,9 +95,9 @@
   var cinta = $("#ticker");
   if (cinta) {
     var frases = Array.isArray(T.cinta) && T.cinta.length ? T.cinta : [
-      "Pieza por pieza",
+      "Perfumes originales",
       "Envíos a todo el país",
-      "Lo que brilla, habla",
+      "Dejá huella",
       "G.S.9",
     ];
     var bloque = frases.map(function (f) { return '<span class="ticker__item">' + esc(f) + "</span>"; }).join("");
